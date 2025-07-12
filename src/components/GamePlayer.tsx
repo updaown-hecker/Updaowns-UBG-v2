@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -41,6 +41,7 @@ export const GamePlayer = ({
 }: GamePlayerProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleFavoriteClick = () => {
     onFavoriteToggle?.(gameId);
@@ -48,6 +49,13 @@ export const GamePlayer = ({
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      {/* Use effect to set iframe src */}
+      {/* Removed console.log here as it's no longer needed for debugging */}
+      {useEffect(() => {
+        if (iframeRef.current && gamePath) {
+          iframeRef.current.src = gamePath;
+        }
+      }, [gamePath])}
       {/* Game Header */}
       <div className="sticky top-16 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
@@ -127,6 +135,7 @@ export const GamePlayer = ({
                 isFullscreen ? 'h-screen' : 'aspect-video'
               }`}>
                 <iframe
+ ref={iframeRef}
                   src={gamePath}
                   style={{ width: '100%', height: '100%', border: 'none' }}
                 ></iframe>
