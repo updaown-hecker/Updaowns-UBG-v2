@@ -42,6 +42,7 @@ export const GamePlayer = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  
 
   // Use effect to set iframe src
   useEffect(() => {
