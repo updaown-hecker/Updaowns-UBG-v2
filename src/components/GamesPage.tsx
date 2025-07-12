@@ -10,6 +10,10 @@ import gameRacing from '@/assets/game-racing.jpg';
 import gamePuzzle from '@/assets/game-puzzle.jpg';
 import gamePlatformer from '@/assets/game-platformer.jpg';
 import gameAdventure from '@/assets/game-adventure.jpg';
+import gameShooter from '@/assets/game-shooter.jpg';
+import gameSports from '@/assets/game-sports.jpg';
+import gameStrategy from '@/assets/game-strategy.jpg';
+import gameFighting from '@/assets/game-fighting.jpg';
 
 const allGames = [
   {
@@ -50,15 +54,78 @@ const allGames = [
   },
   {
     id: '5',
-    title: 'Space Shooter',
-    image: gameRacing,
+    title: 'Space Blaster',
+    image: gameShooter,
     category: 'Action',
     rating: 4.5,
-    plays: 67000,
+    plays: 203000,
     tags: ['action', 'shooting', 'space', 'aliens'],
   },
   {
     id: '6',
+    title: 'Soccer Pro',
+    image: gameSports,
+    category: 'Sports',
+    rating: 4.6,
+    plays: 167000,
+    tags: ['sports', 'soccer', 'football', 'competition'],
+  },
+  {
+    id: '7',
+    title: 'Tower Defense',
+    image: gameStrategy,
+    category: 'Strategy',
+    rating: 4.8,
+    plays: 134000,
+    tags: ['strategy', 'defense', 'towers', 'tactical'],
+  },
+  {
+    id: '8',
+    title: 'Fighter Arena',
+    image: gameFighting,
+    category: 'Fighting',
+    rating: 4.7,
+    plays: 178000,
+    tags: ['fighting', 'combat', 'martial arts', 'arena'],
+  },
+  {
+    id: '9',
+    title: 'Cyber Runner',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.4,
+    plays: 112000,
+    tags: ['racing', 'cyber', 'futuristic', 'speed'],
+  },
+  {
+    id: '10',
+    title: 'Mind Bender',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 4.9,
+    plays: 145000,
+    tags: ['puzzle', 'mind', 'challenging', 'brain'],
+  },
+  {
+    id: '11',
+    title: 'Sky Adventure',
+    image: gameAdventure,
+    category: 'Adventure',
+    rating: 4.6,
+    plays: 189000,
+    tags: ['adventure', 'sky', 'flying', 'exploration'],
+  },
+  {
+    id: '12',
+    title: 'Pixel Warrior',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.8,
+    plays: 223000,
+    tags: ['platformer', 'pixel', 'warrior', 'retro'],
+  },
+  {
+    id: '13',
     title: 'Block Builder',
     image: gamePuzzle,
     category: 'Puzzle',
@@ -67,7 +134,7 @@ const allGames = [
     tags: ['puzzle', 'building', 'blocks', 'creativity'],
   },
   {
-    id: '7',
+    id: '14',
     title: 'Forest Runner',
     image: gameAdventure,
     category: 'Adventure',
@@ -76,17 +143,26 @@ const allGames = [
     tags: ['adventure', 'running', 'forest', 'nature'],
   },
   {
-    id: '8',
-    title: 'Pixel Hero',
-    image: gamePlatformer,
-    category: 'Platformer',
-    rating: 4.8,
-    plays: 134000,
-    tags: ['platformer', 'pixel', 'hero', 'adventure'],
+    id: '15',
+    title: 'Combat Zone',
+    image: gameFighting,
+    category: 'Action',
+    rating: 4.5,
+    plays: 165000,
+    tags: ['action', 'combat', 'zone', 'multiplayer'],
+  },
+  {
+    id: '16',
+    title: 'Sports Champion',
+    image: gameSports,
+    category: 'Sports',
+    rating: 4.7,
+    plays: 142000,
+    tags: ['sports', 'champion', 'competition', 'athletic'],
   },
 ];
 
-const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer'];
+const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer', 'Sports', 'Strategy', 'Fighting'];
 const sortOptions = [
   { value: 'popular', label: 'Most Popular' },
   { value: 'rating', label: 'Highest Rated' },

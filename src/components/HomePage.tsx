@@ -9,6 +9,10 @@ import gameRacing from '@/assets/game-racing.jpg';
 import gamePuzzle from '@/assets/game-puzzle.jpg';
 import gamePlatformer from '@/assets/game-platformer.jpg';
 import gameAdventure from '@/assets/game-adventure.jpg';
+import gameShooter from '@/assets/game-shooter.jpg';
+import gameSports from '@/assets/game-sports.jpg';
+import gameStrategy from '@/assets/game-strategy.jpg';
+import gameFighting from '@/assets/game-fighting.jpg';
 
 const featuredGames = [
   {
@@ -42,6 +46,70 @@ const featuredGames = [
     category: 'Adventure',
     rating: 4.7,
     plays: 98000,
+  },
+  {
+    id: '5',
+    title: 'Space Blaster',
+    image: gameShooter,
+    category: 'Action',
+    rating: 4.5,
+    plays: 203000,
+  },
+  {
+    id: '6',
+    title: 'Soccer Pro',
+    image: gameSports,
+    category: 'Sports',
+    rating: 4.6,
+    plays: 167000,
+  },
+  {
+    id: '7',
+    title: 'Tower Defense',
+    image: gameStrategy,
+    category: 'Strategy',
+    rating: 4.8,
+    plays: 134000,
+  },
+  {
+    id: '8',
+    title: 'Fighter Arena',
+    image: gameFighting,
+    category: 'Fighting',
+    rating: 4.7,
+    plays: 178000,
+  },
+  {
+    id: '9',
+    title: 'Cyber Runner',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.4,
+    plays: 112000,
+  },
+  {
+    id: '10',
+    title: 'Mind Bender',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 4.9,
+    plays: 145000,
+  },
+  {
+    id: '11',
+    title: 'Sky Adventure',
+    image: gameAdventure,
+    category: 'Adventure',
+    rating: 4.6,
+    plays: 189000,
+  },
+  {
+    id: '12',
+    title: 'Pixel Warrior',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.8,
+    plays: 223000,
   },
 ];
 

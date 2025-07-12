@@ -5,12 +5,40 @@ import { Navigation } from '@/components/Navigation';
 import { HomePage } from '@/components/HomePage';
 import { GamesPage } from '@/components/GamesPage';
 import { SettingsPage } from '@/components/SettingsPage';
+import { GamePlayer } from '@/components/GamePlayer';
 import { useToast } from '@/hooks/use-toast';
+
+// Import game images for player
+import gameRacing from '@/assets/game-racing.jpg';
+import gamePuzzle from '@/assets/game-puzzle.jpg';
+import gamePlatformer from '@/assets/game-platformer.jpg';
+import gameAdventure from '@/assets/game-adventure.jpg';
+import gameShooter from '@/assets/game-shooter.jpg';
+import gameSports from '@/assets/game-sports.jpg';
+import gameStrategy from '@/assets/game-strategy.jpg';
+import gameFighting from '@/assets/game-fighting.jpg';
+
+// Game data for player component
+const gameData: { [key: string]: any } = {
+  '1': { title: 'Neon Racer', image: gameRacing, category: 'Racing', rating: 4.8, plays: 125000 },
+  '2': { title: 'Puzzle Master', image: gamePuzzle, category: 'Puzzle', rating: 4.6, plays: 89000 },
+  '3': { title: 'Retro Jump', image: gamePlatformer, category: 'Platformer', rating: 4.9, plays: 156000 },
+  '4': { title: 'Mystic Quest', image: gameAdventure, category: 'Adventure', rating: 4.7, plays: 98000 },
+  '5': { title: 'Space Blaster', image: gameShooter, category: 'Action', rating: 4.5, plays: 203000 },
+  '6': { title: 'Soccer Pro', image: gameSports, category: 'Sports', rating: 4.6, plays: 167000 },
+  '7': { title: 'Tower Defense', image: gameStrategy, category: 'Strategy', rating: 4.8, plays: 134000 },
+  '8': { title: 'Fighter Arena', image: gameFighting, category: 'Fighting', rating: 4.7, plays: 178000 },
+  '9': { title: 'Cyber Runner', image: gameRacing, category: 'Racing', rating: 4.4, plays: 112000 },
+  '10': { title: 'Mind Bender', image: gamePuzzle, category: 'Puzzle', rating: 4.9, plays: 145000 },
+  '11': { title: 'Sky Adventure', image: gameAdventure, category: 'Adventure', rating: 4.6, plays: 189000 },
+  '12': { title: 'Pixel Warrior', image: gamePlatformer, category: 'Platformer', rating: 4.8, plays: 223000 },
+};
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [currentGame, setCurrentGame] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Load favorites from localStorage
@@ -48,13 +76,15 @@ const Index = () => {
   };
 
   const handleGamePlay = (gameId: string) => {
+    setCurrentGame(gameId);
     toast({
       title: "Game Loading...",
       description: "Your game will start in a moment!",
     });
-    
-    // Here you would implement the actual game loading logic
-    console.log('Playing game:', gameId);
+  };
+
+  const handleBackToGames = () => {
+    setCurrentGame(null);
   };
 
   const handleSearch = (query: string) => {
@@ -65,6 +95,25 @@ const Index = () => {
   };
 
   const renderCurrentPage = () => {
+    // Show game player if a game is selected
+    if (currentGame && gameData[currentGame]) {
+      const game = gameData[currentGame];
+      return (
+        <GamePlayer
+          gameId={currentGame}
+          gameTitle={game.title}
+          gameImage={game.image}
+          category={game.category}
+          rating={game.rating}
+          plays={game.plays}
+          onBack={handleBackToGames}
+          isFavorite={favorites.includes(currentGame)}
+          onFavoriteToggle={handleFavoriteToggle}
+        />
+      );
+    }
+
+    // Show regular pages
     switch (activeTab) {
       case 'home':
         return (
@@ -108,19 +157,24 @@ const Index = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="unblocked-games-theme">
       <div className="min-h-screen bg-background font-inter">
-        <Header 
-          onSearch={handleSearch}
-          onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
-          isMenuOpen={isMenuOpen}
-        />
+        {/* Only show header and navigation when not in game player */}
+        {!currentGame && (
+          <>
+            <Header 
+              onSearch={handleSearch}
+              onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+              isMenuOpen={isMenuOpen}
+            />
+            
+            <Navigation 
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+              isOpen={isMenuOpen}
+            />
+          </>
+        )}
         
-        <Navigation 
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          isOpen={isMenuOpen}
-        />
-        
-        <main className="container mx-auto px-4 pt-8">
+        <main className={currentGame ? "" : "container mx-auto px-4 pt-8"}>
           {renderCurrentPage()}
         </main>
       </div>
