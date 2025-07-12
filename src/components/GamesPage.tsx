@@ -248,6 +248,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
 
   if (selectedGame) {
     // Check if the selected game has a gamePath
+    console.log('Selected Game:', selectedGame); console.log('Game Path being passed:', selectedGame?.gamePath);
     if (selectedGame.gamePath) {
  return (
       <GamePlayer
