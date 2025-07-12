@@ -24,6 +24,7 @@ interface GamePlayerProps {
   onBack: () => void;
   isFavorite?: boolean;
   onFavoriteToggle?: (gameId: string) => void;
+  gamePath: string; // Add gamePath prop
 }
 
 export const GamePlayer = ({ 
@@ -35,7 +36,8 @@ export const GamePlayer = ({
   plays, 
   onBack, 
   isFavorite,
-  onFavoriteToggle 
+  onFavoriteToggle,
+  gamePath // Destructure gamePath
 }: GamePlayerProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -124,28 +126,10 @@ export const GamePlayer = ({
               <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
                 isFullscreen ? 'h-screen' : 'aspect-video'
               }`}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <div className="w-24 h-24 mx-auto rounded-full glass-card flex items-center justify-center">
-                      <img 
-                        src={gameImage} 
-                        alt={gameTitle}
-                        className="w-16 h-16 rounded-lg object-cover"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-white">{gameTitle}</h3>
-                      <p className="text-white/80">Game loading...</p>
-                      <div className="w-48 h-2 bg-white/20 rounded-full mx-auto overflow-hidden">
-                        <div className="h-full bg-gradient-primary rounded-full w-3/4 transition-all duration-1000"></div>
-                      </div>
-                    </div>
-                    <p className="text-sm text-white/60">
-                      🎮 This is a sample game player. In a real implementation, 
-                      the actual game would load here in an iframe or canvas.
-                    </p>
-                  </div>
-                </div>
+                <iframe
+                  src={gamePath}
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                ></iframe>
               </div>
             </Card>
           </div>
