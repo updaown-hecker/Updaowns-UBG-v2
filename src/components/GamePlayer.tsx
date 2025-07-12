@@ -30,6 +30,7 @@ interface GamePlayerProps {
 export const GamePlayer = ({ 
   gameId, 
   gameTitle, 
+ gamePath, // Include gamePath in destructuring
   gameImage, 
   category, 
   rating, 
@@ -39,7 +40,6 @@ export const GamePlayer = ({
   onFavoriteToggle,
   gamePath // Destructure gamePath
 }: GamePlayerProps) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   const handleFavoriteClick = () => {
@@ -115,12 +115,13 @@ export const GamePlayer = ({
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => setIsFullscreen(!isFullscreen)}
+
                 >
                   <Maximize className="w-4 h-4 mr-2" />
                   Fullscreen
                 </Button>
               </div>
+              console.log('Game Path:', gamePath);
 
               {/* Game Area */}
               <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
