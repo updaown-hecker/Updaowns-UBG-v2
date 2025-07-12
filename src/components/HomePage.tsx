@@ -64,21 +64,22 @@ interface HomePageProps {
 
 export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePageProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = Math.ceil(featuredGames.length / 4);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % featuredGames.length);
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [totalSlides]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % featuredGames.length);
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + featuredGames.length) % featuredGames.length);
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
   return (
@@ -135,15 +136,20 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {featuredGames.map((game) => (
-              <div key={game.id} className="w-full flex-shrink-0 px-2">
+            {Array.from({ length: Math.ceil(featuredGames.length / 4) }, (_, slideIndex) => (
+              <div key={slideIndex} className="w-full flex-shrink-0 px-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <GameCard
-                    {...game}
-                    isFavorite={favorites.includes(game.id)}
-                    onFavoriteToggle={onFavoriteToggle}
-                    onPlay={onGamePlay}
-                  />
+                  {featuredGames
+                    .slice(slideIndex * 4, (slideIndex + 1) * 4)
+                    .map((game) => (
+                      <GameCard
+                        key={game.id}
+                        {...game}
+                        isFavorite={favorites.includes(game.id)}
+                        onFavoriteToggle={onFavoriteToggle}
+                        onPlay={onGamePlay}
+                      />
+                    ))}
                 </div>
               </div>
             ))}
@@ -152,7 +158,7 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
 
         {/* Carousel Indicators */}
         <div className="flex justify-center space-x-2">
-          {featuredGames.map((_, index) => (
+          {Array.from({ length: totalSlides }, (_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
