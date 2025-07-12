@@ -95,7 +95,7 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
           <div className="space-y-6 max-w-4xl px-4">
             <h1 className="text-5xl md:text-7xl font-bold text-white slide-up">
               Play Anywhere,{' '}
-              <span className="text-gradient bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-gradient">
                 Anytime
               </span>
             </h1>
