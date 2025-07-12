@@ -133,6 +133,7 @@ export const GamePlayer = ({
               <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
                 isFullscreen ? 'h-screen' : 'aspect-video'
               }`}>
+                console.log('Game Path:', gamePath);
                 <iframe
  ref={iframeRef}
                   src={gamePath}

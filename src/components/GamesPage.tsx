@@ -25,7 +25,7 @@ const allGames = [
     rating: 4.8,
     plays: 125000,
     tags: ['racing', 'cars', 'speed', 'neon'],
-    gamePath: '/games/example/index.html',
+ gamePath: 'https://example.com/games/example/index.html',
   },
   {
     id: '2',
@@ -35,7 +35,7 @@ const allGames = [
     rating: 4.6,
     plays: 89000,
     tags: ['puzzle', 'brain', 'logic', 'strategy'],
-    gamePath: '/games/puzzle-master/index.html',
+ gamePath: 'https://example.com/games/puzzle-master/index.html',
   },
   {
     id: '3',
@@ -45,7 +45,7 @@ const allGames = [
     rating: 4.9,
     plays: 156000,
     tags: ['platformer', 'retro', 'jumping', 'adventure'],
-    gamePath: '/games/retro-jump/index.html',
+ gamePath: 'https://example.com/games/retro-jump/index.html',
   },
   {
     id: '4',
@@ -55,7 +55,7 @@ const allGames = [
     rating: 4.7,
     plays: 98000,
     tags: ['adventure', 'fantasy', 'magic', 'quest'],
-    gamePath: '/games/mystic-quest/index.html',
+ gamePath: 'https://example.com/games/mystic-quest/index.html',
   },
   {
     id: '5',
@@ -65,7 +65,7 @@ const allGames = [
     rating: 4.5,
     plays: 203000,
     tags: ['action', 'shooting', 'space', 'aliens'],
-    gamePath: '/games/space-blaster/index.html',
+ gamePath: 'https://example.com/games/space-blaster/index.html',
   },
   {
     id: '6',
@@ -75,7 +75,7 @@ const allGames = [
     rating: 4.6,
     plays: 167000,
     tags: ['sports', 'soccer', 'football', 'competition'],
-    gamePath: '/games/soccer-pro/index.html',
+ gamePath: 'https://example.com/games/soccer-pro/index.html',
   },
   {
     id: '7',
@@ -85,7 +85,7 @@ const allGames = [
     rating: 4.8,
     plays: 134000,
     tags: ['strategy', 'defense', 'towers', 'tactical'],
-    gamePath: '/games/tower-defense/index.html',
+ gamePath: 'https://example.com/games/tower-defense/index.html',
   },
   {
     id: '8',
@@ -95,7 +95,7 @@ const allGames = [
     rating: 4.7,
     plays: 178000,
     tags: ['fighting', 'combat', 'martial arts', 'arena'],
-    gamePath: '/games/fighter-arena/index.html',
+ gamePath: 'https://example.com/games/fighter-arena/index.html',
   },
   {
     id: '9',
@@ -105,7 +105,7 @@ const allGames = [
     rating: 4.4,
     plays: 112000,
     tags: ['racing', 'cyber', 'futuristic', 'speed'],
-    gamePath: '/games/cyber-runner/index.html',
+ gamePath: 'https://example.com/games/cyber-runner/index.html',
   },
   {
     id: '10',
@@ -115,7 +115,7 @@ const allGames = [
     rating: 4.9,
     plays: 145000,
     tags: ['puzzle', 'mind', 'challenging', 'brain'],
-    gamePath: '/games/mind-bender/index.html',
+ gamePath: 'https://example.com/games/mind-bender/index.html',
   },
   {
     id: '11',
@@ -125,7 +125,7 @@ const allGames = [
     rating: 4.6,
     plays: 189000,
     tags: ['adventure', 'sky', 'flying', 'exploration'],
-    gamePath: '/games/sky-adventure/index.html',
+ gamePath: 'https://example.com/games/sky-adventure/index.html',
   },
   {
     id: '12',
@@ -135,7 +135,7 @@ const allGames = [
     rating: 4.8,
     plays: 223000,
     tags: ['platformer', 'pixel', 'warrior', 'retro'],
-    gamePath: '/games/pixel-warrior/index.html',
+ gamePath: 'https://example.com/games/pixel-warrior/index.html',
   },
   {
     id: '13',
@@ -145,7 +145,7 @@ const allGames = [
     rating: 4.4,
     plays: 78000,
     tags: ['puzzle', 'building', 'blocks', 'creativity'],
-    gamePath: '/games/block-builder/index.html',
+ gamePath: 'https://example.com/games/block-builder/index.html',
   },
   {
     id: '14',
@@ -155,7 +155,7 @@ const allGames = [
     rating: 4.6,
     plays: 92000,
     tags: ['adventure', 'running', 'forest', 'nature'],
-    gamePath: '/games/forest-runner/index.html',
+ gamePath: 'https://example.com/games/forest-runner/index.html',
   },
   {
     id: '15',
@@ -165,7 +165,7 @@ const allGames = [
     rating: 4.5,
     plays: 165000,
     tags: ['action', 'combat', 'zone', 'multiplayer'],
-    gamePath: '/games/combat-zone/index.html',
+ gamePath: 'https://example.com/games/combat-zone/index.html',
   },
   {
     id: '16',
@@ -175,7 +175,7 @@ const allGames = [
     rating: 4.7,
     plays: 142000,
     tags: ['sports', 'champion', 'competition', 'athletic'],
-    gamePath: '/games/sports-champion/index.html',
+ gamePath: 'https://example.com/games/sports-champion/index.html',
   },
   {
     id: '17',
@@ -185,7 +185,7 @@ const allGames = [
     rating: 4.6,
     plays: 95000, // Example play count
     tags: ['action', 'shooting', 'space', 'aliens', 'arcade'],
-    gamePath: '/games/space-shooter/index.html',
+ gamePath: 'https://example.com/games/space-shooter/index.html',
   },
 ];
 
