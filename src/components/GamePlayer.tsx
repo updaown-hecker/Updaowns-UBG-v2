@@ -14,7 +14,7 @@ import {
   Clock
 } from 'lucide-react';
 
-interface GamePlayerProps {
+export interface GamePlayerProps {
   gameId: string;
   gameTitle: string;
   gameImage: string;
@@ -55,10 +55,11 @@ export const GamePlayer = ({
     onFavoriteToggle?.(gameId);
   };
   return (
-    <div className="min-h-screen bg-background pb-20">
-      {/* Game Header */}
-      <div className="sticky top-16 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
+ <div className="min-h-screen bg-background pb-20">
+ {/* Game Header */}
+ <div className="sticky top-16 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
+
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" onClick={onBack}>
@@ -101,12 +102,12 @@ export const GamePlayer = ({
             </div>
           </div>
         </div>
-      </div>
+ </div>
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Game Frame */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3" >
             <Card className="game-card overflow-hidden">
               {/* Game Controls */}
               <div className="flex items-center justify-between p-4 bg-muted/50">
@@ -128,21 +129,17 @@ export const GamePlayer = ({
                   <Maximize className="w-4 h-4 mr-2" />
                 </Button>
               </div>
-
-              {/* Game Area */}
+ {/* Game Area */}
               <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
                 isFullscreen ? 'h-screen' : 'aspect-video'
               }`}>
-                console.log('Game Path:', gamePath);
                 <iframe
- ref={iframeRef}
+                  ref={iframeRef}
                   src={gamePath}
-                  style={{ width: '100%', height: '100%', border: 'none' }}
                 ></iframe>
               </div>
-            </Card>
-          </div>
-
+ </Card>
+</div>
           {/* Game Info Sidebar */}
           <div className="space-y-6">
             {/* Game Stats */}

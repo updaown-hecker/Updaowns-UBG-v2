@@ -16,7 +16,7 @@ import gameSports from '@/assets/game-sports.jpg';
 import gameStrategy from '@/assets/game-strategy.jpg';
 import gameFighting from '@/assets/game-fighting.jpg';
 
-const allGames = [
+export const allGames = [
   {
     id: '1',
     title: 'Neon Racer',
@@ -189,7 +189,7 @@ const allGames = [
   },
 ];
 
-const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer', 'Sports', 'Strategy', 'Fighting'];
+export const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer', 'Sports', 'Strategy', 'Fighting'];
 const sortOptions = [
   { value: 'popular', label: 'Most Popular' },
   { value: 'rating', label: 'Highest Rated' },
