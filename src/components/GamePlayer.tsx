@@ -43,19 +43,18 @@ export const GamePlayer = ({
   const [isMuted, setIsMuted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Use effect to set iframe src
+  useEffect(() => {
+    if (iframeRef.current && gamePath) {
+      iframeRef.current.src = gamePath;
+    }
+  }, [gamePath]);
+
   const handleFavoriteClick = () => {
     onFavoriteToggle?.(gameId);
   };
-
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Use effect to set iframe src */}
-      {/* Removed console.log here as it's no longer needed for debugging */}
-      {useEffect(() => {
-        if (iframeRef.current && gamePath) {
-          iframeRef.current.src = gamePath;
-        }
-      }, [gamePath])}
       {/* Game Header */}
       <div className="sticky top-16 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
@@ -128,7 +127,6 @@ export const GamePlayer = ({
                   <Maximize className="w-4 h-4 mr-2" />
                 </Button>
               </div>
-              console.log('Game Path:', gamePath);
 
               {/* Game Area */}
               <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
