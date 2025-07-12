@@ -9,14 +9,14 @@ interface GameCardProps {
   image: string;
   category: string;
   rating: number;
-  plays: number;
-  isFavorited?: boolean;
-  onFavoriteToggle?: (id: string) => void;
-  // Renamed onPlay to onCardClick for clarity, as the primary click action now expands the card.
-  onCardClick?: (id: string) => void;
- onClick?: (id: string) => void;
+ plays: number;
+ // isFavorited?: boolean; // Removed as favorite state is now managed internally/globally
+ onFavoriteToggle?: (id: string, isFavorited: boolean) => void;
+  // Renamed onPlayClick for clarity, as the primary click action now expands the card.
+  onPlayClick?: (id: string) => void;
+ // onClick?: (id: string) => void; // Removed as it was redundant
 }
-
+const FAVORITES_STORAGE_KEY = 'favoritedGames'; // Use relative path for local storage key
 export const GameCard = ({ 
   id, 
   title, 
@@ -24,28 +24,42 @@ export const GameCard = ({
   category, 
   rating, 
   plays, 
-  isFavorited = false,
  onFavoriteToggle,
-  onCardClick,
-}: GameCardProps) => {const [localIsFavorited, setLocalIsFavorited] = useState(isFavorited);
-  const [gameContentSource, setGameContentSource] = useState<string | null>(null);
+  onPlayClick, // Add isFavorited prop
+}: GameCardProps) => {const [localIsFavorited, setLocalIsFavorited] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+ const [gameContentSource, setGameContentSource] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [gameContent, setGameContent] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+ // Manage favorite state using local storage
+  useEffect(() => {
+    const favoritedGames = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
+    setLocalIsFavorited(favoritedGames.includes(id));
+  }, [id]);
 
   const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    const favoritedGames = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
+    const isCurrentlyFavorited = favoritedGames.includes(id);
+
+    if (isCurrentlyFavorited) {
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoritedGames.filter((gameId: string) => gameId !== id)));
+    } else {
+ localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favoritedGames, id]));
+    }
+
     setLocalIsFavorited(!localIsFavorited);
-    onFavoriteToggle?.(id);
+ onFavoriteToggle?.(id, !localIsFavorited);
   };
 
   const handleCardClick = () => {
     setIsExpanded(!isExpanded);
     if (!isExpanded) {
+      // Load content when expanding
       // Set the content source based on game ID or another property
       // For example, you could have a mapping of game IDs to content URLs/file paths
-      setGameContentSource(`/game-content/${id}.html`); // Example: assuming content files are named by ID
+      setGameContentSource(`/public/game-content/${id}.html`); // Example: assuming content files are named by ID
     } else {
       setGameContentSource(null);
       setGameContent(null);
@@ -78,7 +92,7 @@ export const GameCard = ({
       className="game-card group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => { handleCardClick(); onCardClick?.(id); }} // Call both handlers
+      onClick={() => { handleCardClick(); }} // Keep card expansion on general click
     >
       <div className="relative aspect-square overflow-hidden rounded-t-2xl">
         <img 
@@ -93,7 +107,7 @@ export const GameCard = ({
             <Button 
               size="lg" 
               className="gradient-primary hover:scale-110 transition-transform duration-200 glow-primary"
-              onClick={(e) => { e.stopPropagation(); onCardClick?.(id); }} // Call onCardClick on Play button too
+              onClick={(e) => { e.stopPropagation(); onPlayClick?.(id); }} // Call onPlayClick for actual game launch
             >
               <Play className="w-6 h-6 mr-2" />
               Play Now
@@ -106,7 +120,7 @@ export const GameCard = ({
           variant="ghost"
           size="sm"
           className={`absolute top-3 right-3 p-2 rounded-full glass-card transition-all duration-200 ${
- isFavorited ? 'text-red-500' : 'text-white/80 hover:text-red-500'
+ localIsFavorited ? 'text-red-500' : 'text-white/80 hover:text-red-500'
  } ${localIsFavorited ? 'text-red-500 fill-current' : ''}`}
           onClick={handleFavoriteClick}
         >

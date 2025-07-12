@@ -1,24 +1,20 @@
-# Welcome to your Lovable project
+# Game Hub
 
-## Project info
+## 🎮 Project Description
 
-**URL**: https://lovable.dev/projects/6f746ccb-988e-48d9-bc72-8df645f017dc
+Game Hub is a modern web application built to showcase a collection of games. Users can browse through different game titles, mark their favorite games, and access additional content related to each game with a simple click. The project is built with a focus on a clean user interface and a responsive design.
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+*   **Browse Games:** Easily scroll through a visually appealing list of game cards.
+*   **Favorite Games:** Mark your favorite games with a prominent heart icon. Favorited games are visually highlighted for easy identification.
+*   **View Game Content:** Click on any game card to reveal additional information or content related to that specific game. (Currently configured to load external or local content for demonstration).
 
-**Use Lovable**
+## 🚀 Installation and Setup
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6f746ccb-988e-48d9-bc72-8df645f017dc) and start prompting.
+To get the project up and running on your local machine, follow these steps:
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1.  **Clone the repository:**
 
 Follow these steps:
 

@@ -19,21 +19,20 @@ import gameStrategy from '@/assets/game-strategy.jpg';
 import gameFighting from '@/assets/game-fighting.jpg';
 
 // Game data for player component
-const gameData: { [key: string]: any } = {
-  '1': { title: 'Neon Racer', image: gameRacing, category: 'Racing', rating: 4.8, plays: 125000 },
-  '2': { title: 'Puzzle Master', image: gamePuzzle, category: 'Puzzle', rating: 4.6, plays: 89000 },
-  '3': { title: 'Retro Jump', image: gamePlatformer, category: 'Platformer', rating: 4.9, plays: 156000 },
-  '4': { title: 'Mystic Quest', image: gameAdventure, category: 'Adventure', rating: 4.7, plays: 98000 },
-  '5': { title: 'Space Blaster', image: gameShooter, category: 'Action', rating: 4.5, plays: 203000 },
-  '6': { title: 'Soccer Pro', image: gameSports, category: 'Sports', rating: 4.6, plays: 167000 },
-  '7': { title: 'Tower Defense', image: gameStrategy, category: 'Strategy', rating: 4.8, plays: 134000 },
-  '8': { title: 'Fighter Arena', image: gameFighting, category: 'Fighting', rating: 4.7, plays: 178000 },
-  '9': { title: 'Cyber Runner', image: gameRacing, category: 'Racing', rating: 4.4, plays: 112000 },
-  '10': { title: 'Mind Bender', image: gamePuzzle, category: 'Puzzle', rating: 4.9, plays: 145000 },
-  '11': { title: 'Sky Adventure', image: gameAdventure, category: 'Adventure', rating: 4.6, plays: 189000 },
-  '12': { title: 'Pixel Warrior', image: gamePlatformer, category: 'Platformer', rating: 4.8, plays: 223000 },
+export const gameData: { [key: string]: any } = {
+  '1': { id: '1', title: 'Neon Racer', image: gameRacing, category: 'Racing', rating: 4.8, plays: 125000 },
+  '2': { id: '2', title: 'Puzzle Master', image: gamePuzzle, category: 'Puzzle', rating: 4.6, plays: 89000 },
+  '3': { id: '3', title: 'Retro Jump', image: gamePlatformer, category: 'Platformer', rating: 4.9, plays: 156000 },
+  '4': { id: '4', title: 'Mystic Quest', image: gameAdventure, category: 'Adventure', rating: 4.7, plays: 98000 },
+  '5': { id: '5', title: 'Space Blaster', image: gameShooter, category: 'Action', rating: 4.5, plays: 203000 },
+  '6': { id: '6', title: 'Soccer Pro', image: gameSports, category: 'Sports', rating: 4.6, plays: 167000 },
+  '7': { id: '7', title: 'Tower Defense', image: gameStrategy, category: 'Strategy', rating: 4.8, plays: 134000 },
+  '8': { id: '8', title: 'Fighter Arena', image: gameFighting, category: 'Fighting', rating: 4.7, plays: 178000 },
+  '9': { id: '9', title: 'Cyber Runner', image: gameRacing, category: 'Racing', rating: 4.4, plays: 112000 },
+  '10': { id: '10', title: 'Mind Bender', image: gamePuzzle, category: 'Puzzle', rating: 4.9, plays: 145000 },
+  '11': { id: '11', title: 'Sky Adventure', image: gameAdventure, category: 'Adventure', rating: 4.6, plays: 189000 },
+  '12': { id: '12', title: 'Pixel Warrior', image: gamePlatformer, category: 'Platformer', rating: 4.8, plays: 223000 },
 };
-
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
