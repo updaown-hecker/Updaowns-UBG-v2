@@ -48,6 +48,20 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
             </div>
           </div>
 
+          {/* Search Bar */}
+          <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md mx-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search games..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 glass-card border-0 bg-background/50"
+              />
+            </div>
+          </form>
+
           {/* Actions */}
           <div className="flex items-center space-x-2">
             <Button

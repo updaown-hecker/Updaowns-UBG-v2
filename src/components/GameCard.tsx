@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { Heart, Play, Star, X } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, Play, Star } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -9,14 +9,12 @@ interface GameCardProps {
   image: string;
   category: string;
   rating: number;
- plays: number;
- // isFavorited?: boolean; // Removed as favorite state is now managed internally/globally
- onFavoriteToggle?: (id: string, isFavorited: boolean) => void;
-  // Renamed onPlayClick for clarity, as the primary click action now expands the card.
-  onPlayClick?: (id: string) => void;
- // onClick?: (id: string) => void; // Removed as it was redundant
+  plays: number;
+  isFavorite?: boolean;
+  onFavoriteToggle?: (id: string) => void;
+  onPlay?: (id: string) => void;
 }
-const FAVORITES_STORAGE_KEY = 'favoritedGames'; // Use relative path for local storage key
+
 export const GameCard = ({ 
   id, 
   title, 
@@ -24,75 +22,27 @@ export const GameCard = ({
   category, 
   rating, 
   plays, 
- onFavoriteToggle,
-  onPlayClick, // Add isFavorited prop
-}: GameCardProps) => {const [localIsFavorited, setLocalIsFavorited] = useState(false);
+  isFavorite = false,
+  onFavoriteToggle,
+  onPlay 
+}: GameCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
- const [gameContentSource, setGameContentSource] = useState<string | null>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [gameContent, setGameContent] = useState<string | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
- // Manage favorite state using local storage
-  useEffect(() => {
-    const favoritedGames = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
-    setLocalIsFavorited(favoritedGames.includes(id));
-  }, [id]);
 
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const favoritedGames = JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) || '[]');
-    const isCurrentlyFavorited = favoritedGames.includes(id);
-
-    if (isCurrentlyFavorited) {
-      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoritedGames.filter((gameId: string) => gameId !== id)));
-    } else {
- localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favoritedGames, id]));
-    }
-
-    setLocalIsFavorited(!localIsFavorited);
- onFavoriteToggle?.(id, !localIsFavorited);
+    onFavoriteToggle?.(id);
   };
 
-  const handleCardClick = () => {
-    setIsExpanded(!isExpanded);
-    if (!isExpanded) {
-      // Load content when expanding
-      // Set the content source based on game ID or another property
-      // For example, you could have a mapping of game IDs to content URLs/file paths
-      setGameContentSource(`/public/game-content/${id}.html`); // Example: assuming content files are named by ID
-    } else {
-      setGameContentSource(null);
-      setGameContent(null);
-    }
+  const handlePlayClick = () => {
+    onPlay?.(id);
   };
-
-  useEffect(() => {
-    const fetchGameContent = async () => {
-      if (gameContentSource) {
-        try {
-          const response = await fetch(gameContentSource);
-          if (response.ok) {
-            const content = await response.text();
-            setGameContent(content);
-          } else {
-            setGameContent(`<p>Failed to load content for ${title}.</p>`);
-          }
-        } catch (error) {
-          setGameContent(`<p>Error fetching content for ${title}.</p>`);
-        }
-      }
-    };
-
-    fetchGameContent();
-  }, [gameContentSource, title]);
-
 
   return (
     <Card 
       className="game-card group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => { handleCardClick(); }} // Keep card expansion on general click
+      onClick={handlePlayClick}
     >
       <div className="relative aspect-square overflow-hidden rounded-t-2xl">
         <img 
@@ -107,7 +57,6 @@ export const GameCard = ({
             <Button 
               size="lg" 
               className="gradient-primary hover:scale-110 transition-transform duration-200 glow-primary"
-              onClick={(e) => { e.stopPropagation(); onPlayClick?.(id); }} // Call onPlayClick for actual game launch
             >
               <Play className="w-6 h-6 mr-2" />
               Play Now
@@ -120,11 +69,11 @@ export const GameCard = ({
           variant="ghost"
           size="sm"
           className={`absolute top-3 right-3 p-2 rounded-full glass-card transition-all duration-200 ${
- localIsFavorited ? 'text-red-500' : 'text-white/80 hover:text-red-500'
- } ${localIsFavorited ? 'text-red-500 fill-current' : ''}`}
+            isFavorite ? 'text-red-500' : 'text-white/80 hover:text-red-500'
+          }`}
           onClick={handleFavoriteClick}
         >
-          <Heart className="w-4 h-4" />
+          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
         </Button>
 
         {/* Category Badge */}
@@ -146,22 +95,6 @@ export const GameCard = ({
           <span>{plays.toLocaleString()} plays</span>
         </div>
       </div>
-
-      {/* Expanded Content */}
-      {isExpanded && gameContent && (
-        <div ref={contentRef} className="p-4 border-t mt-4">
-          <div className="flex justify-end">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(e) => { e.stopPropagation(); setIsExpanded(false); setGameContent(null); }}
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: gameContent }} />
-        </div>
-      )}
     </Card>
   );
 };
