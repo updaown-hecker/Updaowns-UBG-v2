@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GameCard } from '@/components/GameCard';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, TrendingUp, Clock, Star } from 'lucide-react';
+
 
 // Import game images
 import heroBanner from '@/assets/hero-banner.jpg';
@@ -447,6 +448,8 @@ interface HomePageProps {
 }
 
 export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePageProps) => {
+
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = Math.ceil(featuredGames.length / 4);
 
@@ -469,9 +472,7 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
   return (
     <div className="space-y-12 pb-20">
       {/* Floating Stats */}
-      <div className="absolute top-4 left-4 z-50 bg-black/30 backdrop-blur-sm text-white rounded-lg p-3 text-sm">
-        <div>Active users: 123</div> {/* Placeholder */}
-      </div>
+
 
 
 

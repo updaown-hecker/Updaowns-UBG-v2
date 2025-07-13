@@ -45,7 +45,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
                 <span className="text-white font-bold text-lg">U</span>
               </div>
               <h1 
-                className="text-xl md:text-3xl font-bold hidden sm:block"
+                className="text-lg md:text-xl lg:text-3xl font-bold hidden xs:block"
                 style={{
                   color: 'rgba(255, 255, 255, 0.95)',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%)',
@@ -77,7 +77,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md mx-4">
+          <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md mx-2 sm:mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
