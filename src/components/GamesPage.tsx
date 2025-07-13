@@ -207,7 +207,6 @@ interface GamesPageProps {
 export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPageProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('popular');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
@@ -239,50 +238,6 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
     return filtered;
   }, [searchQuery, selectedCategory, sortBy]);
 
-  const handleGamePlay = (gameId: string) => {
-    navigate({ pathname: '/', search: `?game-id=${gameId}` });
-  };
-
-  const selectedGame = useMemo(() => {
-    return allGames.find(game => game.id === selectedGameId);
-  }, [selectedGameId]);
-
-  if (selectedGame) {
-    // Check if the selected game has a gamePath
-    console.log('Selected Game:', selectedGame); console.log('Game Path being passed:', selectedGame?.gamePath);
-    if (selectedGame.gamePath) {
- return (
-      <GamePlayer
-        gameId={selectedGame.id}
-        gameTitle={selectedGame.title}
-        gameImage={selectedGame.image}
-        category={selectedGame.category}
-        rating={selectedGame.rating}
-        plays={selectedGame.plays}
-        gamePath={selectedGame.gamePath}
-        onBack={() => setSelectedGameId(null)}
-        isFavorite={favorites.includes(selectedGame.id)}
-        onFavoriteToggle={onFavoriteToggle} // Pass toggle function
-      />
-    );
-  }
- else {
- return (
- <div className="min-h-screen bg-background flex flex-col items-center justify-center text-center space-y-4 px-4">
- <div className="w-24 h-24 mx-auto rounded-full glass-card flex items-center justify-center">
- <Search className="w-12 h-12 text-muted-foreground" />
- </div>
- <h3 className="text-2xl font-semibold text-white">Game Not Available</h3>
- <p className="text-muted-foreground">
-              This game might be broken or doesn't exist. Please come back later.
- </p>
- <Button onClick={() => setSelectedGameId(null)} className="gradient-primary">
-              Back to Games
- </Button>
- </div>
- );
-    }
-  }
   return (
     <div className="space-y-8 pb-20">
       {/* Header */}
@@ -398,7 +353,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
               {...game}
               isFavorite={favorites.includes(game.id)}
               onFavoriteToggle={onFavoriteToggle}
-              onPlay={handleGamePlay}
+              onPlay={() => navigate({ pathname: '/', search: `?game-id=${game.id}` })}
             />
           </div>
         ))}
