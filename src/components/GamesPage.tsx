@@ -3,7 +3,7 @@ import { GameCard } from '@/components/GameCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { GamePlayer } from '@/components/GamePlayer';
+import { GamePlayer, GamePlayerProps } from '@/components/GamePlayer';
 import { Search, Filter, Grid, List } from 'lucide-react';
 
 // Import game images
@@ -15,6 +15,7 @@ import gameShooter from '@/assets/game-shooter.jpg';
 import gameSports from '@/assets/game-sports.jpg';
 import gameStrategy from '@/assets/game-strategy.jpg';
 import gameFighting from '@/assets/game-fighting.jpg';
+import { useNavigate } from 'react-router-dom';
 
 export const allGames = [
   {
@@ -210,11 +211,13 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
   const [sortBy, setSortBy] = useState('popular');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
+  const navigate = useNavigate();
+
   const handleGamePlay = (gameId: string) => {
     setSelectedGameId(gameId);
-    onGamePlay?.(gameId);
+    navigate(`/?game-id=${gameId}`);
   };
-
+  
   const filteredAndSortedGames = useMemo(() => {
     let filtered = allGames.filter(game => {
       const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
