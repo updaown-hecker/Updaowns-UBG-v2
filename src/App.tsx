@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from 'react';
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "reac
 import Index from "./pages/Index";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import NotFound from "./pages/NotFound"; // Import NotFound
+import { Toaster } from "@/components/ui/toaster";
 import { GamePlayer } from "@/components/GamePlayer"; // Import GamePlayer
 import { allGames } from "@/components/GamesPage"; // Import allGames data
 
@@ -18,6 +19,14 @@ const AppContent = () => {
   const [searchParams] = useSearchParams();
   const gameId = searchParams.get('game-id');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const aboutBlankEnabled = localStorage.getItem('aboutBlankOnStartup') === 'true';
+    if (aboutBlankEnabled && window.location.href !== 'about:blank') {
+      const currentUrl = window.location.href;
+      window.location.replace('about:blank');
+    }
+  }, []);
 
   // Find the selected game using useMemo for performance if allGames is large
   // For simplicity, directly find it here for now.

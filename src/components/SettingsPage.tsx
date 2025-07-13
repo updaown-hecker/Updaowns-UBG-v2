@@ -32,12 +32,14 @@ export const SettingsPage = () => {
   const [autoSave, setAutoSave] = useState(true);
 
   // State for new settings
+  const [isSettingPanicKey, setIsSettingPanicKey] = useState(false); // New state to track if panic key input is focused
   const [aboutBlankEnabled, setAboutBlankEnabled] = useState(false);
   const [panicKeySettings, setPanicKeySettings] = useState<PanicKeySettings>({ key: '', url: 'https://www.google.com/' });
   const [tabCloakerSettings, setTabCloakerSettings] = useState<TabCloakerSettings>({ title: 'Default (No Cloak)', icon: '' });
   const [backgroundMediaUrl, setBackgroundMediaUrl] = useState('');
   const [backgroundMediaFile, setBackgroundMediaFile] = useState<File | null>(null);
 
+  
   // Load settings from localStorage on mount
   useEffect(() => {
     const savedAboutBlank = localStorage.getItem('settings-aboutBlankEnabled');
@@ -53,6 +55,12 @@ export const SettingsPage = () => {
     const savedCloakIcon = localStorage.getItem('settings-cloakIcon');
     if (savedCloakTitle || savedCloakIcon) {
       setTabCloakerSettings({ title: savedCloakTitle || 'Default (No Cloak)', icon: savedCloakIcon || '' });
+    }
+
+    const savedBackgroundMedia = localStorage.getItem('settings-backgroundMedia');
+    if (savedBackgroundMedia) {
+      const { url, file } = JSON.parse(savedBackgroundMedia);
+      setBackgroundMediaUrl(url);
     }
 
     const savedBackgroundMediaUrl = localStorage.getItem('settings-backgroundMediaUrl');
@@ -79,12 +87,32 @@ export const SettingsPage = () => {
   }, [tabCloakerSettings]);
 
   useEffect(() => {
-    localStorage.setItem('settings-backgroundMediaUrl', backgroundMediaUrl);
-    // Apply background media immediately
+    const savedBackgroundMedia = localStorage.getItem('settings-backgroundMedia');
+    let mediaUrlToApply = backgroundMediaUrl;
+
+    if (!backgroundMediaUrl && savedBackgroundMedia) {
+      const { url } = JSON.parse(savedBackgroundMedia);
+      mediaUrlToApply = url;
+    }
+
+    localStorage.setItem('settings-backgroundMedia', JSON.stringify({ url: mediaUrlToApply, file: null })); // Assuming we store the file as a URL or data URL
+
     if (backgroundMediaUrl) {
-      const style = document.createElement('style');
-      style.id = 'background-media-style';
-      style.innerHTML = `
+      document.body.style.backgroundImage = `url('${backgroundMediaUrl}')`;
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundRepeat = 'no-repeat';
+    } else {
+      document.body.style.backgroundImage = 'none';
+      document.body.style.backgroundSize = 'auto';
+      document.body.style.backgroundPosition = 'initial';
+      document.body.style.backgroundRepeat = 'repeat';
+    }
+  }, [backgroundMediaUrl, backgroundMediaFile]); // Depend on both URL and File state
+
+  useEffect(() => {
+    if (backgroundMediaUrl) {
+      document.body.style.cssText += `
         body {
           background-image: url('${backgroundMediaUrl}');
           background-size: cover;
@@ -93,14 +121,23 @@ export const SettingsPage = () => {
         }
       `;
       document.head.appendChild(style);
+    }
+    // Apply background media immediately
+    if (backgroundMediaUrl) {
+      document.body.style.backgroundImage = `url('${backgroundMediaUrl}')`;
     } else {
-      const style = document.getElementById('background-media-style');
-      if (style) style.remove();
+      document.body.style.backgroundImage = 'none';
+
     }
   }, [backgroundMediaUrl]);
 
   const handleClearCache = () => {
-    localStorage.removeItem('unblocked-games-favorites');
+    // Clear all relevant localStorage items
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('settings-') || key.startsWith('unblocked-games-')) {
+        localStorage.removeItem(key);
+      }
+    });
     localStorage.removeItem('unblocked-games-recent');
     // Add clearing for new settings as well if they should be included in cache clear
     localStorage.removeItem('settings-aboutBlankEnabled');
@@ -108,7 +145,7 @@ export const SettingsPage = () => {
     localStorage.removeItem('settings-panicUrl');
     localStorage.removeItem('settings-cloakTitle');
     localStorage.removeItem('settings-cloakIcon');
-    localStorage.removeItem('settings-backgroundMediaUrl');
+    localStorage.removeItem('settings-backgroundMedia');
     // Reset state to default values
     setAboutBlankEnabled(false);
     setPanicKeySettings({ key: '', url: 'https://www.google.com/' });
@@ -168,7 +205,7 @@ export const SettingsPage = () => {
   };
 
   const handlePanicKey = (event: KeyboardEvent) => {
-    if (event.key === panicKeySettings.key && panicKeySettings.url) {
+    if (!isSettingPanicKey && event.key === panicKeySettings.key && panicKeySettings.url) { // Check if not setting the panic key
       window.location.href = panicKeySettings.url;
     }
   };
@@ -312,11 +349,13 @@ export const SettingsPage = () => {
             <Input
               placeholder="Click here and press a key"
               value={panicKeySettings.key}
+              onFocus={() => setIsSettingPanicKey(true)} // Set state when input is focused
+              onBlur={() => setIsSettingPanicKey(false)} // Unset state when input loses focus
               onKeyDown={(e) => {
                 e.preventDefault();
                 setPanicKeySettings({ ...panicKeySettings, key: e.key });
               }}
-              readOnly
+              readOnly={true} // Keep readOnly to prevent direct typing
             />
             <Input
               placeholder="https://www.google.com/"
@@ -363,7 +402,7 @@ export const SettingsPage = () => {
               <Button onClick={() => { localStorage.setItem('settings-cloakTitle', tabCloakerSettings.title); localStorage.setItem('settings-cloakIcon', tabCloakerSettings.icon); }}>Save Cloak</Button>
 
             </div>
-          </div>
+          </div> {/* Added missing closing div tag */}
         </div>
       </Card>
 
@@ -422,7 +461,7 @@ export const SettingsPage = () => {
                 <p className="text-sm text-muted-foreground">
                   Download your favorites and settings as a backup
                 </p>
-              </div> {/* Added closing div tag */}
+              </div>
               <Button variant="outline" onClick={handleExportData}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
@@ -437,7 +476,7 @@ export const SettingsPage = () => {
                 <p className="text-sm text-muted-foreground">
                   Clear stored game data and preferences
                 </p>
-              </div> {/* Added closing div tag */}
+              </div>
               <Button variant="outline" onClick={handleClearCache}>
                 <Trash2 className="w-4 h-4 mr-2" />
                 Clear
@@ -469,15 +508,26 @@ export const SettingsPage = () => {
               <Button onClick={() => {
                 if (backgroundMediaFile) {
                   const reader = new FileReader();
-                  reader.onloadend = () => {
+                  reader.onloadend = () => { // Use onloadend to ensure the file is fully read
+                    // Save the file data as a Data URL in localStorage
+                    localStorage.setItem('settings-backgroundMedia', JSON.stringify({ url: reader.result as string, file: backgroundMediaFile.name }));
+                    setBackgroundMediaUrl(reader.result as string);
+                  };
+                  reader.readAsDataURL(backgroundMediaFile);
+                } else if (backgroundMediaUrl) {
+                   // If a URL is entered, save and apply it
                     setBackgroundMediaUrl(reader.result as string);
                   };
                   reader.readAsDataURL(backgroundMediaFile);
                 }
               }}>Upload File</Button>
             </div>
+            {/* Add a preview of the selected background media */}
+            {backgroundMediaUrl && (
+              <div className="mt-4">Selected Background: <span className="text-muted-foreground">{backgroundMediaUrl.substring(0, 50)}...</span></div>
+            )}
             <div className="flex space-x-2">
-              <Button onClick={() => localStorage.setItem('settings-backgroundMediaUrl', backgroundMediaUrl)}>Save</Button>
+              <Button onClick={() => localStorage.setItem('settings-backgroundMedia', JSON.stringify({ url: backgroundMediaUrl, file: backgroundMediaFile?.name || null }))}>Save Background</Button>
               <Button variant="outline" onClick={() => setBackgroundMediaUrl('')}>Reset</Button>
             </div>
           </div>
