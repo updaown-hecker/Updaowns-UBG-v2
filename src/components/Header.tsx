@@ -44,7 +44,33 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                 <span className="text-white font-bold text-lg">U</span>
               </div>
-              <h1 className="text-xl font-bold text-gradient hidden sm:block">
+              <h1 
+                className="text-xl md:text-3xl font-bold hidden sm:block"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%)',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '20px',
+                  boxShadow: `
+                    inset 0 0 30px rgba(255, 255, 255, 0.3),
+                    inset 0 0 20px rgba(255, 255, 255, 0.3),
+                    0 5px 15px rgba(0, 0, 0, 0.2),
+                    0 15px 35px rgba(255, 255, 255, 0.1)
+                  `,
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  textShadow: `
+                    2px 2px 4px rgba(0, 0, 0, 0.2),
+                    -2px -2px 4px rgba(255, 255, 255, 0.1)
+                  `,
+                  transform: 'perspective(1000px) translateZ(10px)',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  letterSpacing: '0.5px',
+                  fontWeight: '800',
+                  WebkitFontSmoothing: 'antialiased',
+                }}
+              >
                 Unblocked Games
               </h1>
             </div>

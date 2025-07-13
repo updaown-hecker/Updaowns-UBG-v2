@@ -71,7 +71,7 @@ export const GamePlayer = ({
   return (
  <div className="min-h-screen bg-background pb-20">
  {/* Game Header */}
- <div className="sticky top-16 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
+ <div className="sticky top-0 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
 
           <div className="flex items-center justify-between">

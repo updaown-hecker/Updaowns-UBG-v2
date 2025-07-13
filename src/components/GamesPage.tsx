@@ -4,14 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GamePlayer, GamePlayerProps } from '@/components/GamePlayer';
 
-import gameRacing from '@/assets/game-racing.jpg';
-import gamePuzzle from '@/assets/game-puzzle.jpg';
-import gamePlatformer from '@/assets/game-platformer.jpg';
-import gameAdventure from '@/assets/game-adventure.jpg';
-import gameShooter from '@/assets/game-shooter.jpg';
-import gameSports from '@/assets/game-sports.jpg';
-import gameStrategy from '@/assets/game-strategy.jpg'; 
-import gameFighting from '@/assets/game-fighting.jpg';
 import { Search, Filter, Grid, List, XCircle } from 'lucide-react';
 
 import game10MinutesTillDawn from '@/assets/tmtd.png';
@@ -182,7 +174,7 @@ const allGames = [
   {
     id: '13',
     title: 'Crazy Taxi',
-    image: gameRacing,
+    image: gameDriftBoss,
     category: 'Racing',
     rating: 4.3,
     plays: 95000,
@@ -192,7 +184,7 @@ const allGames = [
   {
     id: '14',
     title: 'CSGO Clicker',
-    image: gamePlatformer,
+    image: gameFlappyBird,
     category: 'Idle',
     rating: 4.0,
     plays: 60000,
@@ -222,7 +214,7 @@ const allGames = [
   {
     id: '17',
     title: 'Drive Mad',
-    image: gameRacing,
+    image: gameDriftHunters,
     category: 'Racing',
     rating: 4.2,
     plays: 75000,
@@ -232,7 +224,7 @@ const allGames = [
   {
     id: '18',
     title: 'Earn to Die',
-    image: gameShooter,
+    image: gameEarnToDie,
     category: 'Action',
     rating: 4.4,
     plays: 120000,
@@ -242,7 +234,7 @@ const allGames = [
   {
     id: '19',
     title: 'Fireboy and Watergirl Forest Temple',
-    image: gamePuzzle,
+    image: gameFireboyAndWatergirlForestTemple,
     category: 'Puzzle',
     rating: 4.5,
     plays: 130000,
@@ -252,7 +244,7 @@ const allGames = [
   {
     id: '20',
     title: 'Flappy Bird',
-    image: gamePlatformer,
+    image: gameFlappyBird,
     category: 'Arcade',
     rating: 3.5,
     plays: 200000,
@@ -262,7 +254,7 @@ const allGames = [
   {
     id: '21',
     title: 'Friday Night Funkin',
-    image: gameFighting,
+    image: gameFridayNightFunkin,
     category: 'Rhythm',
     rating: 4.7,
     plays: 300000,
@@ -272,7 +264,7 @@ const allGames = [
   {
     id: '22',
     title: 'Geometry Dash',
-    image: gamePlatformer,
+    image: gameGeometryDash,
     category: 'Platformer',
     rating: 4.6,
     plays: 220000,
@@ -282,7 +274,7 @@ const allGames = [
   {
     id: '23',
     title: 'Impossible Quiz',
-    image: gamePuzzle,
+    image: gameImpossibleQuiz,
     category: 'Puzzle',
     rating: 4.0,
     plays: 70000,
@@ -292,7 +284,7 @@ const allGames = [
   {
     id: '24',
     title: 'Mario 63',
-    image: gamePlatformer,
+    image: gameMario63,
     category: 'Platformer',
     rating: 4.8,
     plays: 190000,
@@ -302,7 +294,7 @@ const allGames = [
   {
     id: '25',
     title: 'Minecraft',
-    image: gameAdventure,
+    image: gameMinecraft,
     category: 'Sandbox',
     rating: 4.9,
     plays: 500000,
@@ -312,7 +304,7 @@ const allGames = [
   {
     id: '26',
     title: 'Monkey Mart',
-    image: gameStrategy,
+    image: gameMonkeyMart,
     category: 'Simulation',
     rating: 4.2,
     plays: 80000,
@@ -322,7 +314,7 @@ const allGames = [
   {
     id: '27',
     title: 'Paper.io',
-    image: gameStrategy,
+    image: gamePaperio,
     category: 'Strategy',
     rating: 4.1,
     plays: 90000,
@@ -332,7 +324,7 @@ const allGames = [
   {
     id: '28',
     title: 'Retro Bowl',
-    image: gameSports,
+    image: gameRetroBowl,
     category: 'Sports',
     rating: 4.7,
     plays: 160000,
@@ -342,7 +334,7 @@ const allGames = [
   {
     id: '29',
     title: 'Rooftop Snipers',
-    image: gameFighting,
+    image: gameRooftopSnipers,
     category: 'Action',
     rating: 4.3,
     plays: 110000,
@@ -352,7 +344,7 @@ const allGames = [
   {
     id: '30',
     title: 'Scrap Metal 3',
-    image: gameRacing,
+    image: gameScrapMetal3,
     category: 'Racing',
     rating: 4.0,
     plays: 60000,
@@ -362,7 +354,7 @@ const allGames = [
   {
     id: '31',
     title: 'Slope 2',
-    image: gameRacing,
+    image: gameSlope2,
     category: 'Racing',
     rating: 4.3,
     plays: 100000,
@@ -372,7 +364,7 @@ const allGames = [
   {
     id: '32',
     title: 'Slope',
-    image: gameRacing,
+    image: gameSlope,
     category: 'Racing',
     rating: 4.4,
     plays: 120000,
@@ -382,7 +374,7 @@ const allGames = [
   {
     id: '33',
     title: 'Snake',
-    image: gamePuzzle,
+    image: gameSnake,
     category: 'Arcade',
     rating: 3.6,
     plays: 50000,
@@ -392,7 +384,7 @@ const allGames = [
   {
     id: '34',
     title: 'Stack',
-    image: gamePuzzle,
+    image: gameStack,
     category: 'Arcade',
     rating: 3.9,
     plays: 45000,
@@ -402,7 +394,7 @@ const allGames = [
   {
     id: '35',
     title: 'Subway Surfers',
-    image: gamePlatformer,
+    image: gameSubwaySurfers,
     category: 'Endless Runner',
     rating: 4.5,
     plays: 180000,
@@ -412,7 +404,7 @@ const allGames = [
   {
     id: '36',
     title: 'SWF',
-    image: gameAdventure,
+    image: gameFlappyBird,
     category: 'Misc',
     rating: 3.0,
     plays: 10000,
@@ -422,7 +414,7 @@ const allGames = [
   {
     id: '37',
     title: 'Tetris',
-    image: gamePuzzle,
+    image: gameTetris,
     category: 'Puzzle',
     rating: 4.4,
     plays: 130000,
@@ -432,7 +424,7 @@ const allGames = [
   {
     id: '38',
     title: 'Tiny Fishing',
-    image: gameAdventure,
+    image: gameTinyFishing,
     category: 'Simulation',
     rating: 3.8,
     plays: 55000,
@@ -442,7 +434,7 @@ const allGames = [
   {
     id: '39',
     title: 'Tomb of the Mask',
-    image: gamePlatformer,
+    image: gameTombOfTheMask,
     category: 'Arcade',
     rating: 4.2,
     plays: 90000,
@@ -452,7 +444,7 @@ const allGames = [
   {
     id: '40',
     title: 'Tunnel Rush',
-    image: gameRacing,
+    image: gameTunnelRush,
     category: 'Racing',
     rating: 4.0,
     plays: 70000,
@@ -462,7 +454,7 @@ const allGames = [
   {
     id: '41',
     title: 'Vex 3',
-    image: gamePlatformer,
+    image: gameVex3,
     category: 'Platformer',
     rating: 4.5,
     plays: 140000,
@@ -472,7 +464,7 @@ const allGames = [
   {
     id: '42',
     title: 'Vex 4',
-    image: gamePlatformer,
+    image: gameVex4,
     category: 'Platformer',
     rating: 4.6,
     plays: 150000,
@@ -482,7 +474,7 @@ const allGames = [
   {
     id: '43',
     title: 'Vex 5',
-    image: gamePlatformer,
+    image: gameVex5,
     category: 'Platformer',
     rating: 4.7,
     plays: 160000,
@@ -492,7 +484,7 @@ const allGames = [
   {
     id: '44',
     title: 'Vex 6',
-    image: gamePlatformer,
+    image: gameVex6,
     category: 'Platformer',
     rating: 4.8,
     plays: 170000,
@@ -502,7 +494,7 @@ const allGames = [
   {
     id: '45',
     title: 'Worlds Hardest Game',
-    image: gamePuzzle,
+    image: gameWorldsHardestGame,
     category: 'Puzzle',
     rating: 3.5,
     plays: 80000,
@@ -512,7 +504,7 @@ const allGames = [
   {
     id: '46',
     title: 'XX142B2EXE',
-    image: gameAdventure,
+    image: gameXX142B2EXE,
     category: 'Misc',
     rating: 3.2,
     plays: 20000,
@@ -573,7 +565,28 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
     <div className="space-y-8 pb-20">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gradient">Game Library</h1>
+        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent transform-gpu hover:scale-105 transition-transform duration-300" style={{
+          textShadow: `
+            0 1px 0 #ccc,
+            0 2px 0 #c9c9c9,
+            0 3px 0 #bbb,
+            0 4px 0 #b9b9b9,
+            0 5px 0 #aaa,
+            0 6px 1px rgba(0,0,0,.1),
+            0 0 5px rgba(0,0,0,.1),
+            0 1px 3px rgba(0,0,0,.3),
+            0 3px 5px rgba(0,0,0,.2),
+            0 5px 10px rgba(0,0,0,.25)
+          `,
+          transform: 'perspective(1000px) rotateX(15deg) translateZ(50px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))',
+          borderRadius: '10px',
+          padding: '0.5em',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+          border: '1px solid rgba(255, 255, 255, 0.18)'
+        }}>Games Library</h1>
         <p className="text-xl text-muted-foreground">
           Discover {allGames.length}+ awesome unblocked games
         </p>

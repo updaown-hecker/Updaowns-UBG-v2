@@ -478,9 +478,9 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-center justify-center text-center">
           <div className="space-y-6 max-w-4xl px-4">
-            <h1 className="text-5xl md:text-7xl font-bold text-white slide-up">
+            <h1 className="text-5xl md:text-7xl font-bold text-white slide-up relative backdrop-blur-[2px] after:absolute after:inset-0 after:bg-white/10 after:backdrop-blur-[2px] after:rounded-lg">
               Play Anywhere,{' '}
-              <span className="text-gradient">
+              <span className="relative text-white backdrop-blur-[2px]">
                 Anytime
               </span>
             </h1>
