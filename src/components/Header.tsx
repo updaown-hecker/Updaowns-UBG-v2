@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Settings, Heart, Moon, Sun, Menu, X } from 'lucide-react';
+import { Search, Moon, Sun, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
@@ -99,16 +99,6 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               className="hidden sm:flex"
             >
               {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            </Button>
-            
- <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={() => navigate('/favorites')}>
-              <Heart className="w-4 h-4" />
-              <span className="ml-2 hidden md:inline">Favorites</span>
-            </Button>
-            
-            <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={() => navigate('/settings')}>
-              <Settings className="w-4 h-4" />
-              <span className="ml-2 hidden md:inline">Settings</span>
             </Button>
           </div>
         </div>
