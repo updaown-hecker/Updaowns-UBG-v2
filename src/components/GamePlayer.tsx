@@ -51,6 +51,20 @@ export const GamePlayer = ({
     }
   }, [gamePath]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   const handleFavoriteClick = () => {
     onFavoriteToggle?.(gameId);
   };
@@ -124,9 +138,20 @@ export const GamePlayer = ({
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => setIsFullscreen(!isFullscreen)}
+                  onClick={() => {
+                    if (!isFullscreen) {
+                      if (iframeRef.current?.requestFullscreen) {
+                        iframeRef.current.requestFullscreen();
+                      }
+                    } else {
+                      if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                      }
+                    }
+                  }}
                 >
                   <Maximize className="w-4 h-4 mr-2" />
+                  {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
                 </Button>
               </div>
  {/* Game Area */}
@@ -138,6 +163,7 @@ export const GamePlayer = ({
                   src={gamePath}
                 ></iframe>
               </div>
+
  </Card>
 </div>
           {/* Game Info Sidebar */}

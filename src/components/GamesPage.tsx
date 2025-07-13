@@ -240,7 +240,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
   }, [searchQuery, selectedCategory, sortBy]);
 
   const handleGamePlay = (gameId: string) => {
-    navigate(`/?game-id=${gameId}`);
+    navigate({ pathname: '/', search: `?game-id=${gameId}` });
   };
 
   const selectedGame = useMemo(() => {
