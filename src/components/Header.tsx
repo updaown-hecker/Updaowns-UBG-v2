@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Settings, Heart, Moon, Sun, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/components/ThemeProvider';
 
@@ -12,11 +13,12 @@ interface HeaderProps {
 
 export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch?.(searchQuery);
+    navigate({ pathname: '/search', search: `?search=${searchQuery}` });
   };
 
   const toggleTheme = () => {

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
 import Index from "./pages/Index"; // Assuming GamesPage is rendered by Index
+import SearchResultsPage from "./pages/SearchResultsPage";
 import NotFound from "./pages/NotFound";
 import { GamePlayer, GamePlayerProps } from "@/components/GamePlayer";
 import { allGames } from "@/components/GamesPage"; // Import allGames
@@ -52,6 +53,7 @@ const AppContent = () => {
   return (
     <Routes> {/* Render routes if no game-id */}
       <Route path="/" element={<Index />} />
+      <Route path="/search" element={<SearchResultsPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
