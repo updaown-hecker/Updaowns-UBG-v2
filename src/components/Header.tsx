@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Search, Moon, Sun, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/components/ThemeProvider';
 
@@ -92,12 +92,13 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className="hidden sm:flex"
-            >
+            <Link to="/profile">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </Link>
+            <Button variant="ghost" size="sm" onClick={toggleTheme} className="hidden sm:flex">
               {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </Button>
           </div>
