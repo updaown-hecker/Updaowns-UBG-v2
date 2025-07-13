@@ -1,5 +1,6 @@
 import { Home, Gamepad, Search, Heart, Settings, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   activeTab: string;
@@ -17,6 +18,8 @@ const navigationItems = [
 ];
 
 export const Navigation = ({ activeTab, onTabChange, isOpen = false }: NavigationProps) => {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* Desktop Navigation */}
@@ -29,7 +32,11 @@ export const Navigation = ({ activeTab, onTabChange, isOpen = false }: Navigatio
             return (
               <Button
                 key={item.id}
-                variant={isActive ? "default" : "ghost"}
+                variant={
+                  item.id === 'search'
+                    ? activeTab === 'search' ? 'default' : 'ghost'
+                    : isActive ? 'default' : 'ghost'
+                }
                 size="sm"
                 onClick={() => onTabChange(item.id)}
                 className={`w-12 h-12 p-0 transition-all duration-200 ${
@@ -59,7 +66,11 @@ export const Navigation = ({ activeTab, onTabChange, isOpen = false }: Navigatio
               return (
                 <Button
                   key={item.id}
-                  variant={isActive ? "default" : "ghost"}
+                  variant={
+                    item.id === 'search'
+                      ? activeTab === 'search' ? 'default' : 'ghost'
+                      : isActive ? 'default' : 'ghost'
+                  }
                   onClick={() => onTabChange(item.id)}
                   className={`h-16 flex-col space-y-1 transition-all duration-200 ${
                     isActive 
@@ -87,7 +98,11 @@ export const Navigation = ({ activeTab, onTabChange, isOpen = false }: Navigatio
               return (
                 <Button
                   key={item.id}
-                  variant="ghost"
+                  variant={
+                    item.id === 'search'
+                      ? activeTab === 'search' ? 'default' : 'ghost'
+                      : 'ghost'
+                  }
                   size="sm"
                   onClick={() => onTabChange(item.id)}
                   className={`flex-col space-y-1 h-auto py-2 transition-all duration-200 ${
