@@ -376,7 +376,7 @@ export const SettingsPage = () => {
             value={`${tabCloakerSettings.title}|${tabCloakerSettings.icon}`}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Default (No Cloak)" />
+                <SelectValue placeholder="Updaown's Ublocked Games" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Updaown's Unblocked Games|">Default (No Cloak)</SelectItem>

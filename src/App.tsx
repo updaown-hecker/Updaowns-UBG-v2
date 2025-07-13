@@ -27,16 +27,25 @@ const AppContent = () => {
     if (savedCloakTitle) {
       document.title = savedCloakTitle;
     }
+    
     if (savedCloakIcon) {
-      const link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
-      if (link) link.href = savedCloakIcon;
+      let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      link.href = savedCloakIcon;
     }
 
+    // Add a default favicon if no custom one is set
+    if (!savedCloakIcon && !document.querySelector("link[rel~='icon']")) {
+        // You can add logic here to set a default favicon if needed
+    }
     // Handle about:blank on startup
     const aboutBlankEnabled = localStorage.getItem('aboutBlankOnStartup') === 'true';
     if (aboutBlankEnabled && window.location.href !== 'about:blank') {
-      const currentUrl = window.location.href;
-      window.location.replace('about:blank');
+        window.location.replace('about:blank');
     }
   }, []);
 
