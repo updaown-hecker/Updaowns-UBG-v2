@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
+import Layout from "@/components/Layout"; // Import the Layout component
 import Index from "./pages/Index";
 import SearchResultsPage from "./pages/SearchResultsPage"; // Import SearchResultsPage
 import NotFound from "./pages/NotFound"; // Import NotFound
@@ -46,10 +47,11 @@ const AppContent = () => {
 
   // Otherwise, render the main application routes
   return (
-    <Routes>
-      <Route path="/" element={<Index />} />
+    <Routes>  
+      {/* Wrap routes that need the header and navigation with Layout */}
+      <Route path="/" element={<Layout><Index /></Layout>} />
       <Route path="/search" element={<SearchResultsPage />} />
-      {/* You can add a route for game playback without a direct gameId in the path if needed */}
+      {/* Add any custom routes before the catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
