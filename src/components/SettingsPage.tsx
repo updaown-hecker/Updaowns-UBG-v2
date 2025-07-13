@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTheme } from '@/components/ThemeProvider';
-import { 
-  Monitor, 
-  Moon, 
-  Sun, 
+import {
+  Monitor,
+  Moon,
+  Sun,
   Volume2, 
   VolumeX, 
   Zap, 
@@ -16,7 +18,12 @@ import {
   Download,
   Trash2,
   RefreshCw
-} from 'lucide-react';
+} from 'lucide-react'; // Added missing imports
+import { useEffect } from 'react'; // Added missing import
+
+// Define interfaces for settings
+interface PanicKeySettings { key: string; url: string }
+interface TabCloakerSettings { title: string; icon: string }
 
 export const SettingsPage = () => {
   const { theme, setTheme } = useTheme();
@@ -24,10 +31,91 @@ export const SettingsPage = () => {
   const [performanceMode, setPerformanceMode] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
 
+  // State for new settings
+  const [aboutBlankEnabled, setAboutBlankEnabled] = useState(false);
+  const [panicKeySettings, setPanicKeySettings] = useState<PanicKeySettings>({ key: '', url: 'https://www.google.com/' });
+  const [tabCloakerSettings, setTabCloakerSettings] = useState<TabCloakerSettings>({ title: 'Default (No Cloak)', icon: '' });
+  const [backgroundMediaUrl, setBackgroundMediaUrl] = useState('');
+  const [backgroundMediaFile, setBackgroundMediaFile] = useState<File | null>(null);
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const savedAboutBlank = localStorage.getItem('settings-aboutBlankEnabled');
+    if (savedAboutBlank !== null) setAboutBlankEnabled(JSON.parse(savedAboutBlank));
+
+    const savedPanicKey = localStorage.getItem('settings-panicKey');
+    const savedPanicUrl = localStorage.getItem('settings-panicUrl');
+    if (savedPanicKey || savedPanicUrl) {
+      setPanicKeySettings({ key: savedPanicKey || '', url: savedPanicUrl || 'https://www.google.com/' });
+    }
+
+    const savedCloakTitle = localStorage.getItem('settings-cloakTitle');
+    const savedCloakIcon = localStorage.getItem('settings-cloakIcon');
+    if (savedCloakTitle || savedCloakIcon) {
+      setTabCloakerSettings({ title: savedCloakTitle || 'Default (No Cloak)', icon: savedCloakIcon || '' });
+    }
+
+    const savedBackgroundMediaUrl = localStorage.getItem('settings-backgroundMediaUrl');
+    if (savedBackgroundMediaUrl) setBackgroundMediaUrl(savedBackgroundMediaUrl);
+  }, []);
+
+  // Save settings to localStorage on change
+  useEffect(() => {
+    localStorage.setItem('settings-aboutBlankEnabled', JSON.stringify(aboutBlankEnabled));
+  }, [aboutBlankEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('settings-panicKey', panicKeySettings.key);
+    localStorage.setItem('settings-panicUrl', panicKeySettings.url);
+  }, [panicKeySettings]);
+
+  useEffect(() => {
+    localStorage.setItem('settings-cloakTitle', tabCloakerSettings.title);
+    localStorage.setItem('settings-cloakIcon', tabCloakerSettings.icon);
+    // Apply the cloaking immediately
+    document.title = tabCloakerSettings.title;
+    const link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+    if (link) link.href = tabCloakerSettings.icon;
+  }, [tabCloakerSettings]);
+
+  useEffect(() => {
+    localStorage.setItem('settings-backgroundMediaUrl', backgroundMediaUrl);
+    // Apply background media immediately
+    if (backgroundMediaUrl) {
+      const style = document.createElement('style');
+      style.id = 'background-media-style';
+      style.innerHTML = `
+        body {
+          background-image: url('${backgroundMediaUrl}');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      `;
+      document.head.appendChild(style);
+    } else {
+      const style = document.getElementById('background-media-style');
+      if (style) style.remove();
+    }
+  }, [backgroundMediaUrl]);
+
   const handleClearCache = () => {
     localStorage.removeItem('unblocked-games-favorites');
     localStorage.removeItem('unblocked-games-recent');
-    alert('Cache cleared successfully!');
+    // Add clearing for new settings as well if they should be included in cache clear
+    localStorage.removeItem('settings-aboutBlankEnabled');
+    localStorage.removeItem('settings-panicKey');
+    localStorage.removeItem('settings-panicUrl');
+    localStorage.removeItem('settings-cloakTitle');
+    localStorage.removeItem('settings-cloakIcon');
+    localStorage.removeItem('settings-backgroundMediaUrl');
+    // Reset state to default values
+    setAboutBlankEnabled(false);
+    setPanicKeySettings({ key: '', url: 'https://www.google.com/' });
+    setTabCloakerSettings({ title: 'Default (No Cloak)', icon: '' });
+    setBackgroundMediaUrl('');
+    setBackgroundMediaFile(null);
+    alert('All cached data and settings cleared successfully!');
   };
 
   const handleExportData = () => {
@@ -38,6 +126,10 @@ export const SettingsPage = () => {
         soundEnabled,
         performanceMode,
         autoSave,
+        aboutBlankEnabled,
+        panicKeySettings,
+        tabCloakerSettings,
+        backgroundMediaUrl,
       },
     };
     
@@ -50,6 +142,43 @@ export const SettingsPage = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleOpenPopup = () => {
+    const currentUrl = window.location.href;
+    const aboutBlankWindow = window.open('about:blank', '_blank');
+    if (aboutBlankWindow) {
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${tabCloakerSettings.title}</title>
+          <link rel="icon" type="image/png" href="${tabCloakerSettings.icon}">
+          <style>
+            body { margin: 0; overflow: hidden; }
+            iframe { width: 100vw; height: 100vh; border: none; }
+          </style>
+        </head>
+        <body>
+          <iframe src="${currentUrl}"></iframe>
+        </body>
+        </html>
+      `;
+      aboutBlankWindow.document.write(htmlContent);
+      aboutBlankWindow.document.close();
+    }
+  };
+
+  const handlePanicKey = (event: KeyboardEvent) => {
+    if (event.key === panicKeySettings.key && panicKeySettings.url) {
+      window.location.href = panicKeySettings.url;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handlePanicKey);
+    return () => {
+      window.removeEventListener('keydown', handlePanicKey);
+    };
+  }, [panicKeySettings]); // Re-attach event listener if panic key settings change
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20">
       {/* Header */}
@@ -146,6 +275,98 @@ export const SettingsPage = () => {
         </div>
       </Card>
 
+      {/* About:Blank Settings */}
+      <Card className="glass-card p-6">
+        <div className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">About:Blank</h3>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <Label className="text-base">Cloak on Startup</Label>
+                <p className="text-sm text-muted-foreground">
+                  Cloak the site in an about:blank page when the application starts (enabled by default).
+                </p>
+              </div>
+              <Switch
+                checked={aboutBlankEnabled}
+                onCheckedChange={setAboutBlankEnabled}
+              />
+            </div>
+            <Button onClick={handleOpenPopup}>Open Popup</Button>
+          </div>
+        </div>
+      </Card>
+
+      {/* Set Panic Key */}
+      <Card className="glass-card p-6">
+        <div className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Set Panic Key</h3>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-base">Press any key to set it as your panic key. This key will redirect you to Google when pressed.</Label>
+            <Input
+              placeholder="Click here and press a key"
+              value={panicKeySettings.key}
+              onKeyDown={(e) => {
+                e.preventDefault();
+                setPanicKeySettings({ ...panicKeySettings, key: e.key });
+              }}
+              readOnly
+            />
+            <Input
+              placeholder="https://www.google.com/"
+              value={panicKeySettings.url}
+              onChange={(e) => setPanicKeySettings({ ...panicKeySettings, url: e.target.value })}
+            />
+            <div className="flex space-x-2">
+              <Button onClick={() => { localStorage.setItem('settings-panicKey', panicKeySettings.key); localStorage.setItem('settings-panicUrl', panicKeySettings.url); }}>Save</Button>
+
+              <Button variant="outline" onClick={() => setPanicKeySettings({ key: '', url: 'https://www.google.com/' })}>Reset</Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Tab Cloaker */}
+      <Card className="glass-card p-6">
+        <div className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Tab Cloaker</h3>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-base">Change the title and icon of the page.</Label>
+            <Select onValueChange={(value) => {
+              // Simple example: split value by '|' to get title and icon
+              const [title, icon] = value.split('|');
+              setTabCloakerSettings({ title: title || 'Default (No Cloak)', icon: icon || '' });
+            }}
+            value={`${tabCloakerSettings.title}|${tabCloakerSettings.icon}`}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Default (No Cloak)" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Default (No Cloak)|">Default (No Cloak)</SelectItem>
+                <SelectItem value="Google|https://www.google.com/favicon.ico">Google</SelectItem>
+                <SelectItem value="Drive|https://ssl.gstatic.com/docs/doclist/images/favicon_24.ico">Drive</SelectItem>
+                <SelectItem value="Classroom|https://ssl.gstatic.com/classroom/favicon.png">Classroom</SelectItem>
+                {/* Add more options here */}
+              </SelectContent>
+            </Select>
+            <div className="flex space-x-2">
+              <Button onClick={() => { localStorage.setItem('settings-cloakTitle', tabCloakerSettings.title); localStorage.setItem('settings-cloakIcon', tabCloakerSettings.icon); }}>Save Cloak</Button>
+
+            </div>
+          </div>
+        </div>
+      </Card>
+
       {/* Performance Settings */}
       <Card className="glass-card p-6">
         <div className="space-y-6">
@@ -201,7 +422,7 @@ export const SettingsPage = () => {
                 <p className="text-sm text-muted-foreground">
                   Download your favorites and settings as a backup
                 </p>
-              </div>
+              </div> {/* Added closing div tag */}
               <Button variant="outline" onClick={handleExportData}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
@@ -216,11 +437,48 @@ export const SettingsPage = () => {
                 <p className="text-sm text-muted-foreground">
                   Clear stored game data and preferences
                 </p>
-              </div>
+              </div> {/* Added closing div tag */}
               <Button variant="outline" onClick={handleClearCache}>
                 <Trash2 className="w-4 h-4 mr-2" />
                 Clear
               </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Set Background Media */}
+      <Card className="glass-card p-6">
+        <div className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <h3 className="text-xl font-semibold">Set Background Media</h3>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-base">Set a background image, GIF, or video. Enter a URL or upload a file.</Label>
+            <Input
+              placeholder="Enter media URL (image, GIF, or video)"
+              value={backgroundMediaUrl}
+              onChange={(e) => setBackgroundMediaUrl(e.target.value)}
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                type="file"
+                onChange={(e) => setBackgroundMediaFile(e.target.files ? e.target.files[0] : null)}
+              />
+              <Button onClick={() => {
+                if (backgroundMediaFile) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setBackgroundMediaUrl(reader.result as string);
+                  };
+                  reader.readAsDataURL(backgroundMediaFile);
+                }
+              }}>Upload File</Button>
+            </div>
+            <div className="flex space-x-2">
+              <Button onClick={() => localStorage.setItem('settings-backgroundMediaUrl', backgroundMediaUrl)}>Save</Button>
+              <Button variant="outline" onClick={() => setBackgroundMediaUrl('')}>Reset</Button>
             </div>
           </div>
         </div>
