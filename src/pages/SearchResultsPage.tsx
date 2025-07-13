@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get('query') || '';
+  const searchQuery = searchParams.get('search') || '';
 
   const filteredGames = allGames.filter(game => {
     const lowerCaseQuery = searchQuery.toLowerCase();
