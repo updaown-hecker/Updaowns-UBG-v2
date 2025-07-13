@@ -4,7 +4,11 @@ import { GameCard } from '@/components/GameCard';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const SearchResultsPage = () => {
+interface SearchResultsPageProps {
+  onGamePlay?: (gameId: string) => void;
+}
+
+const SearchResultsPage = ({ onGamePlay }: SearchResultsPageProps) => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
 
@@ -44,6 +48,7 @@ const SearchResultsPage = () => {
               <GameCard
                 {...game}
                 // onPlay will need to navigate to /?game-id=game.id
+ onPlay={onGamePlay}
                 // favorites and onFavoriteToggle will need to be managed higher up
               />
             </div>
