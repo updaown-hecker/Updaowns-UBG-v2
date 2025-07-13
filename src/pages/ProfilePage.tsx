@@ -3,25 +3,36 @@ import { Header } from '../components/Header';
 import { Navigation } from '../components/Navigation';
 import useTimeTracker from '../hooks/useTimeTracker';
 
+
 export function ProfilePage() {
     const [elapsedTime, setElapsedTime] = useState(0);
     const rawElapsedTime = useTimeTracker();
-
+    
     useEffect(() => {
         setElapsedTime(rawElapsedTime);
     }, [rawElapsedTime]);
-
+    
     const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
     const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-
+    
     return (
         <>
             <Header />
             <Navigation activeTab="profile" onTabChange={() => {}} />
-            <div>
-                <h1>Profile Page</h1>
-                <h2>Hours Played</h2>
-                <p>{`${hours} hours and ${minutes} minutes`}</p>
+            <div className="container mx-auto px-4 py-8">
+ <h1 className="text-3xl font-bold mb-6">Profile Page</h1>
+ 
+                <section className="mb-8">
+                    <h2 className="text-2xl font-semibold mb-2">Hours Played</h2>
+                    <p className="text-lg">{`${hours} hours and ${minutes} minutes`}</p>
+                </section>
+                <hr className="my-8 border-gray-700" />
+ 
+                <section className="mb-8">
+                    <h2 className="text-2xl font-semibold mb-2">Recently Played Games</h2>
+                    <p className="text-lg">Game 1, Game 2, Game 3</p>
+                </section>
+                <hr className="my-8 border-gray-700" />
             </div>
         </>
     );
