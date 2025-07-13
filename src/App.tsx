@@ -7,11 +7,12 @@ import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "reac
 import Index from "./pages/Index";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import NotFound from "./pages/NotFound"; // Import NotFound
-import ProfilePage from "./pages/ProfilePage.tsx"; // Import ProfilePage
+import { ProfilePage } from "./pages/ProfilePage.tsx"; // Import ProfilePage
 import { Toaster } from "@/components/ui/toaster";
 import { GamePlayer } from "@/components/GamePlayer"; // Import GamePlayer
 import { allGames } from "@/components/GamesPage"; // Import allGames data
 
+import useTimeTracker from "./hooks/useTimeTracker";
 // Initialize QueryClient outside of the component to avoid re-creation on re-renders
 const queryClient = new QueryClient();
 
@@ -67,6 +68,9 @@ const AppContent = () => {
   };
 
   // If a game-id is present in the URL and the game is found, display GamePlayer
+
+  useTimeTracker(); // Start tracking time
+
   if (gameId && selectedGame) {
     return (
       <GamePlayer

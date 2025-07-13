@@ -41,7 +41,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
             
-            <div className="flex items-center space-x-2">
+ <Link to="/profile" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                 <span className="text-white font-bold text-lg">U</span>
               </div>
@@ -74,7 +74,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               >
                 Unblocked Games
               </h1>
-            </div>
+ </Link>
           </div>
 
           {/* Search Bar */}
@@ -93,12 +93,6 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
-            <Link to="/profile">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </Link>
             <Button variant="ghost" size="sm" onClick={toggleTheme} className="hidden sm:flex">
               {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </Button>

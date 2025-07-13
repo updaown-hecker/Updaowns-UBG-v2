@@ -1,30 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { Navigation } from '../components/Navigation';
+import useTimeTracker from '../hooks/useTimeTracker';
 
-const ProfilePage: React.FC = () => {
-  return (
-    <div>
-      <h1>Profile Page</h1>
+export function ProfilePage() {
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const rawElapsedTime = useTimeTracker();
 
-      <section>
-        <h2>Hours Played</h2>
-        <p>Total hours: [Placeholder for hours]</p>
-      </section>
+    useEffect(() => {
+        setElapsedTime(rawElapsedTime);
+    }, [rawElapsedTime]);
 
-      <section>
-        <h2>Recently Played Games</h2>
-        <ul>
-          <li>[Placeholder Game 1]</li>
-          <li>[Placeholder Game 2]</li>
-          <li>[Placeholder Game 3]</li>
-        </ul>
-      </section>
+    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
 
-      <section>
-        <h2>Favorite Games</h2>
-        <p>[Placeholder for favorite games]</p>
-      </section>
-    </div>
-  );
-};
-
-export default ProfilePage;
+    return (
+        <>
+            <Header />
+            <Navigation activeTab="profile" onTabChange={() => {}} />
+            <div>
+                <h1>Profile Page</h1>
+                <h2>Hours Played</h2>
+                <p>{`${hours} hours and ${minutes} minutes`}</p>
+            </div>
+        </>
+    );
+}
