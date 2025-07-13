@@ -379,7 +379,7 @@ export const SettingsPage = () => {
                 <SelectValue placeholder="Default (No Cloak)" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Default (No Cloak)|">Default (No Cloak)</SelectItem>
+                <SelectItem value="Updaown's Unblocked Games|">Default (No Cloak)</SelectItem>
                 <SelectItem value="Google|https://www.google.com/favicon.ico">Google</SelectItem>
                 <SelectItem value="Drive|https://ssl.gstatic.com/docs/doclist/images/favicon_24.ico">Drive</SelectItem>
                 <SelectItem value="Classroom|https://ssl.gstatic.com/classroom/favicon.png">Classroom</SelectItem>

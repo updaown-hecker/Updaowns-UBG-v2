@@ -21,6 +21,18 @@ const AppContent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Apply tab cloaking settings on mount
+    const savedCloakTitle = localStorage.getItem('settings-cloakTitle');
+    const savedCloakIcon = localStorage.getItem('settings-cloakIcon');
+    if (savedCloakTitle) {
+      document.title = savedCloakTitle;
+    }
+    if (savedCloakIcon) {
+      const link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+      if (link) link.href = savedCloakIcon;
+    }
+
+    // Handle about:blank on startup
     const aboutBlankEnabled = localStorage.getItem('aboutBlankOnStartup') === 'true';
     if (aboutBlankEnabled && window.location.href !== 'about:blank') {
       const currentUrl = window.location.href;
