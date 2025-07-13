@@ -14,102 +14,418 @@ import gameSports from '@/assets/game-sports.jpg';
 import gameStrategy from '@/assets/game-strategy.jpg';
 import gameFighting from '@/assets/game-fighting.jpg';
 
+// Import specific game images
+import game10MinutesTillDawn from '@/assets/tmtd.png';
+import game1v1Lol from '@/assets/1v1-lol.png';
+import game2048 from '@/assets/2048.png';
+import gameMotoX3M from '@/assets/moto-x3m.png';
+import gameWebeComeWhatWeBehold from '@/assets/WebeComeWhatWeBehold.png';
+import gameAwesomeTanks2 from '@/assets/awesome-tanks-2.png';
+import gameBasketRandom from '@/assets/basket-random.png';
+import gameBitlife from '@/assets/bitlife.png';
+import gameBoxingRandom from '@/assets/boxing-random.png';
+import gameChroma from '@/assets/chroma.png';
+import gameColoron from '@/assets/coloron.png';
+import gameCookieClicker from '@/assets/cookie-clicker.png';
+import gameDriftBoss from '@/assets/drift-boss.png';
+import gameDriftHunters from '@/assets/drift-hunters.png';
+import gameEarnToDie from '@/assets/earntodie.png';
+import gameFireboyAndWatergirlForestTemple from '@/assets/fireboy-and-watergirl-1.png';
+import gameFlappyBird from '@/assets/flappy-bird.png';
+import gameFridayNightFunkin from '@/assets/fnf-icon.jpg';
+import gameGeometryDash from '@/assets/geometry-dash.png';
+import gameImpossibleQuiz from '@/assets/impossible-quiz.png';
+import gameMario63 from '@/assets/mario63.png';
+import gameMinecraft from '@/assets/minecraft.png';
+import gameMonkeyMart from '@/assets/monkey.png';
+import gamePaperio from '@/assets/paperio.png';
+import gameRetroBowl from '@/assets/retro-bowl.png';
+import gameRooftopSnipers from '@/assets/rooftop-snippers.png';
+import gameScrapMetal3 from '@/assets/scrap.png';
+import gameSlope2 from '@/assets/slope-2.png';
+import gameSlope from '@/assets/slope.png';
+import gameSnake from '@/assets/snake.png';
+import gameStack from '@/assets/stack.png';
+import gameSubwaySurfers from '@/assets/subway-surfers.png';
+import gameTetris from '@/assets/tetris.png';
+import gameTinyFishing from '@/assets/tiny-fishing.png';
+import gameTombOfTheMask from '@/assets/tomb.jpg';
+import gameTunnelRush from '@/assets/tunnelrush.png';
+import gameVex3 from '@/assets/vex3.png';
+import gameVex4 from '@/assets/vex4.png';
+import gameVex5 from '@/assets/vex5.png';
+import gameVex6 from '@/assets/vex6.png';
+import gameWorldsHardestGame from '@/assets/world-hardest-game.png';
+import gameXX142B2EXE from '@/assets/xx142b2exe.png';
+
 const featuredGames = [
   {
     id: '1',
-    title: 'Neon Racer',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.8,
-    plays: 125000,
+    title: '10 Minutes Till Dawn',
+    image: game10MinutesTillDawn,
+    category: 'Action',
+    rating: 4.5,
+    plays: 100000,
   },
   {
     id: '2',
-    title: 'Puzzle Master',
-    image: gamePuzzle,
-    category: 'Puzzle',
-    rating: 4.6,
-    plays: 89000,
+    title: '1v1 Lol',
+    image: game1v1Lol,
+    category: 'Action',
+    rating: 4.7,
+    plays: 250000,
   },
   {
     id: '3',
-    title: 'Retro Jump',
-    image: gamePlatformer,
-    category: 'Platformer',
-    rating: 4.9,
-    plays: 156000,
+    title: '2048',
+    image: game2048,
+    category: 'Puzzle',
+    rating: 4.2,
+    plays: 80000,
   },
   {
     id: '4',
-    title: 'Mystic Quest',
-    image: gameAdventure,
-    category: 'Adventure',
-    rating: 4.7,
-    plays: 98000,
+    title: 'Moto X3M',
+    image: gameMotoX3M,
+    category: 'Racing',
+    rating: 4.6,
+    plays: 180000,
   },
   {
     id: '5',
-    title: 'Space Blaster',
-    image: gameShooter,
-    category: 'Action',
-    rating: 4.5,
-    plays: 203000,
+    title: 'Webe Come What We Behold',
+    image: gameWebeComeWhatWeBehold,
+    category: 'Adventure',
+    rating: 3.9,
+    plays: 50000,
   },
   {
     id: '6',
-    title: 'Soccer Pro',
-    image: gameSports,
-    category: 'Sports',
-    rating: 4.6,
-    plays: 167000,
+    title: 'Awesome Tanks 2',
+    image: gameAwesomeTanks2,
+    category: 'Action',
+    rating: 4.3,
+    plays: 90000,
   },
   {
     id: '7',
-    title: 'Tower Defense',
-    image: gameStrategy,
-    category: 'Strategy',
-    rating: 4.8,
-    plays: 134000,
+    title: 'Basket Random',
+    image: gameBasketRandom,
+    category: 'Sports',
+    rating: 4.0,
+    plays: 70000,
   },
   {
     id: '8',
-    title: 'Fighter Arena',
-    image: gameFighting,
-    category: 'Fighting',
-    rating: 4.7,
-    plays: 178000,
+    title: 'Bitlife',
+    image: gameBitlife,
+    category: 'Simulation',
+    rating: 4.4,
+    plays: 110000,
   },
   {
     id: '9',
-    title: 'Cyber Runner',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.4,
-    plays: 112000,
+    title: 'Boxing Random',
+    image: gameBoxingRandom,
+    category: 'Sports',
+    rating: 4.1,
+    plays: 65000,
   },
   {
     id: '10',
-    title: 'Mind Bender',
-    image: gamePuzzle,
+    title: 'Chroma',
+    image: gameChroma,
     category: 'Puzzle',
-    rating: 4.9,
-    plays: 145000,
+    rating: 3.8,
+    plays: 40000,
   },
   {
     id: '11',
-    title: 'Sky Adventure',
-    image: gameAdventure,
-    category: 'Adventure',
-    rating: 4.6,
-    plays: 189000,
+    title: 'Coloron',
+    image: gameColoron,
+    category: 'Puzzle',
+    rating: 3.7,
+    plays: 35000,
   },
   {
     id: '12',
-    title: 'Pixel Warrior',
+    title: 'Cookie Clicker',
+    image: gameCookieClicker,
+    category: 'Idle',
+    rating: 4.5,
+    plays: 150000,
+  },
+  {
+    id: '13',
+    title: 'Crazy Taxi',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.3,
+    plays: 95000,
+  },
+  {
+    id: '14',
+    title: 'CSGO Clicker',
     image: gamePlatformer,
+    category: 'Idle',
+    rating: 4.0,
+    plays: 60000,
+  },
+  {
+    id: '15',
+    title: 'Drift Boss',
+    image: gameDriftBoss,
+    category: 'Racing',
+    rating: 4.1,
+    plays: 85000,
+  },
+  {
+    id: '16',
+    title: 'Drift Hunters',
+    image: gameDriftHunters,
+    category: 'Racing',
+    rating: 4.6,
+    plays: 170000,
+  },
+  {
+    id: '17',
+    title: 'Drive Mad',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.2,
+    plays: 75000,
+  },
+  {
+    id: '18',
+    title: 'Earn to Die',
+    image: gameEarnToDie,
+    category: 'Action',
+    rating: 4.4,
+    plays: 120000,
+  },
+  {
+    id: '19',
+    title: 'Fireboy and Watergirl Forest Temple',
+    image: gameFireboyAndWatergirlForestTemple,
+    category: 'Puzzle',
+    rating: 4.5,
+    plays: 130000,
+  },
+  {
+    id: '20',
+    title: 'Flappy Bird',
+    image: gameFlappyBird,
+    category: 'Arcade',
+    rating: 3.5,
+    plays: 200000,
+  },
+  {
+    id: '21',
+    title: 'Friday Night Funkin',
+    image: gameFridayNightFunkin,
+    category: 'Rhythm',
+    rating: 4.7,
+    plays: 300000,
+  },
+  {
+    id: '22',
+    title: 'Geometry Dash',
+    image: gameGeometryDash,
+    category: 'Platformer',
+    rating: 4.6,
+    plays: 220000,
+  },
+  {
+    id: '23',
+    title: 'Impossible Quiz',
+    image: gameImpossibleQuiz,
+    category: 'Puzzle',
+    rating: 4.0,
+    plays: 70000,
+  },
+  {
+    id: '24',
+    title: 'Mario 63',
+    image: gameMario63,
     category: 'Platformer',
     rating: 4.8,
-    plays: 223000,
+    plays: 190000,
+  },
+  {
+    id: '25',
+    title: 'Minecraft',
+    image: gameMinecraft,
+    category: 'Sandbox',
+    rating: 4.9,
+    plays: 500000,
+  },
+  {
+    id: '26',
+    title: 'Monkey Mart',
+    image: gameMonkeyMart,
+    category: 'Simulation',
+    rating: 4.2,
+    plays: 80000,
+  },
+  {
+    id: '27',
+    title: 'Paper.io',
+    image: gamePaperio,
+    category: 'Strategy',
+    rating: 4.1,
+    plays: 90000,
+  },
+  {
+    id: '28',
+    title: 'Retro Bowl',
+    image: gameRetroBowl,
+    category: 'Sports',
+    rating: 4.7,
+    plays: 160000,
+  },
+  {
+    id: '29',
+    title: 'Rooftop Snipers',
+    image: gameRooftopSnipers,
+    category: 'Action',
+    rating: 4.3,
+    plays: 110000,
+  },
+  {
+    id: '30',
+    title: 'Scrap Metal 3',
+    image: gameScrapMetal3,
+    category: 'Racing',
+    rating: 4.0,
+    plays: 60000,
+  },
+  {
+    id: '31',
+    title: 'Slope 2',
+    image: gameSlope2,
+    category: 'Racing',
+    rating: 4.3,
+    plays: 100000,
+  },
+  {
+    id: '32',
+    title: 'Slope',
+    image: gameSlope,
+    category: 'Racing',
+    rating: 4.4,
+    plays: 120000,
+  },
+  {
+    id: '33',
+    title: 'Snake',
+    image: gameSnake,
+    category: 'Arcade',
+    rating: 3.6,
+    plays: 50000,
+  },
+  {
+    id: '34',
+    title: 'Stack',
+    image: gameStack,
+    category: 'Arcade',
+    rating: 3.9,
+    plays: 45000,
+  },
+  {
+    id: '35',
+    title: 'Subway Surfers',
+    image: gameSubwaySurfers,
+    category: 'Endless Runner',
+    rating: 4.5,
+    plays: 180000,
+  },
+  {
+    id: '36',
+    title: 'SWF',
+    image: gamePlatformer,
+    category: 'Misc',
+    rating: 3.0,
+    plays: 10000,
+  },
+  {
+    id: '37',
+    title: 'Tetris',
+    image: gameTetris,
+    category: 'Puzzle',
+    rating: 4.4,
+    plays: 130000,
+  },
+  {
+    id: '38',
+    title: 'Tiny Fishing',
+    image: gameTinyFishing,
+    category: 'Simulation',
+    rating: 3.8,
+    plays: 55000,
+  },
+  {
+    id: '39',
+    title: 'Tomb of the Mask',
+    image: gameTombOfTheMask,
+    category: 'Arcade',
+    rating: 4.2,
+    plays: 90000,
+  },
+  {
+    id: '40',
+    title: 'Tunnel Rush',
+    image: gameTunnelRush,
+    category: 'Racing',
+    rating: 4.0,
+    plays: 70000,
+  },
+  {
+    id: '41',
+    title: 'Vex 3',
+    image: gameVex3,
+    category: 'Platformer',
+    rating: 4.5,
+    plays: 140000,
+  },
+  {
+    id: '42',
+    title: 'Vex 4',
+    image: gameVex4,
+    category: 'Platformer',
+    rating: 4.6,
+    plays: 150000,
+  },
+  {
+    id: '43',
+    title: 'Vex 5',
+    image: gameVex5,
+    category: 'Platformer',
+    rating: 4.7,
+    plays: 160000,
+  },
+  {
+    id: '44',
+    title: 'Vex 6',
+    image: gameVex6,
+    category: 'Platformer',
+    rating: 4.8,
+    plays: 170000,
+  },
+  {
+    id: '45',
+    title: 'Worlds Hardest Game',
+    image: gameWorldsHardestGame,
+    category: 'Puzzle',
+    rating: 3.5,
+    plays: 80000,
+  },
+  {
+    id: '46',
+    title: 'XX142B2EXE',
+    image: gameXX142B2EXE,
+    category: 'Misc',
+    rating: 3.2,
+    plays: 20000,
   },
 ];
 

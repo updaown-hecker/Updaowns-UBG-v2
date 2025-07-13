@@ -13,181 +13,515 @@ import gameSports from '@/assets/game-sports.jpg';
 import gameStrategy from '@/assets/game-strategy.jpg'; 
 import gameFighting from '@/assets/game-fighting.jpg';
 import { Search, Filter, Grid, List, XCircle } from 'lucide-react';
+
+import game10MinutesTillDawn from '@/assets/tmtd.png';
+import game1v1Lol from '@/assets/1v1-lol.png';
+import game2048 from '@/assets/2048.png';
+import gameMotoX3M from '@/assets/moto-x3m.png';
+import gameWebeComeWhatWeBehold from '@/assets/WebeComeWhatWeBehold.png';
+import gameAwesomeTanks2 from '@/assets/awesome-tanks-2.png';
+import gameBasketRandom from '@/assets/basket-random.png';
+import gameBitlife from '@/assets/bitlife.png';
+import gameBoxingRandom from '@/assets/boxing-random.png';
+import gameChroma from '@/assets/chroma.png';
+import gameColoron from '@/assets/coloron.png';
+import gameCookieClicker from '@/assets/cookie-clicker.png';
+import gameDriftBoss from '@/assets/drift-boss.png';
+import gameDriftHunters from '@/assets/drift-hunters.png';
+import gameEarnToDie from '@/assets/earntodie.png';
+import gameFireboyAndWatergirlForestTemple from '@/assets/fireboy-and-watergirl-1.png';
+import gameFlappyBird from '@/assets/flappy-bird.png';
+import gameFridayNightFunkin from '@/assets/fnf-icon.jpg';
+import gameGeometryDash from '@/assets/geometry-dash.png';
+import gameImpossibleQuiz from '@/assets/impossible-quiz.png';
+import gameMario63 from '@/assets/mario63.png';
+import gameMinecraft from '@/assets/minecraft.png';
+import gameMonkeyMart from '@/assets/monkey.png';
+import gamePaperio from '@/assets/paperio.png';
+import gameRetroBowl from '@/assets/retro-bowl.png';
+import gameRooftopSnipers from '@/assets/rooftop-snippers.png';
+import gameScrapMetal3 from '@/assets/scrap.png';
+import gameSlope2 from '@/assets/slope-2.png';
+import gameSlope from '@/assets/slope.png';
+import gameSnake from '@/assets/snake.png';
+import gameStack from '@/assets/stack.png';
+import gameSubwaySurfers from '@/assets/subway-surfers.png';
+import gameTetris from '@/assets/tetris.png';
+import gameTinyFishing from '@/assets/tiny-fishing.png';
+import gameTombOfTheMask from '@/assets/tomb.jpg';
+import gameTunnelRush from '@/assets/tunnelrush.png';
+import gameVex3 from '@/assets/vex3.png';
+import gameVex4 from '@/assets/vex4.png';
+import gameVex5 from '@/assets/vex5.png';
+import gameVex6 from '@/assets/vex6.png';
+import gameWorldsHardestGame from '@/assets/world-hardest-game.png';
+import gameXX142B2EXE from '@/assets/xx142b2exe.png';
+
 export 
 const allGames = [
   {
     id: '1',
-    title: 'Neon Racer',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.8,
-    plays: 125000,
-    tags: ['racing', 'cars', 'speed', 'neon'],
- gamePath: 'https://games.jonajo.repl.co/neon-racer/',
+    title: '10 Minutes Till Dawn',
+    image: game10MinutesTillDawn,
+    category: 'Action',
+    rating: 4.5,
+    plays: 100000,
+    tags: ['action', 'shooter', 'survival'],
+    gamePath: 'games/10-Minutes-Till-Dawn-main/index.html',
   },
   {
     id: '2',
-    title: 'Puzzle Master',
-    image: gamePuzzle,
-    category: 'Puzzle',
-    rating: 4.6,
-    plays: 89000,
-    tags: ['puzzle', 'brain', 'logic', 'strategy', 'match3'],
- gamePath: 'https://games.jonajo.repl.co/puzzle-master/',
+    title: '1v1 Lol',
+    image: game1v1Lol,
+    category: 'Action',
+    rating: 4.7,
+    plays: 250000,
+    tags: ['action', 'shooter', 'multiplayer'],
+    gamePath: 'games/1v1-lol/index.html',
   },
   {
     id: '3',
-    title: 'Retro Jump',
-    image: gamePlatformer,
-    category: 'Platformer',
-    rating: 4.9,
-    plays: 156000,
-    tags: ['platformer', 'retro', 'jumping', 'adventure', 'pixel'],
- gamePath: 'https://games.jonajo.repl.co/retro-jump/',
+    title: '2048',
+    image: game2048,
+    category: 'Puzzle',
+    rating: 4.2,
+    plays: 80000,
+    tags: ['puzzle', 'numbers', 'logic'],
+    gamePath: 'games/2048/index.html',
   },
   {
     id: '4',
-    title: 'Mystic Quest',
-    image: gameAdventure,
-    category: 'Adventure',
-    rating: 4.7,
-    plays: 98000,
-    tags: ['adventure', 'fantasy', 'magic', 'quest', 'exploration'],
- gamePath: 'https://games.jonajo.repl.co/mystic-quest/',
+    title: 'Moto X3M',
+    image: gameMotoX3M,
+    category: 'Racing',
+    rating: 4.6,
+    plays: 180000,
+    tags: ['racing', 'bike', 'stunts'],
+    gamePath: 'games/MotoX3M-master/index.html',
   },
   {
     id: '5',
-    title: 'Space Blaster',
-    image: gameShooter,
-    category: 'Action',
-    rating: 4.5,
-    plays: 203000,
-    tags: ['action', 'shooting', 'space', 'aliens', 'arcade'],
- gamePath: 'https://games.jonajo.repl.co/space-blaster/',
+    title: 'Webe Come What We Behold',
+    image: gameWebeComeWhatWeBehold,
+    category: 'Adventure',
+    rating: 3.9,
+    plays: 50000,
+    tags: ['adventure', 'indie', 'unique'],
+    gamePath: 'games/WebeComeWhatWeBehold/index.html',
   },
   {
     id: '6',
-    title: 'Soccer Pro',
-    image: gameSports,
-    category: 'Sports',
-    rating: 4.6,
-    plays: 167000,
-    tags: ['sports', 'soccer', 'football', 'competition', 'team'],
- gamePath: 'https://games.jonajo.repl.co/soccer-pro/',
+    title: 'Awesome Tanks 2',
+    image: gameAwesomeTanks2,
+    category: 'Action',
+    rating: 4.3,
+    plays: 90000,
+    tags: ['action', 'tanks', 'shooter'],
+    gamePath: 'games/awesome-tanks-2/index.html',
   },
   {
     id: '7',
-    title: 'Tower Defense',
-    image: gameStrategy,
-    category: 'Strategy',
-    rating: 4.8,
-    plays: 134000,
-    tags: ['strategy', 'defense', 'towers', 'tactical', 'rts'],
- gamePath: 'https://games.jonajo.repl.co/tower-defense/',
+    title: 'Basket Random',
+    image: gameBasketRandom,
+    category: 'Sports',
+    rating: 4.0,
+    plays: 70000,
+    tags: ['sports', 'basketball', 'random'],
+    gamePath: 'games/basket-random/index.html',
   },
   {
     id: '8',
-    title: 'Fighter Arena',
-    image: gameFighting,
-    category: 'Fighting',
-    rating: 4.7,
-    plays: 178000,
-    tags: ['fighting', 'combat', 'martial arts', 'arena', 'pvp'],
- gamePath: 'https://games.jonajo.repl.co/fighter-arena/',
+    title: 'Bitlife',
+    image: gameBitlife,
+    category: 'Simulation',
+    rating: 4.4,
+    plays: 110000,
+    tags: ['simulation', 'life', 'text-based'],
+    gamePath: 'games/bitlife/index.html',
   },
   {
     id: '9',
-    title: 'Cyber Runner',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.4,
-    plays: 112000,
-    tags: ['racing', 'cyber', 'futuristic', 'speed', 'bike'],
- gamePath: 'https://games.jonajo.repl.co/cyber-runner/',
+    title: 'Boxing Random',
+    image: gameBoxingRandom,
+    category: 'Sports',
+    rating: 4.1,
+    plays: 65000,
+    tags: ['sports', 'boxing', 'random'],
+    gamePath: 'games/boxing-random/index.html',
   },
   {
     id: '10',
-    title: 'Mind Bender',
-    image: gamePuzzle,
+    title: 'Chroma',
+    image: gameChroma,
     category: 'Puzzle',
-    rating: 4.9,
-    plays: 145000,
-    tags: ['puzzle', 'mind', 'challenging', 'brain', 'logic'],
- gamePath: 'https://games.jonajo.repl.co/mind-bender/',
+    rating: 3.8,
+    plays: 40000,
+    tags: ['puzzle', 'color', 'logic'],
+    gamePath: 'games/chroma/index.html',
   },
   {
     id: '11',
-    title: 'Sky Adventure',
-    image: gameAdventure,
-    category: 'Adventure',
-    rating: 4.6,
-    plays: 189000,
-    tags: ['adventure', 'sky', 'flying', 'exploration', 'platformer'],
- gamePath: 'https://games.jonajo.repl.co/sky-adventure/',
+    title: 'Coloron',
+    image: gameColoron,
+    category: 'Puzzle',
+    rating: 3.7,
+    plays: 35000,
+    tags: ['puzzle', 'color', 'matching'],
+    gamePath: 'games/coloron/index.html',
   },
   {
     id: '12',
-    title: 'Pixel Warrior',
-    image: gamePlatformer,
-    category: 'Platformer',
-    rating: 4.8,
-    plays: 223000,
-    tags: ['platformer', 'pixel', 'warrior', 'retro', 'jumping'],
- gamePath: 'https://games.jonajo.repl.co/pixel-warrior/',
+    title: 'Cookie Clicker',
+    image: gameCookieClicker,
+    category: 'Idle',
+    rating: 4.5,
+    plays: 150000,
+    tags: ['idle', 'clicker', 'strategy'],
+    gamePath: 'games/cookie-clicker/index.html',
   },
   {
     id: '13',
-    title: 'Block Builder',
-    image: gamePuzzle,
-    category: 'Puzzle',
-    rating: 4.4,
-    plays: 78000,
-    tags: ['puzzle', 'building', 'blocks', 'creativity', 'sandbox'],
- gamePath: 'https://games.jonajo.repl.co/block-builder/',
+    title: 'Crazy Taxi',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.3,
+    plays: 95000,
+    tags: ['racing', 'taxi', 'driving'],
+    gamePath: 'games/crazy-taxi.html',
   },
   {
     id: '14',
-    title: 'Forest Runner',
-    image: gameAdventure,
-    category: 'Adventure',
-    rating: 4.6,
-    plays: 92000,
-    tags: ['adventure', 'running', 'forest', 'nature', 'endless runner'],
- gamePath: 'https://games.jonajo.repl.co/forest-runner/',
+    title: 'CSGO Clicker',
+    image: gamePlatformer,
+    category: 'Idle',
+    rating: 4.0,
+    plays: 60000,
+    tags: ['idle', 'clicker', 'csgo'],
+    gamePath: 'games/csgoclicker/index.html',
   },
   {
     id: '15',
-    title: 'Combat Zone',
-    image: gameFighting,
-    category: 'Action',
-    rating: 4.5,
-    plays: 165000,
-    tags: ['action', 'combat', 'zone', 'multiplayer', 'fighting'],
- gamePath: 'https://games.jonajo.repl.co/combat-zone/',
+    title: 'Drift Boss',
+    image: gameDriftBoss,
+    category: 'Racing',
+    rating: 4.1,
+    plays: 85000,
+    tags: ['racing', 'drift', 'driving'],
+    gamePath: 'games/drift-boss/index.html',
   },
   {
     id: '16',
-    title: 'Sports Champion',
-    image: gameSports,
-    category: 'Sports',
-    rating: 4.7,
-    plays: 142000,
-    tags: ['sports', 'champion', 'competition', 'athletic', 'singleplayer'],
- gamePath: 'https://games.jonajo.repl.co/sports-champion/',
+    title: 'Drift Hunters',
+    image: gameDriftHunters,
+    category: 'Racing',
+    rating: 4.6,
+    plays: 170000,
+    tags: ['racing', 'drift', 'simulation'],
+    gamePath: 'games/drifthunters/index.html',
   },
   {
     id: '17',
-    title: 'Space Shooter',
-    image: gameShooter, // Assuming you'll use the same image or add a new one
+    title: 'Drive Mad',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.2,
+    plays: 75000,
+    tags: ['racing', 'driving', 'physics'],
+    gamePath: 'games/drive-mad/index.html',
+  },
+  {
+    id: '18',
+    title: 'Earn to Die',
+    image: gameShooter,
     category: 'Action',
+    rating: 4.4,
+    plays: 120000,
+    tags: ['action', 'zombie', 'driving'],
+    gamePath: 'games/earntodie/index.html',
+  },
+  {
+    id: '19',
+    title: 'Fireboy and Watergirl Forest Temple',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 4.5,
+    plays: 130000,
+    tags: ['puzzle', 'co-op', 'platformer'],
+    gamePath: 'games/fireboy-and-watergirl-forest-temple/index.html',
+  },
+  {
+    id: '20',
+    title: 'Flappy Bird',
+    image: gamePlatformer,
+    category: 'Arcade',
+    rating: 3.5,
+    plays: 200000,
+    tags: ['arcade', 'flappy', 'classic'],
+    gamePath: 'games/flappybird/index.html',
+  },
+  {
+    id: '21',
+    title: 'Friday Night Funkin',
+    image: gameFighting,
+    category: 'Rhythm',
+    rating: 4.7,
+    plays: 300000,
+    tags: ['rhythm', 'music', 'fighting'],
+    gamePath: 'games/fridaynightfunkin/index.html',
+  },
+  {
+    id: '22',
+    title: 'Geometry Dash',
+    image: gamePlatformer,
+    category: 'Platformer',
     rating: 4.6,
-    plays: 95000, // Example play count
-    tags: ['action', 'shooting', 'space', 'aliens', 'arcade', 'scifi'],
- gamePath: 'https://games.jonajo.repl.co/space-shooter/',
+    plays: 220000,
+    tags: ['platformer', 'rhythm', 'hard'],
+    gamePath: 'games/geometry-dash/index.html',
+  },
+  {
+    id: '23',
+    title: 'Impossible Quiz',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 4.0,
+    plays: 70000,
+    tags: ['puzzle', 'quiz', 'trivia'],
+    gamePath: 'games/impossible-quiz.html',
+  },
+  {
+    id: '24',
+    title: 'Mario 63',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.8,
+    plays: 190000,
+    tags: ['platformer', 'mario', 'adventure'],
+    gamePath: 'games/mario-63.html',
+  },
+  {
+    id: '25',
+    title: 'Minecraft',
+    image: gameAdventure,
+    category: 'Sandbox',
+    rating: 4.9,
+    plays: 500000,
+    tags: ['sandbox', 'crafting', 'adventure'],
+    gamePath: 'games/minecraft.html',
+  },
+  {
+    id: '26',
+    title: 'Monkey Mart',
+    image: gameStrategy,
+    category: 'Simulation',
+    rating: 4.2,
+    plays: 80000,
+    tags: ['simulation', 'management', 'farm'],
+    gamePath: 'games/monkeymart/index.html',
+  },
+  {
+    id: '27',
+    title: 'Paper.io',
+    image: gameStrategy,
+    category: 'Strategy',
+    rating: 4.1,
+    plays: 90000,
+    tags: ['strategy', 'io', 'multiplayer'],
+    gamePath: 'games/paperio/index.html',
+  },
+  {
+    id: '28',
+    title: 'Retro Bowl',
+    image: gameSports,
+    category: 'Sports',
+    rating: 4.7,
+    plays: 160000,
+    tags: ['sports', 'football', 'retro'],
+    gamePath: 'games/retro-bowl/index.html',
+  },
+  {
+    id: '29',
+    title: 'Rooftop Snipers',
+    image: gameFighting,
+    category: 'Action',
+    rating: 4.3,
+    plays: 110000,
+    tags: ['action', 'fighting', 'multiplayer'],
+    gamePath: 'games/rooftop-snipers/index.html',
+  },
+  {
+    id: '30',
+    title: 'Scrap Metal 3',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.0,
+    plays: 60000,
+    tags: ['racing', 'driving', 'simulation'],
+    gamePath: 'games/scrapmetal3/index.html',
+  },
+  {
+    id: '31',
+    title: 'Slope 2',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.3,
+    plays: 100000,
+    tags: ['racing', 'endless runner', 'ball'],
+    gamePath: 'games/slope-2/index.html',
+  },
+  {
+    id: '32',
+    title: 'Slope',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.4,
+    plays: 120000,
+    tags: ['racing', 'endless runner', 'ball'],
+    gamePath: 'games/slope/index.html',
+  },
+  {
+    id: '33',
+    title: 'Snake',
+    image: gamePuzzle,
+    category: 'Arcade',
+    rating: 3.6,
+    plays: 50000,
+    tags: ['arcade', 'classic', 'snake'],
+    gamePath: 'games/snake/index.html',
+  },
+  {
+    id: '34',
+    title: 'Stack',
+    image: gamePuzzle,
+    category: 'Arcade',
+    rating: 3.9,
+    plays: 45000,
+    tags: ['arcade', 'stacking', 'tower'],
+    gamePath: 'games/stack/index.html',
+  },
+  {
+    id: '35',
+    title: 'Subway Surfers',
+    image: gamePlatformer,
+    category: 'Endless Runner',
+    rating: 4.5,
+    plays: 180000,
+    tags: ['endless runner', 'subway', 'running'],
+    gamePath: 'games/subway-surfers/index.html',
+  },
+  {
+    id: '36',
+    title: 'SWF',
+    image: gameAdventure,
+    category: 'Misc',
+    rating: 3.0,
+    plays: 10000,
+    tags: ['flash', 'misc'],
+    gamePath: 'games/swf/index.html',
+  },
+  {
+    id: '37',
+    title: 'Tetris',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 4.4,
+    plays: 130000,
+    tags: ['puzzle', 'classic', 'blocks'],
+    gamePath: 'games/tetris/index.html',
+  },
+  {
+    id: '38',
+    title: 'Tiny Fishing',
+    image: gameAdventure,
+    category: 'Simulation',
+    rating: 3.8,
+    plays: 55000,
+    tags: ['simulation', 'fishing', 'idle'],
+    gamePath: 'games/tinyfishing/index.html',
+  },
+  {
+    id: '39',
+    title: 'Tomb of the Mask',
+    image: gamePlatformer,
+    category: 'Arcade',
+    rating: 4.2,
+    plays: 90000,
+    tags: ['arcade', 'platformer', 'maze'],
+    gamePath: 'games/tombofthemask/index.html',
+  },
+  {
+    id: '40',
+    title: 'Tunnel Rush',
+    image: gameRacing,
+    category: 'Racing',
+    rating: 4.0,
+    plays: 70000,
+    tags: ['racing', 'tunnel', 'avoidance'],
+    gamePath: 'games/tunnelrush/index.html',
+  },
+  {
+    id: '41',
+    title: 'Vex 3',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.5,
+    plays: 140000,
+    tags: ['platformer', 'stickman', 'hard'],
+    gamePath: 'games/vex3/index.html',
+  },
+  {
+    id: '42',
+    title: 'Vex 4',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.6,
+    plays: 150000,
+    tags: ['platformer', 'stickman', 'hard'],
+    gamePath: 'games/vex4/index.html',
+  },
+  {
+    id: '43',
+    title: 'Vex 5',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.7,
+    plays: 160000,
+    tags: ['platformer', 'stickman', 'hard'],
+    gamePath: 'games/vex5/index.html',
+  },
+  {
+    id: '44',
+    title: 'Vex 6',
+    image: gamePlatformer,
+    category: 'Platformer',
+    rating: 4.8,
+    plays: 170000,
+    tags: ['platformer', 'stickman', 'hard'],
+    gamePath: 'games/vex6/index.html',
+  },
+  {
+    id: '45',
+    title: 'Worlds Hardest Game',
+    image: gamePuzzle,
+    category: 'Puzzle',
+    rating: 3.5,
+    plays: 80000,
+    tags: ['puzzle', 'hard', 'challenge'],
+    gamePath: 'games/worlds-hardest-game/index.html',
+  },
+  {
+    id: '46',
+    title: 'XX142B2EXE',
+    image: gameAdventure,
+    category: 'Misc',
+    rating: 3.2,
+    plays: 20000,
+    tags: ['misc', 'exe', 'unblocked'],
+    gamePath: 'games/xx142b2exe/index.html',
   },
 ];
 
-export const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer', 'Sports', 'Strategy', 'Fighting'];
+export const categories = ['All', 'Action', 'Adventure', 'Puzzle', 'Racing', 'Platformer', 'Sports', 'Strategy', 'Fighting', 'Simulation', 'Idle', 'Arcade', 'Rhythm', 'Endless Runner', 'Misc'];
 export const sortOptions = [
   { value: 'popular', label: 'Most Popular' },
   { value: 'rating', label: 'Highest Rated' },
@@ -339,34 +673,34 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
       </div>
 
       {/* No Results */}
-            {filteredAndSortedGames.length === 0 && ( // Check if filtered results are 0
-        <div className="text-center py-12">
-          <div className="w-24 h-24 mx-auto mb-4 rounded-full glass-card flex items-center justify-center">
-            <Search className="w-12 h-12 text-muted-foreground" />
-          </div>
-          {(searchQuery || selectedCategory !== 'All') ? ( // Conditional message based on filters
-            <>
-              <h3 className="text-2xl font-semibold mb-2">No games found for "{searchQuery}" {selectedCategory !== 'All' && `in ${selectedCategory}`}</h3>
-              <p className="text-muted-foreground mb-4">Try adjusting your search terms or filters</p>
-            </>
-          ) : ( // This is the 'else' part for when no search query or category is active
-            <>
-              <h3 className="text-2xl font-semibold mb-2">No games found</h3>
-              <p className="text-muted-foreground mb-4">Try adjusting your search terms or filters</p>
-            </>
-          )}
-          {(searchQuery || selectedCategory !== 'All') && (
-            <Button
-              onClick={() => {
-                setSelectedCategory('All');
-                setSearchQuery('');
-              }}
-            >
-              Clear Filters
-            </Button>
-          )}
-        </div>
-      )}
+      {filteredAndSortedGames.length === 0 && ( // Check if filtered results are 0
+        <div className="text-center py-12">
+          <div className="w-24 h-24 mx-auto mb-4 rounded-full glass-card flex items-center justify-center">
+            <Search className="w-12 h-12 text-muted-foreground" />
+          </div>
+          {(searchQuery || selectedCategory !== 'All') ? ( // Conditional message based on filters
+            <>
+              <h3 className="text-2xl font-semibold mb-2">No games found for "{searchQuery}" {selectedCategory !== 'All' && `in ${selectedCategory}`}</h3>
+              <p className="text-muted-foreground mb-4">Try adjusting your search terms or filters</p>
+            </>
+          ) : ( // This is the 'else' part for when no search query or category is active
+            <>
+              <h3 className="text-2xl font-semibold mb-2">No games found</h3>
+              <p className="text-muted-foreground mb-4">Try adjusting your search terms or filters</p>
+            </>
+          )}
+          {(searchQuery || selectedCategory !== 'All') && (
+            <Button
+              onClick={() => {
+                setSelectedCategory('All');
+                setSearchQuery('');
+              }}
+            >
+              Clear Filters
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
