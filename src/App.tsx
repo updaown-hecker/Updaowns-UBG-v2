@@ -27,7 +27,15 @@ const AppContent = () => {
     if (savedCloakTitle) {
       document.title = savedCloakTitle;
     }
-    
+
+    // Load and apply background media settings from localStorage
+    const savedBackgroundMedia = localStorage.getItem('settings-backgroundMedia');
+    if (savedBackgroundMedia) {
+      const { url } = JSON.parse(savedBackgroundMedia);
+      // Apply background image style to the body
+      if (url) document.body.style.backgroundImage = `url('${url}')`;
+    }
+
     if (savedCloakIcon) {
       let link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
       if (!link) {
