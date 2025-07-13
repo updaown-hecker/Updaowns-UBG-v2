@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
-import { ThemeProvider, useTheme } from '@/components/ThemeProvider';
+import { useTheme } from '@/components/ThemeProvider';
 import { Header } from '@/components/Header';
 import { Navigation } from '@/components/Navigation';
 import { HomePage } from '@/components/HomePage';
@@ -117,7 +117,7 @@ const Index = () => {
   };
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="unblocked-games-theme">
+
       <div className="min-h-screen bg-background font-inter">
         {/* Always show header and navigation */}
 
@@ -140,7 +140,6 @@ const Index = () => {
           {renderCurrentPage()}
         </main>
       </div>
-    </ThemeProvider>
   );
 };
 
