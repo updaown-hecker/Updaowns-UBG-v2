@@ -19,7 +19,7 @@ export function ProfilePage() {
     const navigate = useNavigate();
 
     const handleBackClick = () => {
-        navigate('/games'); // Assuming '/games' is the path to your games page
+        navigate('/');
     };
     
     return (
