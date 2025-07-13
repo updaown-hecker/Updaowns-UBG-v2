@@ -212,13 +212,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const navigate = useNavigate();
-
-  const handleGamePlay = (gameId: string) => {
-    setSelectedGameId(gameId);
-    navigate(`/?game-id=${gameId}`);
-  };
-  
-  const filteredAndSortedGames = useMemo(() => {
+    const filteredAndSortedGames = useMemo(() => {
     let filtered = allGames.filter(game => {
       const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           game.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -244,6 +238,10 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
 
     return filtered;
   }, [searchQuery, selectedCategory, sortBy]);
+
+  const handleGamePlay = (gameId: string) => {
+    navigate(`/?game-id=${gameId}`);
+  };
 
   const selectedGame = useMemo(() => {
     return allGames.find(game => game.id === selectedGameId);
