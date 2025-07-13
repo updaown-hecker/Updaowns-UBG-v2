@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   activeTab: string;
+  onTabChange: (tab: string) => void;
   isOpen?: boolean;
 }
 
@@ -16,7 +17,7 @@ const navigationItems = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
-export const Navigation = ({ activeTab, isOpen = false }: NavigationProps) => {
+export const Navigation = ({ activeTab, onTabChange, isOpen = false }: NavigationProps) => {
   const navigate = useNavigate();
 
   return (
@@ -36,8 +37,8 @@ export const Navigation = ({ activeTab, isOpen = false }: NavigationProps) => {
                     ? activeTab === 'search' ? 'default' : 'ghost'
                     : isActive ? 'default' : 'ghost'
                 }
-                size='sm'
-                onClick={() => navigate(item.id === 'home' ? '/' : `/${item.id}`)}
+                size="sm"
+                onClick={() => onTabChange(item.id)}
                 className={`w-12 h-12 p-0 transition-all duration-200 ${
                   isActive 
                     ? 'gradient-primary glow-primary' 
@@ -70,7 +71,7 @@ export const Navigation = ({ activeTab, isOpen = false }: NavigationProps) => {
                       ? activeTab === 'search' ? 'default' : 'ghost'
                       : isActive ? 'default' : 'ghost'
                   }
-                  onClick={() => navigate(item.id === 'home' ? '/' : `/${item.id}`)}
+                  onClick={() => onTabChange(item.id)}
                   className={`h-16 flex-col space-y-1 transition-all duration-200 ${
                     isActive 
                       ? 'gradient-primary glow-primary' 
@@ -102,8 +103,8 @@ export const Navigation = ({ activeTab, isOpen = false }: NavigationProps) => {
                       ? activeTab === 'search' ? 'default' : 'ghost'
                       : 'ghost'
                   }
-                  size='sm'
-                  onClick={() => (item.id)}
+                  size="sm"
+                  onClick={() => onTabChange(item.id)}
                   className={`flex-col space-y-1 h-auto py-2 transition-all duration-200 ${
                     isActive 
                       ? 'text-primary' 

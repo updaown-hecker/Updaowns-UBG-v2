@@ -527,7 +527,6 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
                     .slice(slideIndex * 4, (slideIndex + 1) * 4)
                     .map((game) => (
                       <GameCard
-                        game={game}
                         key={game.id}
                         {...game}
                         isFavorite={favorites.includes(game.id)}
@@ -566,7 +565,6 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {recentGames.map((game) => (
             <GameCard
-              game={game}
               key={`recent-${game.id}`}
               {...game}
               isFavorite={favorites.includes(game.id)}
@@ -586,7 +584,6 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trendingGames.map((game) => (
             <GameCard
-              game={game}
               key={`trending-${game.id}`}
               {...game}
               isFavorite={favorites.includes(game.id)}
