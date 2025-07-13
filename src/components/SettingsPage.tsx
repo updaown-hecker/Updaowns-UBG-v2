@@ -11,15 +11,15 @@ import {
   Monitor,
   Moon,
   Sun,
-  Volume2, 
-  VolumeX, 
-  Zap, 
-  Shield, 
+  Volume2,
+  VolumeX,
+  Zap,
+  Shield,
   Download,
   Trash2,
   RefreshCw
-} from 'lucide-react'; // Added missing imports
-import { useEffect } from 'react'; // Added missing import
+} from 'lucide-react';
+import { useEffect } from 'react';
 
 // Define interfaces for settings
 interface PanicKeySettings { key: string; url: string }
@@ -39,7 +39,6 @@ export const SettingsPage = () => {
   const [backgroundMediaUrl, setBackgroundMediaUrl] = useState('');
   const [backgroundMediaFile, setBackgroundMediaFile] = useState<File | null>(null);
 
-  
   // Load settings from localStorage on mount
   useEffect(() => {
     const savedAboutBlank = localStorage.getItem('settings-aboutBlankEnabled');
@@ -59,7 +58,8 @@ export const SettingsPage = () => {
 
     const savedBackgroundMedia = localStorage.getItem('settings-backgroundMedia');
     if (savedBackgroundMedia) {
-      const { url, file } = JSON.parse(savedBackgroundMedia);
+      const { url } = JSON.parse(savedBackgroundMedia);
+      // Only apply if a URL was actually saved (not null or empty)
       setBackgroundMediaUrl(url);
     }
 
@@ -87,6 +87,7 @@ export const SettingsPage = () => {
   }, [tabCloakerSettings]);
 
   useEffect(() => {
+    // Attempt to load background media from localStorage if backgroundMediaUrl is empty
     const savedBackgroundMedia = localStorage.getItem('settings-backgroundMedia');
     let mediaUrlToApply = backgroundMediaUrl;
 
@@ -108,28 +109,13 @@ export const SettingsPage = () => {
       document.body.style.backgroundPosition = 'initial';
       document.body.style.backgroundRepeat = 'repeat';
     }
-  }, [backgroundMediaUrl, backgroundMediaFile]); // Depend on both URL and File state
-
-  useEffect(() => {
-    if (backgroundMediaUrl) {
-      document.body.style.cssText += `
-        body {
-          background-image: url('${backgroundMediaUrl}');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-        }
-      `;
-      document.head.appendChild(style);
-    }
     // Apply background media immediately
     if (backgroundMediaUrl) {
       document.body.style.backgroundImage = `url('${backgroundMediaUrl}')`;
     } else {
       document.body.style.backgroundImage = 'none';
-
     }
-  }, [backgroundMediaUrl]);
+  }, [backgroundMediaUrl]); // Depend only on backgroundMediaUrl state for applying styles
 
   const handleClearCache = () => {
     // Clear all relevant localStorage items
@@ -152,7 +138,9 @@ export const SettingsPage = () => {
     setTabCloakerSettings({ title: 'Default (No Cloak)', icon: '' });
     setBackgroundMediaUrl('');
     setBackgroundMediaFile(null);
-    alert('All cached data and settings cleared successfully!');
+    // Use a custom message box instead of alert()
+    // For a real app, you'd implement a modal or toast notification here
+    console.log('All cached data and settings cleared successfully!');
   };
 
   const handleExportData = () => {
@@ -169,7 +157,7 @@ export const SettingsPage = () => {
         backgroundMediaUrl,
       },
     };
-    
+
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -215,12 +203,13 @@ export const SettingsPage = () => {
     return () => {
       window.removeEventListener('keydown', handlePanicKey);
     };
-  }, [panicKeySettings]); // Re-attach event listener if panic key settings change
+  }, [panicKeySettings, isSettingPanicKey]); // Re-attach event listener if panic key settings or isSettingPanicKey change
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20">
       {/* Header */}
       <div className="text-center space-y-4">
-<h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent transform-gpu hover:scale-105 transition-transform duration-300" style={{
+        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent transform-gpu hover:scale-105 transition-transform duration-300" style={{
           textShadow: `
             0 1px 0 #ccc,
             0 2px 0 #c9c9c9,
@@ -254,7 +243,7 @@ export const SettingsPage = () => {
             <Monitor className="w-5 h-5" />
             <h3 className="text-xl font-semibold">Appearance</h3>
           </div>
-          
+
           <div className="space-y-4">
             <Label className="text-base">Theme</Label>
             <div className="grid grid-cols-3 gap-4">
@@ -266,7 +255,7 @@ export const SettingsPage = () => {
                 <Sun className="w-6 h-6" />
                 <span>Light</span>
               </Button>
-              
+
               <Button
                 variant={theme === 'dark' ? 'default' : 'outline'}
                 onClick={() => setTheme('dark')}
@@ -275,7 +264,7 @@ export const SettingsPage = () => {
                 <Moon className="w-6 h-6" />
                 <span>Dark</span>
               </Button>
-              
+
               <Button
                 variant={theme === 'system' ? 'default' : 'outline'}
                 onClick={() => setTheme('system')}
@@ -296,7 +285,7 @@ export const SettingsPage = () => {
             {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
             <h3 className="text-xl font-semibold">Audio</h3>
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <Label className="text-base">Sound Effects</Label>
@@ -364,7 +353,6 @@ export const SettingsPage = () => {
             />
             <div className="flex space-x-2">
               <Button onClick={() => { localStorage.setItem('settings-panicKey', panicKeySettings.key); localStorage.setItem('settings-panicUrl', panicKeySettings.url); }}>Save</Button>
-
               <Button variant="outline" onClick={() => setPanicKeySettings({ key: '', url: 'https://www.google.com/' })}>Reset</Button>
             </div>
           </div>
@@ -400,9 +388,8 @@ export const SettingsPage = () => {
             </Select>
             <div className="flex space-x-2">
               <Button onClick={() => { localStorage.setItem('settings-cloakTitle', tabCloakerSettings.title); localStorage.setItem('settings-cloakIcon', tabCloakerSettings.icon); }}>Save Cloak</Button>
-
             </div>
-          </div> {/* Added missing closing div tag */}
+          </div>
         </div>
       </Card>
 
@@ -413,7 +400,7 @@ export const SettingsPage = () => {
             <Zap className="w-5 h-5" />
             <h3 className="text-xl font-semibold">Performance</h3>
           </div>
-          
+
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
@@ -427,9 +414,9 @@ export const SettingsPage = () => {
                 onCheckedChange={setPerformanceMode}
               />
             </div>
-            
+
             <Separator />
-            
+
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <Label className="text-base">Auto-save Progress</Label>
@@ -453,7 +440,7 @@ export const SettingsPage = () => {
             <Shield className="w-5 h-5" />
             <h3 className="text-xl font-semibold">Privacy & Data</h3>
           </div>
-          
+
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
@@ -467,9 +454,9 @@ export const SettingsPage = () => {
                 Export
               </Button>
             </div>
-            
+
             <Separator />
-            
+
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <Label className="text-base">Clear Cache</Label>
@@ -515,10 +502,9 @@ export const SettingsPage = () => {
                   };
                   reader.readAsDataURL(backgroundMediaFile);
                 } else if (backgroundMediaUrl) {
-                   // If a URL is entered, save and apply it
-                    setBackgroundMediaUrl(reader.result as string);
-                  };
-                  reader.readAsDataURL(backgroundMediaFile);
+                  // If a URL is entered, save and apply it
+                  localStorage.setItem('settings-backgroundMedia', JSON.stringify({ url: backgroundMediaUrl, file: null }));
+                  setBackgroundMediaUrl(backgroundMediaUrl);
                 }
               }}>Upload File</Button>
             </div>
@@ -541,7 +527,7 @@ export const SettingsPage = () => {
             <RefreshCw className="w-5 h-5" />
             <h3 className="text-xl font-semibold">App Information</h3>
           </div>
-          
+
           <div className="space-y-4 text-sm text-muted-foreground">
             <div className="flex justify-between">
               <span>Version</span>
@@ -556,9 +542,9 @@ export const SettingsPage = () => {
               <span>500+</span>
             </div>
           </div>
-          
+
           <Separator />
-          
+
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-4">
               Made with ❤️ for students and casual gamers
