@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Heart, Play, Star } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Game } from './GamesPage'; // Assuming Game interface is exported from GamesPage
 
 interface GameCardProps {
   id: string;
+  game: Game; // Add the game prop
   title: string;
   image: string;
   category: string;
@@ -13,10 +15,12 @@ interface GameCardProps {
   isFavorite?: boolean;
   onFavoriteToggle?: (id: string) => void;
   onPlay?: (id: string) => void;
+  onGamePlay?: (id: string) => void; // Add onGamePlay prop
 }
 
 export const GameCard = ({ 
   id, 
+  game, // Destructure the game prop
   title, 
   image, 
   category, 
@@ -24,7 +28,8 @@ export const GameCard = ({
   plays, 
   isFavorite = false,
   onFavoriteToggle,
-  onPlay 
+  onPlay,
+  onGamePlay // Destructure onGamePlay prop
 }: GameCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,7 +39,8 @@ export const GameCard = ({
   };
 
   const handlePlayClick = () => {
-    onPlay?.(id);
+    // Use onGamePlay if provided, otherwise use onPlay
+    (onGamePlay || onPlay)?.(id);
   };
 
   return (

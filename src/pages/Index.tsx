@@ -5,6 +5,8 @@ import { Navigation } from '@/components/Navigation';
 import { HomePage } from '@/components/HomePage';
 import { GamesPage } from '@/components/GamesPage';
 import { SettingsPage } from '@/components/SettingsPage';
+import { FavoritesPage } from '@/pages/FavoritesPage'; // Import FavoritesPage
+import { allGames } from '@/components/GamesPage'; // Import allGames to pass to FavoritesPage
 import { GamePlayer } from '@/components/GamePlayer';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -97,9 +99,10 @@ const Index = () => {
         );
       case 'favorites':
         return (
-          <GamesPage
-            onGamePlay={handleGamePlay}
+          <FavoritesPage // Render FavoritesPage for 'favorites' tab
             favorites={favorites}
+            allGames={allGames}
+            onGamePlay={handleGamePlay}
             onFavoriteToggle={handleFavoriteToggle}
           />
         );

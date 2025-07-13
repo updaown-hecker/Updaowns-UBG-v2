@@ -3,7 +3,7 @@ import { GameCard } from '@/components/GameCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GamePlayer, GamePlayerProps } from '@/components/GamePlayer';
-
+export interface Game { id: string; title: string; image: string; category: string; rating: number; plays: number; tags: string[]; gamePath: string;}
 import { Search, Filter, Grid, List, XCircle } from 'lucide-react';
 
 import game10MinutesTillDawn from '@/assets/tmtd.png';
@@ -676,6 +676,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
         {filteredAndSortedGames.map((game, index) => (
           <div key={game.id} className="fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
             <GameCard
+ game={game}
               {...game}
               isFavorite={favorites.includes(game.id)}
               onFavoriteToggle={onFavoriteToggle}
