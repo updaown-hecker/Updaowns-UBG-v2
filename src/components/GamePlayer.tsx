@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import {
   RotateCcw, 
   Maximize, 
   Volume2, 
+  VolumeX, 
   Star,
   Users,
   Clock
@@ -42,14 +43,25 @@ export const GamePlayer = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  
 
-  // Use effect to set iframe src
-  useEffect(() => {
-    if (iframeRef.current && gamePath) {
+  const reloadIframe = useCallback(() => {
+    if (iframeRef.current) {
       iframeRef.current.src = gamePath;
     }
   }, [gamePath]);
+
+  useEffect(() => {
+    if (iframeRef.current && gamePath) {
+      reloadIframe();
+    }
+  }, [gamePath, reloadIframe]);
+
+  useEffect(() => {
+    if (iframeRef.current) {
+      iframeRef.current.allow = isMuted ? 'autoplay' : 'autoplay; microphone';
+      iframeRef.current.contentWindow?.postMessage({ type: 'MUTE', muted: isMuted }, '*');
+    }
+  }, [isMuted]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -126,12 +138,12 @@ export const GamePlayer = ({
               {/* Game Controls */}
               <div className="flex items-center justify-between p-4 bg-muted/50">
                 <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={reloadIframe}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Restart
                   </Button>
-                  <Button variant="outline" size="sm">
-                    <Volume2 className={`w-4 h-4 ${isMuted ? 'text-muted-foreground' : ''}`} />
+                  <Button variant="outline" size="sm" onClick={() => setIsMuted(!isMuted)}>
+                    {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   </Button>
                 </div>
                 
@@ -155,12 +167,11 @@ export const GamePlayer = ({
                 </Button>
               </div>
  {/* Game Area */}
-              <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${
-                isFullscreen ? 'h-screen' : 'aspect-video'
-              }`}>
+              <div className={`relative bg-gradient-to-br from-blue-900 to-purple-900 ${isFullscreen ? 'h-screen' : 'aspect-video'} w-full h-full`}>
                 <iframe
                   ref={iframeRef}
                   src={gamePath}
+                  className="w-full h-full"
                 ></iframe>
               </div>
 

@@ -54,7 +54,28 @@ export const SettingsPage = () => {
     <div className="max-w-4xl mx-auto space-y-8 pb-20">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gradient">Settings</h1>
+<h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent transform-gpu hover:scale-105 transition-transform duration-300" style={{
+          textShadow: `
+            0 1px 0 #ccc,
+            0 2px 0 #c9c9c9,
+            0 3px 0 #bbb,
+            0 4px 0 #b9b9b9,
+            0 5px 0 #aaa,
+            0 6px 1px rgba(0,0,0,.1),
+            0 0 5px rgba(0,0,0,.1),
+            0 1px 3px rgba(0,0,0,.3),
+            0 3px 5px rgba(0,0,0,.2),
+            0 5px 10px rgba(0,0,0,.25)
+          `,
+          transform: 'perspective(1000px) rotateX(15deg) translateZ(50px)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0))',
+          borderRadius: '10px',
+          padding: '0.5em',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+          border: '1px solid rgba(255, 255, 255, 0.18)'
+        }}>Settings</h1>
         <p className="text-xl text-muted-foreground">
           Customize your gaming experience
         </p>

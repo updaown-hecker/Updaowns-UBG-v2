@@ -23,7 +23,7 @@ const SearchResultsPage = ({ onGamePlay }: SearchResultsPageProps) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center space-y-4 mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gradient">Search Results</h1>
+        <h1 className="text-4xl md:text-5xl font-bold">Search Results</h1>
         <p className="text-xl text-muted-foreground">
           Showing results for "{searchQuery}"
         </p>
