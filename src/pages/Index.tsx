@@ -10,7 +10,7 @@ import { allGames } from '@/components/GamesPage'; // Import allGames to pass to
 import { GamePlayer } from '@/components/GamePlayer';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 // Import game images for player
 import gameRacing from '@/assets/game-racing.jpg';
 import gamePuzzle from '@/assets/game-puzzle.jpg';
@@ -22,7 +22,6 @@ import gameStrategy from '@/assets/game-strategy.jpg';
 import gameFighting from '@/assets/game-fighting.jpg';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Declare isMenuOpen state
   const [favorites, setFavorites] = useState<string[]>([]);
   const { toast } = useToast();
@@ -30,6 +29,7 @@ const Index = () => {
   const [searchParams, ] = useSearchParams();
   const gameIdFromUrl = searchParams.get('game-id');
   const { theme } = useTheme(); // Access theme from context
+  const location = useLocation();
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -43,10 +43,6 @@ const Index = () => {
   useEffect(() => {
     localStorage.setItem('unblocked-games-favorites', JSON.stringify(favorites));
   }, [favorites]);
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab); // Keep setActiveTab
-  };
 
   const handleFavoriteToggle = (gameId: string) => {
     setFavorites(prev => {
@@ -71,14 +67,13 @@ const Index = () => {
 };
   const handleSearch = (query: string) => {
     if (query.trim()) {
-      setActiveTab('games');
       // Additional search logic could be implemented here
     }
   };
 
   const renderCurrentPage = () => {
     // Show regular pages
-    switch (activeTab) {
+    switch (location.pathname) {
       case 'home':
          return (
           <HomePage 
@@ -88,8 +83,8 @@ const Index = () => {
           />
         );
       case 'games':
-      case 'search':
-      case 'trending':
+      case '/games':
+      case '/trending':
         return (
           <GamesPage
             onGamePlay={handleGamePlay}
@@ -98,6 +93,7 @@ const Index = () => {
           />
         );
       case 'favorites':
+      case '/favorites': // Handle the route for favorites
         return (
           <FavoritesPage // Render FavoritesPage for 'favorites' tab
             favorites={favorites}
@@ -107,6 +103,7 @@ const Index = () => {
           />
         );
       case 'settings':
+      case '/settings': // Handle the route for settings
         return <SettingsPage />;
       default:
         return (
@@ -132,8 +129,7 @@ const Index = () => {
             />
             
             <Navigation 
-              activeTab={activeTab}
-              onTabChange={handleTabChange}
+              activeTab={location.pathname.substring(1) || 'home'} // Determine active tab from route
               isOpen={isMenuOpen}
             />
           </>
