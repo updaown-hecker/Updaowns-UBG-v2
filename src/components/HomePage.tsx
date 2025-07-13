@@ -468,6 +468,15 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
 
   return (
     <div className="space-y-12 pb-20">
+      {/* Floating Stats */}
+      <div className="absolute top-4 left-4 z-50 bg-black/30 backdrop-blur-sm text-white rounded-lg p-3 text-sm">
+        <div>Active users: 123</div>
+        <div>Total visits: 456789</div>
+        <div>Unique visits: 98765</div>
+      </div>
+
+
+
       {/* Hero Section */}
       <section className="relative h-[60vh] overflow-hidden rounded-3xl">
         <img 
