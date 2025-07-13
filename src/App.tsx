@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "reac
 import Index from "./pages/Index";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import NotFound from "./pages/NotFound"; // Import NotFound
-import ProfilePage from "./pages/ProfilePage"; // Import ProfilePage
+import ProfilePage from "./pages/ProfilePage.tsx"; // Import ProfilePage
 import { Toaster } from "@/components/ui/toaster";
 import { GamePlayer } from "@/components/GamePlayer"; // Import GamePlayer
 import { allGames } from "@/components/GamesPage"; // Import allGames data
