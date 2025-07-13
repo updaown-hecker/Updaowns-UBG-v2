@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
-import { Navigation } from '../components/Navigation';
 import useTimeTracker from '../hooks/useTimeTracker';
-
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 export function ProfilePage() {
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -13,12 +14,21 @@ export function ProfilePage() {
     }, [rawElapsedTime]);
     
     const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-    const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+    const minutes = Math.floor(((elapsedTime % (1000 * 60 * 60)) / (1000 * 60)));
+
+    const navigate = useNavigate();
+
+    const handleBackClick = () => {
+        navigate('/games'); // Assuming '/games' is the path to your games page
+    };
     
     return (
         <>
             <Header />
-            <Navigation activeTab="profile" onTabChange={() => {}} />
+            <Button variant="ghost" size="sm" onClick={handleBackClick}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Games
+              </Button>
             <div className="container mx-auto px-4 py-8">
  <h1 className="text-3xl font-bold mb-6">Profile Page</h1>
  
