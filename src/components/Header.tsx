@@ -101,12 +101,12 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </Button>
             
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+ <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={() => navigate('/favorites')}>
               <Heart className="w-4 h-4" />
               <span className="ml-2 hidden md:inline">Favorites</span>
             </Button>
             
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+            <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={() => navigate('/settings')}>
               <Settings className="w-4 h-4" />
               <span className="ml-2 hidden md:inline">Settings</span>
             </Button>
