@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
-import { useTheme } from '@/components/ThemeProvider';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { useTheme } from '@/components/ThemeProvider'; // Ensure this path is correct
 import { Header } from '@/components/Header';
 import { Navigation } from '@/components/Navigation';
 import { HomePage } from '@/components/HomePage';
@@ -76,51 +77,7 @@ const Index = () => {
     }
   };
 
-  const renderCurrentPage = () => {
-    // Show regular pages
-    switch (activeTab) {
-      case 'home':
-         return (
-          <HomePage 
-            onGamePlay={handleGamePlay}
-            favorites={favorites}
-            onFavoriteToggle={handleFavoriteToggle}
-          />
-        );
-      case 'games':
-      case 'search':
-      case 'trending':
-        return (
-          <GamesPage
-            onGamePlay={handleGamePlay}
-            favorites={favorites}
-            onFavoriteToggle={handleFavoriteToggle}
-          />
-        );
-      case 'favorites':
-        return (
-          <FavoritesPage // Render FavoritesPage for 'favorites' tab
-            favorites={favorites}
-            allGames={allGames}
-            onGamePlay={handleGamePlay}
-            onFavoriteToggle={handleFavoriteToggle}
-          />
-        );
-      case 'settings':
-        return <SettingsPage />;
-      default:
-        return (
-          <HomePage 
-            onGamePlay={handleGamePlay}
-            favorites={favorites}
-            onFavoriteToggle={handleFavoriteToggle}
-          />
-        );
-    }
-  };
-
   return (
-
       <div className="min-h-screen bg-background font-inter">
         {/* Always show header and navigation */}
 
@@ -140,10 +97,60 @@ const Index = () => {
 
         {/* Main content area */}
         <main className="container mx-auto px-4 pt-8">
-          {renderCurrentPage()}
+          <TransitionGroup>
+            <CSSTransition
+              key={activeTab}
+              classNames="fade"
+              timeout={300} // Adjust timeout as needed
+            >
+              {/* Render current page based on activeTab */}
+              {(() => {
+                switch (activeTab) {
+                  case 'home':
+                    return (
+                      <HomePage
+                        onGamePlay={handleGamePlay}
+                        favorites={favorites}
+                        onFavoriteToggle={handleFavoriteToggle}
+                      />
+                    );
+                  case 'games':
+                  case 'search':
+                  case 'trending':
+                    return (
+                      <GamesPage
+                        onGamePlay={handleGamePlay}
+                        favorites={favorites}
+                        onFavoriteToggle={handleFavoriteToggle}
+                      />
+                    );
+                  case 'favorites':
+                    return (
+                      <FavoritesPage // Render FavoritesPage for 'favorites' tab
+                        favorites={favorites}
+                        allGames={allGames}
+                        onGamePlay={handleGamePlay}
+                        onFavoriteToggle={handleFavoriteToggle}
+                      />
+                    );
+                  case 'settings':
+                    return <SettingsPage />;
+                  default:
+                    return (
+                      <HomePage
+                        onGamePlay={handleGamePlay}
+                        favorites={favorites}
+                        onFavoriteToggle={handleFavoriteToggle}
+                      />
+                    );
+                }
+              })()}
+            </CSSTransition>
+          </TransitionGroup>
         </main>
       </div>
   );
 };
+
 
 export default Index;

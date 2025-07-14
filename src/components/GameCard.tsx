@@ -61,7 +61,7 @@ export const GameCard = ({
         <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
           <div className="absolute inset-0 flex items-center justify-center">
             <Button 
-              size="lg" 
+              size="lg" // Consider making this button size responsive if needed
               className="gradient-primary hover:scale-110 transition-transform duration-200 glow-primary"
             >
               <Play className="w-6 h-6 mr-2" />
@@ -74,7 +74,7 @@ export const GameCard = ({
         <Button
           variant="ghost"
           size="sm"
-          className={`absolute top-3 right-3 p-2 rounded-full glass-card transition-all duration-200 ${
+          className={`absolute top-3 right-3 p-2 rounded-full glass-card transition-all duration-200 sm:p-3 ${
             isFavorite ? 'text-red-500' : 'text-white/80 hover:text-red-500'
           }`}
           onClick={handleFavoriteClick}
@@ -84,7 +84,7 @@ export const GameCard = ({
 
         {/* Category Badge */}
         <div className="absolute top-3 left-3 px-3 py-1 rounded-full glass-card text-xs font-medium text-white/90">
-          {category}
+          {category} {/* Consider adjusting font size or padding for very small screens if needed */}
         </div>
       </div>
 
