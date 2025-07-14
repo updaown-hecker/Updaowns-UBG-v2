@@ -96,7 +96,6 @@ export const GamePlayer = ({
       iframeRef.current.onload = () => {
         incrementTotalGamesPlayed();
       };
-      incrementTotalGamesPlayed();
     }
   }, [gameId, gameTitle, gameCountIncremented]);
 
