@@ -318,7 +318,7 @@ function shuffleArray(array: any[]) {
 }
 
 const recentGames = [
-  ...featuredGames.slice().reverse(),
+  ...shuffleArray([...featuredGames.slice().reverse()]),
 ];
 
 const trendingGames = [
@@ -423,13 +423,18 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
           > {/* Use shuffledFeaturedGames here */}
             {Array.from({ length: Math.ceil(featuredGames.length / 4) }, (_, slideIndex) => (
               <div key={slideIndex} className="w-full flex-shrink-0 px-2">
+                {/* Ensure game object has all required properties */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {featuredGames
+                  {shuffledFeaturedGames
                     .slice(slideIndex * 4, (slideIndex + 1) * 4)
                     .map((game) => (
                       <GameCard
                         key={game.id}
-                        {...game}
+                        game={{ // Pass the entire game object as the 'game' prop
+                          ...game, // Spread existing properties
+                          tags: [], // Add placeholder for tags
+                          gamePath: '', // Add placeholder for gamePath
+                        }}
                         isFavorite={favorites.includes(game.id)}
                         onFavoriteToggle={onFavoriteToggle}
                         onPlay={onGamePlay}
@@ -465,12 +470,15 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {recentGames.map((game) => (
-            <GameCard
-              key={`recent-${game.id}`}
-              {...game}
-              isFavorite={favorites.includes(game.id)}
-              onFavoriteToggle={onFavoriteToggle}
-              onPlay={onGamePlay}
+            <GameCard 
+              key={`recent-${game.id}`} 
+              game={{ // Pass the entire game object as the 'game' prop
+                ...game, // Spread existing properties
+                tags: [], // Add placeholder for tags
+                gamePath: '', // Add placeholder for gamePath
+              }}
+              isFavorite={favorites.includes(game.id)} onFavoriteToggle={onFavoriteToggle} 
+              onPlay={onGamePlay} 
             />
           ))}
         </div>
@@ -486,7 +494,11 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
           {trendingGames.map((game) => (
             <GameCard
               key={`trending-${game.id}`}
-              {...game}
+              game={{ // Pass the entire game object as the 'game' prop
+                ...game, // Spread existing properties
+                tags: [], // Add placeholder for tags
+                gamePath: '', // Add placeholder for gamePath
+              }}
               isFavorite={favorites.includes(game.id)}
               onFavoriteToggle={onFavoriteToggle}
               onPlay={onGamePlay}
