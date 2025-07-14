@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
 import Index from "./pages/Index";
-import SearchResultsPage from "./pages/SearchResultsPage";
 import NotFound from "./pages/NotFound"; // Import NotFound
 import { ProfilePage } from "./pages/ProfilePage.tsx"; // Import ProfilePage
 import { Toaster } from "@/components/ui/toaster";
@@ -92,11 +91,6 @@ const AppContent = () => {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/search" element={
-        <>
-          <SearchResultsPage />
-        </>
-      } />
       {/* Add any custom routes before the catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>

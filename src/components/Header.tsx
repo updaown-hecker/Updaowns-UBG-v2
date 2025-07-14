@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Search, Moon, Sun, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/components/ThemeProvider';
@@ -13,14 +12,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate({ pathname: '/search', search: `?search=${searchQuery}` });
-  };
+  const { theme, setTheme } = useTheme()
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -78,18 +70,16 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md mx-2 sm:mx-4">
+          <div className="flex-1 max-w-md mx-2 sm:mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search games..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 glass-card border-0 bg-background/50"
               />
             </div>
-          </form>
+          </div>
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
