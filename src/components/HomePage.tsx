@@ -56,8 +56,6 @@ import gameVex3 from '@/assets/vex3.png';
 import gameVex4 from '@/assets/vex4.png';
 import gameVex5 from '@/assets/vex5.png';
 import gameVex6 from '@/assets/vex6.png';
-import gameWorldsHardestGame from '@/assets/world-hardest-game.png';
-import gameXX142B2EXE from '@/assets/xx142b2exe.png';
 
 const featuredGames = [
   {
@@ -93,14 +91,6 @@ const featuredGames = [
     plays: 180000,
   },
   {
-    id: '5',
-    title: 'Webe Come What We Behold',
-    image: gameWebeComeWhatWeBehold,
-    category: 'Adventure',
-    rating: 3.9,
-    plays: 50000,
-  },
-  {
     id: '6',
     title: 'Awesome Tanks 2',
     image: gameAwesomeTanks2,
@@ -117,36 +107,12 @@ const featuredGames = [
     plays: 70000,
   },
   {
-    id: '8',
-    title: 'Bitlife',
-    image: gameBitlife,
-    category: 'Simulation',
-    rating: 4.4,
-    plays: 110000,
-  },
-  {
     id: '9',
-    title: 'Boxing Random',
-    image: gameBoxingRandom,
-    category: 'Sports',
-    rating: 4.1,
-    plays: 65000,
-  },
-  {
-    id: '10',
     title: 'Chroma',
     image: gameChroma,
     category: 'Puzzle',
     rating: 3.8,
     plays: 40000,
-  },
-  {
-    id: '11',
-    title: 'Coloron',
-    image: gameColoron,
-    category: 'Puzzle',
-    rating: 3.7,
-    plays: 35000,
   },
   {
     id: '12',
@@ -155,22 +121,6 @@ const featuredGames = [
     category: 'Idle',
     rating: 4.5,
     plays: 150000,
-  },
-  {
-    id: '13',
-    title: 'Crazy Taxi',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.3,
-    plays: 95000,
-  },
-  {
-    id: '14',
-    title: 'CSGO Clicker',
-    image: gamePlatformer,
-    category: 'Idle',
-    rating: 4.0,
-    plays: 60000,
   },
   {
     id: '15',
@@ -187,14 +137,6 @@ const featuredGames = [
     category: 'Racing',
     rating: 4.6,
     plays: 170000,
-  },
-  {
-    id: '17',
-    title: 'Drive Mad',
-    image: gameRacing,
-    category: 'Racing',
-    rating: 4.2,
-    plays: 75000,
   },
   {
     id: '18',
@@ -245,14 +187,6 @@ const featuredGames = [
     plays: 70000,
   },
   {
-    id: '24',
-    title: 'Mario 63',
-    image: gameMario63,
-    category: 'Platformer',
-    rating: 4.8,
-    plays: 190000,
-  },
-  {
     id: '25',
     title: 'Minecraft',
     image: gameMinecraft,
@@ -269,20 +203,20 @@ const featuredGames = [
     plays: 80000,
   },
   {
-    id: '27',
-    title: 'Paper.io',
-    image: gamePaperio,
-    category: 'Strategy',
-    rating: 4.1,
-    plays: 90000,
-  },
-  {
     id: '28',
     title: 'Retro Bowl',
     image: gameRetroBowl,
     category: 'Sports',
     rating: 4.7,
     plays: 160000,
+  },
+  {
+    id: '27',
+    title: 'Paper.io',
+    image: gamePaperio,
+    category: 'Strategy',
+    rating: 4.1,
+    plays: 90000,
   },
   {
     id: '29',
@@ -301,28 +235,12 @@ const featuredGames = [
     plays: 60000,
   },
   {
-    id: '31',
-    title: 'Slope 2',
-    image: gameSlope2,
-    category: 'Racing',
-    rating: 4.3,
-    plays: 100000,
-  },
-  {
     id: '32',
     title: 'Slope',
     image: gameSlope,
     category: 'Racing',
     rating: 4.4,
     plays: 120000,
-  },
-  {
-    id: '33',
-    title: 'Snake',
-    image: gameSnake,
-    category: 'Arcade',
-    rating: 3.6,
-    plays: 50000,
   },
   {
     id: '34',
@@ -341,22 +259,6 @@ const featuredGames = [
     plays: 180000,
   },
   {
-    id: '36',
-    title: 'SWF',
-    image: gamePlatformer,
-    category: 'Misc',
-    rating: 3.0,
-    plays: 10000,
-  },
-  {
-    id: '37',
-    title: 'Tetris',
-    image: gameTetris,
-    category: 'Puzzle',
-    rating: 4.4,
-    plays: 130000,
-  },
-  {
     id: '38',
     title: 'Tiny Fishing',
     image: gameTinyFishing,
@@ -371,14 +273,6 @@ const featuredGames = [
     category: 'Arcade',
     rating: 4.2,
     plays: 90000,
-  },
-  {
-    id: '40',
-    title: 'Tunnel Rush',
-    image: gameTunnelRush,
-    category: 'Racing',
-    rating: 4.0,
-    plays: 70000,
   },
   {
     id: '41',
@@ -412,23 +306,16 @@ const featuredGames = [
     rating: 4.8,
     plays: 170000,
   },
-  {
-    id: '45',
-    title: 'Worlds Hardest Game',
-    image: gameWorldsHardestGame,
-    category: 'Puzzle',
-    rating: 3.5,
-    plays: 80000,
-  },
-  {
-    id: '46',
-    title: 'XX142B2EXE',
-    image: gameXX142B2EXE,
-    category: 'Misc',
-    rating: 3.2,
-    plays: 20000,
-  },
 ];
+
+// Function to shuffle an array
+function shuffleArray(array: any[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
+}
 
 const recentGames = [
   ...featuredGames.slice().reverse(),
@@ -449,6 +336,7 @@ interface HomePageProps {
 
 export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePageProps) => {
 
+  const [shuffledFeaturedGames, setShuffledFeaturedGames] = useState<typeof featuredGames>([]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = Math.ceil(featuredGames.length / 4);
@@ -457,8 +345,13 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % totalSlides);
     }, 5000);
-
     return () => clearInterval(timer);
+  }, [totalSlides]);
+
+  useEffect(() => {
+    // Shuffle the featuredGames when the component mounts
+    setShuffledFeaturedGames(shuffleArray([...featuredGames]));
+
   }, [totalSlides]);
 
   const nextSlide = () => {
@@ -527,7 +420,7 @@ export const HomePage = ({ onGamePlay, favorites, onFavoriteToggle }: HomePagePr
           <div 
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
+          > {/* Use shuffledFeaturedGames here */}
             {Array.from({ length: Math.ceil(featuredGames.length / 4) }, (_, slideIndex) => (
               <div key={slideIndex} className="w-full flex-shrink-0 px-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
