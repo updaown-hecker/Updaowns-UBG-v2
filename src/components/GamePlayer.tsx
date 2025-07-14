@@ -18,6 +18,7 @@ import {
 export interface GamePlayerProps {
   gameId: string;
   gameTitle: string;
+  // Removed gamePlayedCount as it's now managed by localStorage
   gameImage: string;
   category: string;
   rating: number;
@@ -31,6 +32,7 @@ export interface GamePlayerProps {
 export const GamePlayer = ({ 
   gameId, 
   gameTitle, 
+  // Removed gamePlayedCount from destructuring
   gameImage, 
   category, 
   rating, 
@@ -40,8 +42,12 @@ export const GamePlayer = ({
   onFavoriteToggle,
   gamePath // Destructure gamePath
 }: GamePlayerProps) => {
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  // State to track if the game count has been incremented for this session
+  const [gameCountIncremented, setGameCountIncremented] = useState(false);
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const reloadIframe = useCallback(() => {
@@ -77,13 +83,38 @@ export const GamePlayer = ({
     };
   }, []);
 
-  const handleFavoriteClick = () => {
-    onFavoriteToggle?.(gameId);
-  };
+  // Effect to increment game played count in localStorage once per game session
+  useEffect(() => {
+    // TODO: Implement logic to determine when a game is considered "finished"
+    // This might involve listening to messages from the iframe, detecting exit, etc.
+    // For now, let's assume the game starts when the component mounts and
+    // we want to increment the count when the iframe loads.
+    // This is a simplification and needs proper game completion detection.
+
+    if (iframeRef.current && !gameCountIncremented) {
+      // Placeholder: Increment count when iframe content loads
+      iframeRef.current.onload = () => {
+        incrementTotalGamesPlayed();
+      };
+      incrementTotalGamesPlayed();
+    }
+  }, [gameId, gameTitle, gameCountIncremented]);
+
+  // Function to increment the total games played in localStorage
+  const incrementTotalGamesPlayed = useCallback(() => {
+    if (!gameCountIncremented) {
+      const currentCount = parseInt(localStorage.getItem('totalGamesPlayed') || '0', 10);
+      localStorage.setItem('totalGamesPlayed', (currentCount + 1).toString());
+      console.log(`Game ${gameId} (${gameTitle}) played. Total games played: ${currentCount + 1}`);
+      setGameCountIncremented(true); // Set the flag so it only increments once
+    }
+  }, [gameId, gameTitle, gameCountIncremented]);
+
+
   return (
- <div className="min-h-screen bg-background pb-20">
- {/* Game Header */}
- <div className="sticky top-0 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
+    <div className="min-h-screen bg-background pb-20">
+      {/* Game Header */}
+      <div className="sticky top-0 z-40 backdrop-blur-xl bg-background/80 border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
 
           <div className="flex items-center justify-between">
@@ -102,7 +133,9 @@ export const GamePlayer = ({
                 <div>
                   <h1 className="font-semibold text-lg">{gameTitle}</h1>
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <Badge variant="secondary">{category}</Badge>
+
+                    <Badge variant="secondary" className="capitalize">{category}</Badge>
+
                     <span>•</span>
                     <div className="flex items-center space-x-1">
                       <Star className="w-3 h-3 fill-current text-yellow-500" />
@@ -116,13 +149,16 @@ export const GamePlayer = ({
             <div className="flex items-center space-x-2">
               <Button
                 variant="ghost"
-                size="sm"
-                onClick={handleFavoriteClick}
-                className={isFavorite ? 'text-red-500' : ''}
+                size="icon"
+                onClick={() => onFavoriteToggle?.(gameId)}
+                // className={isFavorite ? 'text-red-500' : ''} // Keep styling if needed, but logic removed
               >
-                <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+                {/* Removed conditional fill logic as favorites removed */}
+                {/* <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} /> */}
+                <Heart className="w-4 h-4" />
+                <span className="sr-only">Favorite</span>
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="icon">
                 <Share2 className="w-4 h-4" />
               </Button>
             </div>
@@ -130,7 +166,7 @@ export const GamePlayer = ({
         </div>
  </div>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6 flex-grow">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Game Frame */}
           <div className="lg:col-span-3" >
@@ -138,11 +174,11 @@ export const GamePlayer = ({
               {/* Game Controls */}
               <div className="flex items-center justify-between p-4 bg-muted/50">
                 <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm" onClick={reloadIframe}>
+                  <Button variant="outline" size="icon" onClick={reloadIframe}>
                     <RotateCcw className="w-4 h-4 mr-2" />
-                    Restart
+                    <span className="sr-only">Restart</span>
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => setIsMuted(!isMuted)}>
+                  <Button variant="outline" size="icon" onClick={() => setIsMuted(!isMuted)}>
                     {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   </Button>
                 </div>
@@ -150,7 +186,7 @@ export const GamePlayer = ({
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => {
+                  onClick={() => { // Keep fullscreen logic
                     if (!isFullscreen) {
                       if (iframeRef.current?.requestFullscreen) {
                         iframeRef.current.requestFullscreen();
@@ -163,7 +199,7 @@ export const GamePlayer = ({
                   }}
                 >
                   <Maximize className="w-4 h-4 mr-2" />
-                  {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                  {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'} {/* Keep button text */}
                 </Button>
               </div>
  {/* Game Area */}
@@ -204,7 +240,7 @@ export const GamePlayer = ({
                     <Clock className="w-4 h-4 text-green-500" />
                     <span className="text-sm">Category</span>
                   </div>
-                  <Badge variant="secondary">{category}</Badge>
+                  <Badge variant="secondary" className="capitalize">{category}</Badge>
                 </div>
               </div>
             </Card>
@@ -242,7 +278,7 @@ export const GamePlayer = ({
               <h3 className="font-semibold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full gradient-primary">
-                  <Heart className="w-4 h-4 mr-2" />
+                  {/* Removed Heart icon as favorites removed */}
                   Add to Favorites
                 </Button>
                 <Button variant="outline" className="w-full">

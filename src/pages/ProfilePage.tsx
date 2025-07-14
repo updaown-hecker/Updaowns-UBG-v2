@@ -1,13 +1,15 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import useTimeTracker from '../hooks/useTimeTracker';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useFetchGameData } from '../hooks/useFetchGameData';
 
 export function ProfilePage() {
     const [elapsedTime, setElapsedTime] = useState(0);
     const rawElapsedTime = useTimeTracker();
+    const { totalGamesPlayed } = useFetchGameData();
     
     useEffect(() => {
         setElapsedTime(rawElapsedTime);
@@ -37,12 +39,11 @@ export function ProfilePage() {
                     <p className="text-lg">{`${hours} hours and ${minutes} minutes`}</p>
                 </section>
                 <hr className="my-8 border-gray-700" />
- 
+
                 <section className="mb-8">
-                    <h2 className="text-2xl font-semibold mb-2">Recently Played Games</h2>
-                    <p className="text-lg">Game 1, Game 2, Game 3</p>
+                    <h2 className="text-2xl font-semibold mb-2">Games Played</h2>
+                    <p className="text-lg">{totalGamesPlayed}</p>
                 </section>
-                <hr className="my-8 border-gray-700" />
             </div>
         </>
     );
