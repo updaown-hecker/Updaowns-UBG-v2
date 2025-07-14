@@ -21,7 +21,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 px-2 sm:px-0"> {/* Reduced horizontal padding on small screens */}
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Button
@@ -38,7 +38,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
                 <span className="text-white font-bold text-lg">U</span>
               </div>
               <h1 
-                className="text-lg md:text-xl lg:text-3xl font-bold hidden xs:block sm:block" // Show title on small screens too
+                className="text-lg md:text-xl lg:text-3xl font-bold hidden xs:block"
                 style={{
                   color: 'rgba(255, 255, 255, 0.95)',
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%)',
@@ -70,7 +70,7 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-md mx-2 sm:mx-4 w-full"> {/* Ensure search takes full width on small screens */}
+          <div className="flex-1 max-w-md mx-2 sm:mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
