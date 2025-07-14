@@ -6,28 +6,30 @@ import { Game } from './GamesPage'; // Assuming Game interface is exported from 
 
 interface GameCardProps {
   id: string;
+  game: Game; // Add the game prop
   title: string;
   image: string;
   category: string;
   rating: number;
   plays: number;
-  tags: string[]; // Assuming tags are required based on previous errors
- gamePath: string; // Assuming gamePath is required
- isFavorite?: boolean;
-  onFavoriteToggle: (id: string) => void;
- onPlay: (id: string) => void;
+  isFavorite?: boolean;
+  onFavoriteToggle?: (id: string) => void;
+  onPlay?: (id: string) => void;
+  onGamePlay?: (id: string) => void; // Add onGamePlay prop
 }
 
-export const GameCard = ({
-  id,
-  title,
-  image,
-  category,
-  rating,
-  plays,
-  isFavorite,
+export const GameCard = ({ 
+  id, 
+  game, // Destructure the game prop
+  title, 
+  image, 
+  category, 
+  rating, 
+  plays, 
+  isFavorite = false,
   onFavoriteToggle,
   onPlay,
+  onGamePlay // Destructure onGamePlay prop
 }: GameCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -37,7 +39,8 @@ export const GameCard = ({
   };
 
   const handlePlayClick = () => {
-    onPlay?.(id);
+    // Use onGamePlay if provided, otherwise use onPlay
+    (onGamePlay || onPlay)?.(id);
   };
 
   return (
@@ -48,7 +51,7 @@ export const GameCard = ({
       onClick={handlePlayClick}
     >
       <div className="relative aspect-square overflow-hidden rounded-t-2xl">
-        <img
+        <img 
           src={image} 
           alt={title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
@@ -57,8 +60,8 @@ export const GameCard = ({
         {/* Overlay */}
         <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
           <div className="absolute inset-0 flex items-center justify-center">
- <Button
- size="lg"
+            <Button 
+              size="lg" 
               className="gradient-primary hover:scale-110 transition-transform duration-200 glow-primary"
             >
               <Play className="w-6 h-6 mr-2" />
@@ -87,14 +90,14 @@ export const GameCard = ({
 
       {/* Game Info */}
       <div className="p-4">
- <h3 className="font-semibold text-lg mb-2 line-clamp-1">{title}</h3>
+        <h3 className="font-semibold text-lg mb-2 line-clamp-1">{title}</h3>
         
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center space-x-1">
             <Star className="w-4 h-4 fill-current text-yellow-500" />
             <span className="font-medium">{rating.toFixed(1)}</span>
           </div>
-
+          
           <span>{plays.toLocaleString()} plays</span>
         </div>
       </div>
