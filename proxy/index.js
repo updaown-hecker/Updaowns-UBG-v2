@@ -92,7 +92,58 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API routes
 
+// API routes have been removed - no more authentication, coins, or store functionality
+// All themes and particles are now freely available without login requirements
+
+// Authentication routes have been removed
+
+// All API routes related to authentication, coins, and store functionality have been removed
+// Themes and particles are now freely available without login requirements
+
+// Simple API endpoint to get available themes
+app.get("/api/themes", (req, res) => {
+  // List all available themes (you can customize this list)
+  const availableThemes = [
+    "default",
+    "dark",
+    "light",
+    "blue",
+    "green",
+    "purple",
+    "red",
+    "orange",
+    "pink",
+    "cyberpunk",
+    "retro",
+    "neon",
+  ];
+
+  res.json({
+    success: true,
+    themes: availableThemes,
+  });
+});
+
+// Simple API endpoint to get available particle effects
+app.get("/api/particles", (req, res) => {
+  // List all available particle effects (you can customize this list)
+  const availableParticles = [
+    "default",
+    "bubbles",
+    "snow",
+    "stars",
+    "confetti",
+    "matrix",
+    "fireworks",
+  ];
+
+  res.json({
+    success: true,
+    particles: availableParticles,
+  });
+});
 
 // All admin API routes have been removed
 // Themes and particles are now freely available without login requirements
