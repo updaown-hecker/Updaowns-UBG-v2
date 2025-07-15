@@ -57,7 +57,10 @@ export function ProfilePage() {
                                 <Star className="w-4 h-4 text-accent-foreground" />
                             </div>
                         </div>
-                        <h1 className="text-5xl font-bold text-gradient mb-4">Player Profile</h1>
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-primary opacity-20"></div>
+                            <h1 className="text-5xl font-bold relative z-10 mb-4">Player Profile</h1>
+                        </div>
                         <p className="text-xl text-muted-foreground">Your gaming journey at a glance</p>
                     </div>
 
@@ -74,8 +77,11 @@ export function ProfilePage() {
                             
                             <h2 className="text-2xl font-bold text-foreground mb-2">Time Played</h2>
                             <div className="space-y-2">
-                                <div className="text-4xl font-bold text-gradient">
-                                    {hours}h {minutes}m
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-gradient-primary opacity-20"></div>
+                                    <div className="text-4xl font-bold relative z-10">
+                                        {hours}h {minutes}m
+                                    </div>
                                 </div>
                                 <p className="text-muted-foreground">Total gaming time</p>
                             </div>
@@ -106,8 +112,11 @@ export function ProfilePage() {
                             
                             <h2 className="text-2xl font-bold text-foreground mb-2">Games Played</h2>
                             <div className="space-y-2">
-                                <div className="text-4xl font-bold text-gradient">
-                                    {totalGamesPlayed}
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-gradient-primary opacity-20"></div>
+                                    <div className="text-4xl font-bold relative z-10">
+                                        {totalGamesPlayed}
+                                    </div>
                                 </div>
                                 <p className="text-muted-foreground">Total games experienced</p>
                             </div>
