@@ -1,18 +1,65 @@
-import { Search, Moon, Sun, Menu, X } from 'lucide-react';
+import { Search, Moon, Sun, Menu, X, Globe, Gamepad } from 'lucide-react';
 import { Button } from '@/components/ui/button'
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/components/ThemeProvider';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from 'react';
 
 interface HeaderProps {
+  onWebSearch?: (url: string) => void;
+  onProxySearch?: (query: string) => void;
   onSearch?: (query: string) => void;
   onMenuToggle?: () => void;
   isMenuOpen?: boolean;
 }
 
-export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
+export const Header = ({ onSearch, onMenuToggle, isMenuOpen, onWebSearch, onProxySearch }: HeaderProps) => {
+  const [searchMode, setSearchMode] = useState<'games' | 'web'>('games');
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
   const { theme, setTheme } = useTheme()
+
+  // Helper function to validate and format URLs
+  const isValidUrl = (text: string): string | null => {
+    // Regex to check for common URL patterns (starts with http/s, or a domain)
+    // This regex is a basic check and might not cover all edge cases.
+    const urlRegex = /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9]+\.[^\s]{2,})$/i;
+
+    if (urlRegex.test(text)) {
+      // If it looks like a URL but doesn't have http(s)://, prepend it
+      if (!text.startsWith('http://') && !text.startsWith('https://')) {
+        return `https://${text}`;
+      }
+      return text;
+    }
+    return null; // Not a valid URL
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      if (searchMode === 'web') {
+        const potentialUrl = isValidUrl(searchQuery.trim());
+        let targetUrl: string;
+
+        if (potentialUrl) {
+          // It's a valid URL, use it directly
+          targetUrl = potentialUrl;
+        } else {
+          // Not a URL, perform a Google search
+          const googleSearchBase = 'https://www.google.com/search?q=';
+          targetUrl = `${googleSearchBase}${encodeURIComponent(searchQuery.trim())}`;
+        }
+
+        const proxyPath = `/proxy?url=${encodeURIComponent(targetUrl)}`;
+        navigate(proxyPath);
+      } else {
+        // If in 'games' mode, call the onSearch prop
+        onSearch?.(searchQuery);
+      }
+    }
+  };
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -24,20 +71,11 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="lg:hidden"
-              onClick={onMenuToggle}
-            >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-            
- <Link to="/profile" className="flex items-center space-x-2">
+            <Link to="/profile" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                 <span className="text-white font-bold text-lg">U</span>
               </div>
-              <h1 
+              <h1
                 className="text-lg md:text-xl lg:text-3xl font-bold hidden xs:block"
                 style={{
                   color: 'rgba(255, 255, 255, 0.95)',
@@ -66,19 +104,40 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen }: HeaderProps) => {
               >
                 Unblocked Games
               </h1>
- </Link>
-          </div>
+            </Link>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-md mx-2 sm:mx-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search games..."
-                className="pl-10 glass-card border-0 bg-background/50"
-              />
-            </div>
+            <form onSubmit={handleSearchSubmit} className="flex-1 max-w-xl flex items-center space-x-2">
+              <div className="relative flex-1">
+                <Input
+                  type="text"
+                  placeholder={searchMode === 'games' ? 'Search games...' : 'Enter URL or search term...'}
+                  className="w-full"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-10 top-0"
+                  onClick={() => setSearchMode(searchMode === 'games' ? 'web' : 'games')}
+                >
+                  {searchMode === 'games' ? <Gamepad className="h-5 w-5" /> : <Globe className="h-5 w-5" />}
+                </Button>
+              </div>
+              <Button type="submit" size="icon">
+                <Search className="h-5 w-5" />
+              </Button>
+            </form>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              className="lg:hidden"
+              onClick={onMenuToggle}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
 
           {/* Actions */}

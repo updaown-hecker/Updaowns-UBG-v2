@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
+import { ProxyView } from "@/components/ProxyView";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound"; // Import NotFound
 import { ProfilePage } from "./pages/ProfilePage.tsx"; // Import ProfilePage
@@ -91,6 +92,7 @@ const AppContent = () => {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/proxy" element={<ProxyView />} />
       {/* Add any custom routes before the catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
