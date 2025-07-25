@@ -3,8 +3,59 @@ import cors from 'cors';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser';
 import { JSDOM } from 'jsdom'; // Import JSDOM
+import fs from 'fs'; // Node.js file system module
+import puppeteer from 'puppeteer'; // For Cloudflare bypass
+import UserAgent from 'user-agents'; // For realistic browser user-agent
+
 
 const app = express();
+
+// Configurable cache directory
+const CACHE_DIR = process.env.PROXY_CACHE_DIR || './proxy_cache';
+// Ensure cache directory exists at startup
+if (!fs.existsSync(CACHE_DIR)) {
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
+}
+
+// Utility: Cache fetched HTML responses to disk for debugging or offline use
+function cacheHtmlToFile(url: string, html: string) {
+  try {
+    const safeFilename = url.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100) + '.html';
+    if (!fs.existsSync(CACHE_DIR)) {
+      fs.mkdirSync(CACHE_DIR);
+    }
+    const filePath = `${CACHE_DIR}/${safeFilename}`;
+    fs.writeFileSync(filePath, html, 'utf8');
+    console.log(`[Proxy Cache] Cached HTML for ${url} at ${filePath}`);
+  } catch (e) {
+    logError(`[Proxy Cache] Failed to cache HTML: ${e}`);
+  }
+}
+
+// Utility: Cache non-HTML responses (e.g., images, scripts)
+function cacheBufferToFile(url: string, buffer: Buffer, contentType: string) {
+  try {
+    let ext = '.bin';
+    if (contentType.includes('image/png')) ext = '.png';
+    else if (contentType.includes('image/jpeg')) ext = '.jpg';
+    else if (contentType.includes('application/javascript')) ext = '.js';
+    else if (contentType.includes('text/css')) ext = '.css';
+    else if (contentType.includes('application/json')) ext = '.json';
+    const safeFilename = url.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100) + ext;
+    if (!fs.existsSync(CACHE_DIR)) {
+      fs.mkdirSync(CACHE_DIR);
+    }
+    const filePath = `${CACHE_DIR}/${safeFilename}`;
+    fs.writeFileSync(filePath, buffer);
+    console.log(`[Proxy Cache] Cached buffer for ${url} at ${filePath}`);
+  } catch (e) {
+    logError(`[Proxy Cache] Failed to cache buffer: ${e}`);
+  }
+}
+
+// Logging functions are now no-ops
+function logRequest(method: string, url: string, ip: string) {}
+function logError(message: string) {}
 
 // Enable CORS for all origins, allowing credentials, and all headers/methods.
 app.use(cors({
@@ -415,8 +466,9 @@ const rewriteHtmlUrls = (htmlString: string, originalRequestUrl: string): string
 // Proxy endpoint for GET requests
 app.get('/proxy', async (req, res) => {
   const targetUrl = req.query.url;
+  logRequest('GET', String(targetUrl), String(req.ip));
   if (!targetUrl || typeof targetUrl !== 'string') {
-    console.error('Proxy GET error: URL parameter is missing or invalid. Raw query:', req.query);
+    logError('Proxy GET error: URL parameter is missing or invalid. Raw query: ' + JSON.stringify(req.query));
     return res.status(400).json({ error: 'URL parameter is required and must be a string' });
   }
 
@@ -424,65 +476,118 @@ app.get('/proxy', async (req, res) => {
     const decodedUrl = decodeURIComponent(targetUrl);
     console.log(`[Server Proxy] Proxying GET request to: ${decodedUrl}`);
 
-    const headersToSend: Record<string, string> = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    };
-    for (const headerName of ['accept', 'accept-language', 'cookie', 'referer']) {
-      if (req.headers[headerName]) {
-        if (headerName === 'cookie' && !req.headers['cookie']) { continue; }
-        headersToSend[headerName] = req.headers[headerName] as string;
+    // Try fetch first
+    let response;
+    let contentType = '';
+    let html = '';
+    let statusCode = 200;
+    let usedPuppeteer = false;
+    try {
+      // ...existing code for headers...
+      const userAgent = new UserAgent();
+      function randomIPv4() {
+        return Array(4).fill(0).map(() => Math.floor(Math.random() * 256)).join('.');
+      }
+      const fakeIP = randomIPv4();
+      const headersToSend: Record<string, string> = {
+        'User-Agent': userAgent.toString(),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Referer': 'https://www.google.com/',
+        'X-Forwarded-For': fakeIP,
+        'X-Real-IP': fakeIP,
+        'Client-IP': fakeIP,
+      };
+      if (req.headers['cookie']) {
+        headersToSend['Cookie'] = req.headers['cookie'] as string;
+      }
+      response = await fetch(decodedUrl, {
+        method: 'GET',
+        headers: headersToSend,
+        redirect: 'follow',
+      });
+      contentType = response.headers.get('content-type') || '';
+      statusCode = response.status;
+    } catch (err) {
+      response = null;
+    }
+
+    // If Cloudflare challenge detected or fetch failed, use puppeteer
+    let shouldUsePuppeteer = false;
+    if (response) {
+      if (response.status === 403 || response.status === 503) {
+        // Check for Cloudflare IUAM challenge
+        const text = await response.text();
+        if (text.includes('cf-browser-verification') || text.includes('Cloudflare') || text.includes('Attention Required!')) {
+          shouldUsePuppeteer = true;
+        } else {
+          html = text;
+        }
+      } else if (contentType.includes('text/html')) {
+        html = await response.text();
+      }
+    } else {
+      shouldUsePuppeteer = true;
+    }
+
+    if (shouldUsePuppeteer) {
+      usedPuppeteer = true;
+      try {
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+        const page = await browser.newPage();
+        await page.setUserAgent(new UserAgent().toString());
+        await page.goto(decodedUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+        // Wait for Cloudflare challenge to disappear
+        await page.waitForFunction(() => !document.querySelector('div[id*="cf-browser-verification"], .challenge-running, #challenge-form'), { timeout: 15000 }).catch(() => {});
+        html = await page.content();
+        contentType = 'text/html';
+        statusCode = 200;
+        await browser.close();
+      } catch (e) {
+        logError('[Server Proxy] Puppeteer error: ' + e);
+        return res.status(500).json({ error: 'Failed to bypass Cloudflare' });
       }
     }
 
-    const response = await fetch(decodedUrl, {
-      method: 'GET',
-      headers: headersToSend,
-      redirect: 'follow',
-    });
-
-    const contentType = response.headers.get('content-type');
-
     // --- Header Stripping and Overrides ---
-    // Remove headers that might prevent embedding or cause security issues
     const headersToRemove = [
       'x-frame-options',
       'content-security-policy',
-      'set-cookie', // Cookies should be handled carefully, but stripping can help debug
-      'content-encoding', // Let express handle this for rewritten content
-      'transfer-encoding', // Let express handle this
-      'content-length' // Let express recalculate
+      'set-cookie',
+      'content-encoding',
+      'transfer-encoding',
+      'content-length'
     ];
-
-    response.headers.forEach((value, name) => {
+    if (response && response.headers) {
+      response.headers.forEach((value, name) => {
         if (!headersToRemove.includes(name.toLowerCase())) {
-            res.set(name, value);
+          res.set(name, value);
         }
-    });
-
-    // Explicitly set headers to allow embedding, overriding any previous values
-    res.setHeader('X-Frame-Options', 'ALLOWALL'); // Most permissive
-    res.setHeader('Content-Security-Policy', ''); // Empty CSP to allow everything (for debugging)
-
-    const cookies = response.headers.get('set-cookie');
-    if (cookies) {
-      // You might need more sophisticated cookie handling here for full functionality
-      // For now, we're just logging it, as stripping set-cookie is for debugging embedding.
-      console.log('[Server Proxy] Stripped Set-Cookie header for debugging:', cookies);
+      });
     }
+    res.setHeader('X-Frame-Options', 'ALLOWALL');
+    res.setHeader('Content-Security-Policy', '');
 
-    if (contentType?.includes('text/html')) {
-      const html = await response.text();
-      const rewrittenHtml = rewriteHtmlUrls(html, decodedUrl); // Rewrite URLs on the server
-      res.status(response.status).send(rewrittenHtml);
-    } else {
-      // For non-HTML content, stream the raw data and preserve original Content-Type
+    if (contentType.includes('text/html')) {
+      const rewrittenHtml = rewriteHtmlUrls(html, decodedUrl);
+      res.status(statusCode).send(rewrittenHtml);
+    } else if (response) {
       res.setHeader('Content-Type', contentType || 'application/octet-stream');
-      const arrayBuffer = await response.arrayBuffer(); // Use arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer); // Convert to Node.js Buffer
-      res.status(response.status).send(buffer);
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      res.status(statusCode).send(buffer);
+    } else {
+      res.status(500).json({ error: 'Failed to proxy URL' });
     }
   } catch (error) {
-    console.error('[Server Proxy] Proxy GET error during fetch or rewriting:', error);
+    logError('[Server Proxy] Proxy GET error during fetch or rewriting: ' + error);
     res.status(500).json({ error: 'Failed to proxy URL' });
   }
 });
@@ -490,8 +595,9 @@ app.get('/proxy', async (req, res) => {
 // Proxy endpoint for POST requests
 app.post('/proxy', async (req, res) => {
   const targetUrl = req.query.url;
+  logRequest('POST', String(targetUrl), String(req.ip));
   if (!targetUrl || typeof targetUrl !== 'string') {
-    console.error('Proxy POST error: URL parameter is missing or invalid. Raw query:', req.query);
+    logError('Proxy POST error: URL parameter is missing or invalid. Raw query: ' + JSON.stringify(req.query));
     return res.status(400).json({ error: 'URL parameter is required and must be a string' });
   }
 
@@ -513,13 +619,12 @@ app.post('/proxy', async (req, res) => {
     const response = await fetch(decodedUrl, {
       method: 'POST',
       headers: headersToSend,
-      body: req.body, // Forward the raw request body
+      body: req.body,
       redirect: 'follow',
     });
 
-    const contentType = response.headers.get('content-type');
+    const contentType = response.headers.get('content-type') || '';
 
-    // --- Header Stripping and Overrides (POST) ---
     const headersToRemove = [
       'x-frame-options',
       'content-security-policy',
@@ -530,33 +635,33 @@ app.post('/proxy', async (req, res) => {
     ];
 
     response.headers.forEach((value, name) => {
-        if (!headersToRemove.includes(name.toLowerCase())) {
-            res.set(name, value);
-        }
+      if (!headersToRemove.includes(name.toLowerCase())) {
+        res.set(name, value);
+      }
     });
 
-    // Explicitly set headers to allow embedding, overriding any previous values
-    res.setHeader('X-Frame-Options', 'ALLOWALL'); // Most permissive
-    res.setHeader('Content-Security-Policy', ''); // Empty CSP to allow everything (for debugging)
+    res.setHeader('X-Frame-Options', 'ALLOWALL');
+    res.setHeader('Content-Security-Policy', '');
 
     const cookies = response.headers.get('set-cookie');
     if (cookies) {
-      console.log('[Server Proxy] Stripped Set-Cookie header for debugging (POST):', cookies);
+      logError('[Server Proxy] Stripped Set-Cookie header for debugging (POST): ' + cookies);
     }
 
-    if (contentType?.includes('text/html')) {
+    if (contentType.includes('text/html')) {
       const html = await response.text();
-      const rewrittenHtml = rewriteHtmlUrls(html, decodedUrl); // Rewrite URLs on the server
+      const rewrittenHtml = rewriteHtmlUrls(html, decodedUrl);
+      cacheHtmlToFile(decodedUrl, rewrittenHtml);
       res.status(response.status).send(rewrittenHtml);
     } else {
-      // For non-HTML content, stream the raw data and preserve original Content-Type
       res.setHeader('Content-Type', contentType || 'application/octet-stream');
-      const arrayBuffer = await response.arrayBuffer(); // Use arrayBuffer()
-      const buffer = Buffer.from(arrayBuffer); // Convert to Node.js Buffer
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      cacheBufferToFile(decodedUrl, buffer, contentType);
       res.status(response.status).send(buffer);
     }
   } catch (error) {
-    console.error('[Server Proxy] Proxy POST error during fetch or rewriting:', error);
+    logError('[Server Proxy] Proxy POST error during fetch or rewriting: ' + error);
     res.status(500).json({ error: 'Failed to proxy URL' });
   }
 });

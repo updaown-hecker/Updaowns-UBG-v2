@@ -30,6 +30,7 @@ const Index = () => {
   const [searchParams, ] = useSearchParams();
   const gameIdFromUrl = searchParams.get('game-id');
   const { theme } = useTheme(); // Access theme from context
+  const selectedGame = allGames.find(game => game.id === gameIdFromUrl);
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -76,11 +77,29 @@ const Index = () => {
     }
   };
 
+  // If a game-id is present in the URL and the game is found, display GamePlayer
+  if (gameIdFromUrl && selectedGame) {
+    return (
+      <GamePlayer
+        gameId={selectedGame.id}
+        gameTitle={selectedGame.title}
+        gameImage={selectedGame.image}
+        category={selectedGame.category}
+        rating={selectedGame.rating}
+        plays={selectedGame.plays}
+        gamePath={selectedGame.gamePath}
+        isFavorite={favorites.includes(selectedGame.id)}
+        onFavoriteToggle={handleFavoriteToggle}
+        onBack={() => navigate('/')} // Back to main UI
+      />
+    );
+  }
+
   const renderCurrentPage = () => {
     // Show regular pages
     switch (activeTab) {
       case 'home':
-         return (
+        return (
           <HomePage 
             onGamePlay={handleGamePlay}
             favorites={favorites}

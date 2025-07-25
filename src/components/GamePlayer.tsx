@@ -48,12 +48,56 @@ export const GamePlayer = ({
   // State to track if the game count has been incremented for this session
   const [gameCountIncremented, setGameCountIncremented] = useState(false);
 
+  // State for showing share modal
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
+
+  // Function to handle share button click
+  const handleShareClick = useCallback(() => {
+    // Build the current URL with game-id param
+    const url = `${window.location.origin}${window.location.pathname}?game-id=${gameId}`;
+    setShareUrl(url);
+    // Copy to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+    }
+    setShowShareModal(true);
+  }, [gameId]);
+
+  // Function to close share modal
+  const closeShareModal = useCallback(() => {
+    setShowShareModal(false);
+  }, []);
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const reloadIframe = useCallback(() => {
     if (iframeRef.current) {
       iframeRef.current.src = gamePath;
     }
+  // Bubble ripple animation CSS for modal
+  const bubbleAnimation = `
+    @keyframes bubbleRipple {
+      0% {
+        opacity: 0;
+        transform: scale(0.7);
+        box-shadow: 0 0 0 0 rgba(99,102,241,0.3);
+      }
+      60% {
+        opacity: 1;
+        transform: scale(1.05);
+        box-shadow: 0 0 40px 10px rgba(99,102,241,0.15);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(99,102,241,0);
+      }
+    }
+    .animate-bubble {
+      animation: bubbleRipple 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+  `;
   }, [gamePath]);
 
   useEffect(() => {
@@ -83,6 +127,16 @@ export const GamePlayer = ({
     };
   }, []);
 
+  // Function to increment the total games played in localStorage
+  const incrementTotalGamesPlayed = useCallback(() => {
+    if (!gameCountIncremented) {
+      const currentCount = parseInt(localStorage.getItem('totalGamesPlayed') || '0', 10);
+      localStorage.setItem('totalGamesPlayed', (currentCount + 1).toString());
+      console.log(`Game ${gameId} (${gameTitle}) played. Total games played: ${currentCount + 1}`);
+      setGameCountIncremented(true); // Set the flag so it only increments once
+    }
+  }, [gameId, gameTitle, gameCountIncremented]);
+
   // Effect to increment game played count in localStorage once per game session
   useEffect(() => {
     // TODO: Implement logic to determine when a game is considered "finished"
@@ -97,17 +151,7 @@ export const GamePlayer = ({
         incrementTotalGamesPlayed();
       };
     }
-  }, [gameId, gameTitle, gameCountIncremented]);
-
-  // Function to increment the total games played in localStorage
-  const incrementTotalGamesPlayed = useCallback(() => {
-    if (!gameCountIncremented) {
-      const currentCount = parseInt(localStorage.getItem('totalGamesPlayed') || '0', 10);
-      localStorage.setItem('totalGamesPlayed', (currentCount + 1).toString());
-      console.log(`Game ${gameId} (${gameTitle}) played. Total games played: ${currentCount + 1}`);
-      setGameCountIncremented(true); // Set the flag so it only increments once
-    }
-  }, [gameId, gameTitle, gameCountIncremented]);
+  }, [gameId, gameTitle, gameCountIncremented, incrementTotalGamesPlayed]);
 
 
   return (
@@ -157,7 +201,7 @@ export const GamePlayer = ({
                 <Heart className="w-4 h-4" />
                 <span className="sr-only">Favorite</span>
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={handleShareClick}>
                 <Share2 className="w-4 h-4" />
               </Button>
             </div>
@@ -280,12 +324,36 @@ export const GamePlayer = ({
                   {/* Removed Heart icon as favorites removed */}
                   Add to Favorites
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={handleShareClick}>
                   <Share2 className="w-4 h-4 mr-2" />
                   Share Game
                 </Button>
               </div>
             </Card>
+          {/* Share Modal */}
+          {showShareModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+              <div className="glass-card rounded-xl shadow-xl p-6 max-w-sm w-full border border-border bg-background text-foreground animate-bubble">
+                <h4 className="font-semibold mb-2 text-lg">Share this game</h4>
+                <p className="mb-4 text-sm text-muted-foreground">Copy and share this link:</p>
+                <div className="flex items-center mb-4">
+                  <input
+                    type="text"
+                    value={shareUrl}
+                    readOnly
+                    className="flex-1 border border-border rounded px-2 py-1 text-sm mr-2 bg-muted text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    onFocus={e => e.target.select()}
+                  />
+                  <Button size="sm" className="gradient-primary" onClick={() => navigator.clipboard.writeText(shareUrl)}>
+                    Copy
+                  </Button>
+                </div>
+                <Button variant="outline" className="w-full mt-2" onClick={closeShareModal}>
+                  Close
+                </Button>
+              </div>
+            </div>
+          )}
           </div>
         </div>
       </div>

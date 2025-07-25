@@ -534,7 +534,7 @@ export const GamesPage = ({ onGamePlay, favorites, onFavoriteToggle }: GamesPage
   const [searchQuery, setSearchQuery] = useState(''); // Added local state for search
 
   const filteredAndSortedGames = useMemo(() => {
-    let filtered = allGames.filter(game => {
+    const filtered = allGames.filter(game => {
       const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Use local searchQuery
                           game.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesCategory = selectedCategory === 'All' || game.category === selectedCategory;
