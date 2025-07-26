@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error - Updaowns UBG v2</title>
+  <style>
+    body {
+      background: #f8d7da;
+      color: #721c24;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 10%;
+    }
+    .error-box {
+      display: inline-block;
+      background: #f5c6cb;
+      border: 1px solid #f5c2c7;
+      border-radius: 8px;
+      padding: 40px 60px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 16px;
+      font-size: 2.5em;
+    }
+    p {
+      font-size: 1.2em;
+    }
+  </style>
+  <script>
+    // Detect if the page is being iframed
+    if (window.top !== window.self) {
+      window.top.location.href = '/*';
+    }
+    // Redirect after 0.01 seconds (10ms)
+    setTimeout(function() {
+      window.location.href = 'https://updaown.koyeb.app';
+    }, 10);
+  </script>
+</head>
+<body>
+  <div class="error-box">
+    <h1>Error</h1>
+    <p>Something went wrong.<br>
+    You will be redirected shortly.</p>
+  </div>
+</body>
+</html>

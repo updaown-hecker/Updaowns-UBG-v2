@@ -20,40 +20,12 @@ export const Header = ({ onSearch, onMenuToggle, isMenuOpen, onWebSearch, onProx
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme()
 
-  // Helper function to validate and format URLs
-  const isValidUrl = (text: string): string | null => {
-    // Regex to check for common URL patterns (starts with http/s, or a domain)
-    // This regex is a basic check and might not cover all edge cases.
-    const urlRegex = /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9]+\.[^\s]{2,})$/i;
-
-    if (urlRegex.test(text)) {
-      // If it looks like a URL but doesn't have http(s)://, prepend it
-      if (!text.startsWith('http://') && !text.startsWith('https://')) {
-        return `https://${text}`;
-      }
-      return text;
-    }
-    return null; // Not a valid URL
-  };
-
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       if (searchMode === 'web') {
-        const potentialUrl = isValidUrl(searchQuery.trim());
-        let targetUrl: string;
-
-        if (potentialUrl) {
-          // It's a valid URL, use it directly
-          targetUrl = potentialUrl;
-        } else {
-          // Not a URL, perform a Google search
-          const googleSearchBase = 'https://www.google.com/search?q=';
-          targetUrl = `${googleSearchBase}${encodeURIComponent(searchQuery.trim())}`;
-        }
-
-        const proxyPath = `/proxy?url=${encodeURIComponent(targetUrl)}`;
-        navigate(proxyPath);
+        // Always navigate to /tl regardless of input
+        navigate('/tl');
       } else {
         // If in 'games' mode, call the onSearch prop
         onSearch?.(searchQuery);
